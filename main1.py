@@ -1,16 +1,15 @@
 
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc
-from bokeh.plotting import ColumnDataSource
 from bokeh.layouts import column, row, layout
 from bokeh.models.widgets import TextInput, Div, Select
 import jinja2
 import math
 import logging
 import pandas as pd
-import collections
 import itertools
 import grafikai
+import CDS
 
 # ši dalis, tam, kad būtų galima reguliuoti TextInput width, nes yra nustatytas Bokeh TextInput default min width,
 # kurio negalima mažinti per parametrų nurodymą. Pvz. "invard = TextInput(name = "vard", value="", title = "Vardas", width = 130"
@@ -761,7 +760,7 @@ matavimą pakartoti.
 	""", width=250)
 
 
-strytas = TextInput(name="rytas", value="0", title="rytas", width=60)
+strytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 stpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 stvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
@@ -850,8 +849,8 @@ naudojamas tik matuoklis, šis punktas praleidžiamas</i>.
 
 
 serrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
-serpietus = TextInput(name="pietus5", value="0", title="Pietūs", width=60)
-servakaras = TextInput(name="vakaras5", value="0", title="Vakaras", width=60)
+serpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+servakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprseklamp():
@@ -901,9 +900,9 @@ S-kl”:
 	""", width=250)
 
 
-sekrytas = TextInput(name="rytas6", value="0", title="Rytas", width=60)
-sekpietus = TextInput(name="pietus6", value="0", title="Pietūs", width=60)
-sekvakaras = TextInput(name="vakaras6", value="0", title="Vakaras", width=60)
+sekrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
+sekpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+sekvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprpulsed():
@@ -1642,61 +1641,12 @@ p7 = grafikai.make_graf(grafikai.plist[6], grafikai.pavadin[6], grafikai.couutra
 
 prodomas = [p1, p2, p3, p4, p5, p6, p7]
 
-# ši dalims tam, kad suvedus duomenis į atitinakmą TextInput, grafike atsispindėtų
-# simpatinis/parasimpatinis
-
-sourceps1r = ColumnDataSource(data=dict(x=[], y=[]))
-sourceps1p = ColumnDataSource(data=dict(x=[], y=[]))
-sourceps1v = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcesdr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesdp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesdv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourceppr = ColumnDataSource(data=dict(x=[], y=[]))
-sourceppp = ColumnDataSource(data=dict(x=[], y=[]))
-sourceppv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcekrir = ColumnDataSource(data=dict(x=[], y=[]))
-sourcekrip = ColumnDataSource(data=dict(x=[], y=[]))
-sourcekriv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcetempr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcetempp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcetempv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcedermr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcedermp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcedermv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcevasor = ColumnDataSource(data=dict(x=[], y=[]))
-sourcevasop = ColumnDataSource(data=dict(x=[], y=[]))
-sourcevasov = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcevyzdr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcevyzdp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcevyzdv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcetremr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcetremp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcetremv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcenosr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcenosp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcenosv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcesargr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesargp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesargv = ColumnDataSource(data=dict(x=[], y=[]))
-
-sourcesklr = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesklp = ColumnDataSource(data=dict(x=[], y=[]))
-sourcesklv = ColumnDataSource(data=dict(x=[], y=[]))
-
 
 def make_lin(pav, src):
 	linij = pav.line('x', 'y', source=src, line_color="blue", line_width=5)
 	return linij
+
+# simpatinis parasimpatinis
 
 
 simparasim = {
@@ -1711,53 +1661,53 @@ lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
 lentelesp = lentelesp[["Norma K", "Norma A", "Balansas", "Kryptis", "Pagrindas"]]
 
 parametsp = {
-	"ps1rytas": [[psrytas, pgrytas], "ps1r", sourceps1r.data, make_lin(p1, sourceps1r), parametrupavsp.index("Ps-1")],
-	"ps1pietūs": [[pspietus, pgpietus], "ps1p", sourceps1p.data, make_lin(p1, sourceps1p), parametrupavsp.index("Ps-1")],
-	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", sourceps1v.data, make_lin(p1, sourceps1v), parametrupavsp.index("Ps-1")],
+	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
+	"ps1pietūs": [[pspietus, pgpietus], "ps1p", CDS.srcps1p.data, make_lin(p1, CDS.srcps1p), parametrupavsp.index("Ps-1")],
+	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", CDS.srcps1v.data, make_lin(p1, CDS.srcps1v), parametrupavsp.index("Ps-1")],
 
-	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", sourcesdr.data, make_lin(p1, sourcesdr), parametrupavsp.index("S+D")],
-	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", sourcesdp.data, make_lin(p1, sourcesdp), parametrupavsp.index("S+D")],
-	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", sourcesdv.data, make_lin(p1, sourcesdv), parametrupavsp.index("S+D")],
+	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcsdr.data, make_lin(p1, CDS.srcsdr), parametrupavsp.index("S+D")],
+	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcsdp.data, make_lin(p1, CDS.srcsdp), parametrupavsp.index("S+D")],
+	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcsdv.data, make_lin(p1, CDS.srcsdv), parametrupavsp.index("S+D")],
 
-	"pm1pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1pm4r", sourceppr.data, make_lin(p1, sourceppr), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1pm4p", sourceppp.data, make_lin(p1, sourceppp), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1pm4v", sourceppv.data, make_lin(p1, sourceppv), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1pm4r", CDS.srcppr.data, make_lin(p1, CDS.srcppr), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1pm4p", CDS.srcppp.data, make_lin(p1, CDS.srcppp), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1pm4v", CDS.srcppv.data, make_lin(p1, CDS.srcppv), parametrupavsp.index("Pm-1+Pm-4")],
 
-	"krirytas": [[psrytas, kdrytas], "krir", sourcekrir.data, make_lin(p1, sourcekrir), parametrupavsp.index("KRi")],
-	"kripietūs": [[pspietus, kdpietus], "krip", sourcekrip.data, make_lin(p1, sourcekrip), parametrupavsp.index("KRi")],
-	"krivakaras": [[psvakaras, kdvakaras], "kriv", sourcekriv.data, make_lin(p1, sourcekriv), parametrupavsp.index("KRi")],
+	"krirytas": [[psrytas, kdrytas], "krir", CDS.srckrir.data, make_lin(p1, CDS.srckrir), parametrupavsp.index("KRi")],
+	"kripietūs": [[pspietus, kdpietus], "krip", CDS.srckrip.data, make_lin(p1, CDS.srckrip), parametrupavsp.index("KRi")],
+	"krivakaras": [[psvakaras, kdvakaras], "kriv", CDS.srckriv.data, make_lin(p1, CDS.srckriv), parametrupavsp.index("KRi")],
 
-	"temprytas": [[ktrytas], "tempr", sourcetempr.data, make_lin(p1, sourcetempr), parametrupavsp.index("Temp")],
-	"temppietūs": [[ktpietus], "tempp", sourcetempp.data, make_lin(p1, sourcetempp), parametrupavsp.index("Temp")],
-	"tempvakaras": [[ktvakaras], "tempv", sourcetempv.data, make_lin(p1, sourcetempv), parametrupavsp.index("Temp")],
+	"temprytas": [[ktrytas], "tempr", CDS.srctempr.data, make_lin(p1, CDS.srctempr), parametrupavsp.index("Temp")],
+	"temppietūs": [[ktpietus], "tempp", CDS.srctempp.data, make_lin(p1, CDS.srctempp), parametrupavsp.index("Temp")],
+	"tempvakaras": [[ktvakaras], "tempv", CDS.srctempv.data, make_lin(p1, CDS.srctempv), parametrupavsp.index("Temp")],
 
-	"dermrytas": [[drrytas], "dermr", sourcedermr.data, make_lin(p1, sourcedermr), parametrupavsp.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", sourcedermp.data, make_lin(p1, sourcedermp), parametrupavsp.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", sourcedermv.data, make_lin(p1, sourcedermv), parametrupavsp.index("Derm")],
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermr.data, make_lin(p1, CDS.srcdermr), parametrupavsp.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermp.data, make_lin(p1, CDS.srcdermp), parametrupavsp.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermv.data, make_lin(p1, CDS.srcdermv), parametrupavsp.index("Derm")],
 
-	"vasorytas": [[vrrytas], "vasor", sourcevasor.data, make_lin(p1, sourcevasor), parametrupavsp.index("Vaso")],
-	"vasopietūs": [[vrpietus], "vasop", sourcevasop.data, make_lin(p1, sourcevasop), parametrupavsp.index("Vaso")],
-	"vasovakaras": [[vrvakaras], "vasov", sourcevasov.data, make_lin(p1, sourcevasov), parametrupavsp.index("Vaso")],
+	"vasorytas": [[vrrytas], "vasor", CDS.srcvasor.data, make_lin(p1, CDS.srcvasor), parametrupavsp.index("Vaso")],
+	"vasopietūs": [[vrpietus], "vasop", CDS.srcvasop.data, make_lin(p1, CDS.srcvasop), parametrupavsp.index("Vaso")],
+	"vasovakaras": [[vrvakaras], "vasov", CDS.srcvasov.data, make_lin(p1, CDS.srcvasov), parametrupavsp.index("Vaso")],
 
-	"vyzdrytas": [[vdrytas], "vyzdr", sourcevyzdr.data, make_lin(p1, sourcevyzdr), parametrupavsp.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", sourcevyzdp.data, make_lin(p1, sourcevyzdp), parametrupavsp.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", sourcevyzdv.data, make_lin(p1, sourcevyzdv), parametrupavsp.index("Vyzd")],
+	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdr.data, make_lin(p1, CDS.srcvyzdr), parametrupavsp.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdp.data, make_lin(p1, CDS.srcvyzdp), parametrupavsp.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdv.data, make_lin(p1, CDS.srcvyzdv), parametrupavsp.index("Vyzd")],
 
-	"tremrytas": [[trrytas], "tremr", sourcetremr.data, make_lin(p1, sourcetremr), parametrupavsp.index("Trem")],
-	"trempietūs": [[trpietus], "tremp", sourcetremp.data, make_lin(p1, sourcetremp), parametrupavsp.index("Trem")],
-	"tremvakaras": [[trvakaras], "tremv", sourcetremv.data, make_lin(p1, sourcetremv), parametrupavsp.index("Trem")],
+	"tremrytas": [[trrytas], "tremr", CDS.srctremr.data, make_lin(p1, CDS.srctremr), parametrupavsp.index("Trem")],
+	"trempietūs": [[trpietus], "tremp", CDS.srctremp.data, make_lin(p1, CDS.srctremp), parametrupavsp.index("Trem")],
+	"tremvakaras": [[trvakaras], "tremv", CDS.srctremv.data, make_lin(p1, CDS.srctremv), parametrupavsp.index("Trem")],
 
-	"nosrytas": [[surytas], "nosr", sourcenosr.data, make_lin(p1, sourcenosr), parametrupavsp.index("Nos")],
-	"nospietūs": [[supietus], "nosp", sourcenosp.data, make_lin(p1, sourcenosp), parametrupavsp.index("Nos")],
-	"nosvakaras": [[suvakaras], "nosv", sourcenosv.data, make_lin(p1, sourcenosv), parametrupavsp.index("Nos")],
+	"nosrytas": [[surytas], "nosr", CDS.srcnosr.data, make_lin(p1, CDS.srcnosr), parametrupavsp.index("Nos")],
+	"nospietūs": [[supietus], "nosp", CDS.srcnosp.data, make_lin(p1, CDS.srcnosp), parametrupavsp.index("Nos")],
+	"nosvakaras": [[suvakaras], "nosv", CDS.srcnosv.data, make_lin(p1, CDS.srcnosv), parametrupavsp.index("Nos")],
 
-	"sargrytas": [[slrytas], "sargr", sourcesargr.data, make_lin(p1, sourcesargr), parametrupavsp.index("Sarg")],
-	"sargpietūs": [[slpietus], "sargp", sourcesargp.data, make_lin(p1, sourcesargp), parametrupavsp.index("Sarg")],
-	"sargvakaras": [[slvakaras], "sargv", sourcesargv.data, make_lin(p1, sourcesargv), parametrupavsp.index("Sarg")],
+	"sargrytas": [[slrytas], "sargr", CDS.srcsargr.data, make_lin(p1, CDS.srcsargr), parametrupavsp.index("Sarg")],
+	"sargpietūs": [[slpietus], "sargp", CDS.srcsargp.data, make_lin(p1, CDS.srcsargp), parametrupavsp.index("Sarg")],
+	"sargvakaras": [[slvakaras], "sargv", CDS.srcsargv.data, make_lin(p1, CDS.srcsargv), parametrupavsp.index("Sarg")],
 
-	"sklrytas": [[sekrytas], "sklr", sourcesklr.data, make_lin(p1, sourcesklr), parametrupavsp.index("S-kl")],
-	"sklpietūs": [[sekpietus], "sklp", sourcesklp.data, make_lin(p1, sourcesklp), parametrupavsp.index("S-kl")],
-	"sklvakaras": [[sekvakaras], "sklv", sourcesklv.data, make_lin(p1, sourcesklv), parametrupavsp.index("S-kl")]}
+	"sklrytas": [[sekrytas], "sklr", CDS.srcsklr.data, make_lin(p1, CDS.srcsklr), parametrupavsp.index("S-kl")],
+	"sklpietūs": [[sekpietus], "sklp", CDS.srcsklp.data, make_lin(p1, CDS.srcsklp), parametrupavsp.index("S-kl")],
+	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
 
 
 def verte(*reiksme):
@@ -1991,40 +1941,32 @@ for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp
 		ps1_update, sd_update, pm1pm4_update, kri_update, temp_update, derm_update,
 		vaso_update, vyzd_update, trem_update, nos_update, sarg_update, skl_update)
 
-# # katogeninis/gliukogeninis
-# # S-pHK
-# # KD
-# # t
-# # P4
-# # KpHi
-# # D2-P4
-# # U-šv
-# # U-put
+# ketogeninis gliukogeninis
 
-# sourcesphkr = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcesphkp = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcesphkv = ColumnDataSource(data=dict(x=[], y=[]))
+# ketogliuko = {
+# 	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
+# 	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
+# 	"Balansas": [-1, 8.5, 23.5, 5, 36.6, 1.5, 0, 0, 0, 0, 0, 0],
+# 	"Kryptis": [1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, ],
+# 	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
 
-# kg1 = p2.line('x', 'y', source=sourcesphkr, line_color="blue", line_width=5)
-# kg2 = p2.line('x', 'y', source=sourcesphkp, line_color="blue", line_width=5)
-# kg3 = p2.line('x', 'y', source=sourcesphkv, line_color="blue", line_width=5)
+# parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
+# lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
+# lentelekg = lentelekg[["Norma K", "Norma A", "Balansas", "Kryptis", "Pagrindas"]]
 
-# sourcekdr = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcekdp = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcekdv = ColumnDataSource(data=dict(x=[], y=[]))
+sphkkg = [[strytas, serrytas], [stpietus, serpietus], [stvakaras, servakaras]]
 
-# kg4 = p2.line('x', 'y', source=sourcekdr, line_color="blue", line_width=5)
-# kg5 = p2.line('x', 'y', source=sourcekdp, line_color="blue", line_width=5)
-# kg6 = p2.line('x', 'y', source=sourcekdv, line_color="blue", line_width=5)
 
-# sourcetankr = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcetankp = ColumnDataSource(data=dict(x=[], y=[]))
-# sourcetankv = ColumnDataSource(data=dict(x=[], y=[]))
+def sphk_update(attr, old, new):
+	for k in sphkkg:
+		stv, serv = verte(k)
+		tankindx = (stv * 1000) - 1000
+		print(stv, serv)
+		print(serv + (0.033333 * tankindx) - 0.533333)
 
-# kg7 = p2.line('x', 'y', source=sourcetankr, line_color="blue", line_width=5)
-# kg8 = p2.line('x', 'y', source=sourcetankp, line_color="blue", line_width=5)
-# kg9 = p2.line('x', 'y', source=sourcetankv, line_color="blue", line_width=5)
 
+for w in list(itertools.chain.from_iterable([b for b in [w for w in sphkkg]])):
+	w.on_change("value", sphk_update)
 
 # def sphkr_update(attr, old, new):
 # 	def sphkr():

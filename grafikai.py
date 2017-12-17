@@ -23,9 +23,9 @@ factorssp = [
 	"sklr", "sargr", "nosr", "tremr", "vyzdr", "vasor", "dermr", "tempr", "krir", "pm1pm4r", "s+dr", "ps1r"]
 
 factorskg = [
-	"uputv", "usvv", "d2p4v", "kphiv", "p4v", "tksiv", "kdv", "sphkv",
-	"uputp", "usvp", "d2p4p", "kphip", "p4p", "tksip", "kdp", "sphkp",
-	"uputr", "usvr", "d2p4r", "kphir", "p4r", "tksir", "kdr", "sphkr"]
+	"uputv", "usvv", "d2p4v", "kphiv", "p4v", "tksiv", "kdv",
+	"uputp", "usvp", "d2p4p", "kphip", "p4p", "tksip", "kdp",
+	"uputr", "usvr", "d2p4r", "kphir", "p4r", "tksir", "kdr"]
 
 factorsda = [
 	"uputv", "usvv", "dermv", "sphkv", "uphkv", "dtankv",
