@@ -1646,19 +1646,17 @@ def make_lin(pav, src):
 	linij = pav.line('x', 'y', source=src, line_color="blue", line_width=5)
 	return linij
 
-# simpatinis parasimpatinis
 
+# simpatinis parasimpatinis
 
 simparasim = {
 	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
 	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
-	"Balansas": [-1, 8.5, 23.5, 5, 36.6, 1.5, 0, 0, 0, 0, 0, 0],
-	"Kryptis": [1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, ],
 	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
 
 parametrupavsp = ["Ps-1", "S+D", "Pm-1+Pm-4", "KRi", "Temp", "Derm", "Vaso", "Vyzd", "Trem", "Nos", "Sarg", "S-kl"]
 lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
-lentelesp = lentelesp[["Norma K", "Norma A", "Balansas", "Kryptis", "Pagrindas"]]
+lentelesp = lentelesp[["Norma K", "Norma A", "Pagrindas"]]
 
 parametsp = {
 	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
@@ -1723,6 +1721,11 @@ def verte(*reiksme):
 		verte1 = float("".join(str(i) for i in (L[0][0].value)).replace(",", "."))
 		verte2 = float("".join(str(i) for i in (L[0][-1].value)).replace(",", "."))
 		return verte1, verte2
+	elif len(L[0]) == 3:
+		verte1 = float("".join(str(i) for i in (L[0][0].value)).replace(",", "."))
+		verte2 = float("".join(str(i) for i in (L[0][1].value)).replace(",", "."))
+		verte3 = float("".join(str(i) for i in (L[0][-1].value)).replace(",", "."))
+		return verte1, verte2, verte3
 	else:
 		verte1 = float("".join(str(i) for i in (L[0][0].value)).replace(",", "."))
 		verte2 = float("".join(str(i) for i in (L[0][1].value)).replace(",", "."))
@@ -1731,40 +1734,59 @@ def verte(*reiksme):
 		return verte1, verte2, verte3, verte4
 
 
-def formulekara(skirtum, lin, ind):
-	if (skirtum - lentelesp.ix[ind, "Balansas"]) * lentelesp.ix[ind, "Kryptis"] >= 0:
+def formulekara(skirtum, lin, ind, lentel, *arg):
+	NormaK = lentel.loc[lentel.index[ind], "Norma K"]
+	NormaA = lentel.loc[lentel.index[ind], "Norma A"]
+
+	if NormaA == 1000:
+		NormaA = arg[0]
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+	elif NormaK == NormaA == 1001:
+		if arg[0] < 6.4:
+			NormaK = 67
+			NormaA = 52
+		elif arg[0] > 7.1:
+			NormaK = 46
+			NormaA = 31
+		else:
+			NormaK = (-30 * arg[0]) + 259
+			NormaA = (-30 * arg[0]) + 244
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+	else:
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+
+	if (NormaK - balansas) < 0:
+		kryptis = 1
+	else:
+		kryptis = -1
+
+	if (skirtum - balansas) * kryptis >= 0:
 		zenklas = 1
 	else:
 		zenklas = -1
 
-# nustatoma alfa reikšmė
+# nustatoma alfa  ir beta reikšmės
 	if zenklas > 0:
-		alfa = (1 - lentelesp.ix[ind, "Pagrindas"]) / (lentelesp.ix[ind, "Balansas"] - lentelesp.ix[ind, "Norma A"])
+		alfa = (1 - pagrindas) / (balansas - NormaA)
+		beta = (pagrindas * balansas - NormaA) / (balansas - NormaA)
 	else:
-		alfa = (1 - lentelesp.ix[ind, "Pagrindas"]) / (lentelesp.ix[ind, "Balansas"] - lentelesp.ix[ind, "Norma K"])
-
-# nustatoma beta reikšmė
-	if zenklas > 0:
-		beta = (
-			lentelesp.ix[ind, "Pagrindas"] * lentelesp.ix[ind, "Balansas"] -
-			lentelesp.ix[ind, "Norma A"]) / (lentelesp.ix[ind, "Balansas"] - lentelesp.ix[ind, "Norma A"])
-	else:
-		beta = (
-			lentelesp.ix[ind, "Pagrindas"] * lentelesp.ix[ind, "Balansas"] -
-			lentelesp.ix[ind, "Norma K"]) / (lentelesp.ix[ind, "Balansas"] - lentelesp.ix[ind, "Norma K"])
+		alfa = (1 - pagrindas) / (balansas - NormaK)
+		beta = (pagrindas * balansas - NormaK) / (balansas - NormaK)
 
 # nustatoma ar katabolizmo ar anabolizmo reikšmė
 	if zenklas < 0:
-		kara = (zenklas * math.log(alfa * skirtum + beta, lentelesp.ix[ind, "Pagrindas"]))
+		kara = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 	else:
-		kara = (zenklas * math.log(alfa * skirtum + beta, lentelesp.ix[ind, "Pagrindas"]))
+		kara = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 
 # nurodomos skirtingos spalvos
 	if kara > 0:
 		lin.glyph.line_color = "blue"
 	else:
 		lin.glyph.line_color = "red"
-	logging.info(kara)
 
 # apribojama reikšmė iki 4 arba -4
 	if kara > 4:
@@ -1773,6 +1795,7 @@ def formulekara(skirtum, lin, ind):
 		karariba = -4
 	else:
 		karariba = kara
+	logging.info(kara)
 	return karariba
 
 
@@ -1782,7 +1805,7 @@ def ps1_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2 = verte(n)
 			formule = (v1 - v2)
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1795,7 +1818,7 @@ def sd_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2, v3, v4 = verte(n)
 			formule = (v1 - v2) + (v3 - v4)
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1810,7 +1833,7 @@ def pm1pm4_update(attr, old, new):
 			r1 = max(v1, v2, v3, v4) - v1
 			r2 = max(v1, v2, v3, v4) - v4
 			formule = (r1 + r2)
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1824,7 +1847,7 @@ def kri_update(attr, old, new):
 			v1, v2 = verte(n)
 			if v2 != 0:
 				formule = (v1 / v2)
-				karareiksme = formulekara(formule, linija, indx)
+				karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 				new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1837,7 +1860,7 @@ def temp_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1850,7 +1873,7 @@ def derm_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1863,7 +1886,7 @@ def vaso_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1876,7 +1899,7 @@ def vyzd_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1889,7 +1912,7 @@ def trem_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1902,7 +1925,7 @@ def nos_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1915,7 +1938,7 @@ def sarg_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1928,7 +1951,7 @@ def skl_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx)
+			karareiksme = formulekara(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1941,290 +1964,86 @@ for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp
 		ps1_update, sd_update, pm1pm4_update, kri_update, temp_update, derm_update,
 		vaso_update, vyzd_update, trem_update, nos_update, sarg_update, skl_update)
 
+
 # ketogeninis gliukogeninis
 
-# ketogliuko = {
-# 	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
-# 	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
-# 	"Balansas": [-1, 8.5, 23.5, 5, 36.6, 1.5, 0, 0, 0, 0, 0, 0],
-# 	"Kryptis": [1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, ],
-# 	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
+ketogliuko = {
+	"Norma K": [15, 1001, 1002, 6, 5, 1, -0.28],
+	"Norma A": [1000, 1001, 1002, 8, 0, -1, -0.18],
+	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2, ]}
 
-# parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
-# lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
-# lentelekg = lentelekg[["Norma K", "Norma A", "Balansas", "Kryptis", "Pagrindas"]]
+parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
+lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
+lentelekg = lentelekg[["Norma K", "Norma A", "Pagrindas"]]
 
-sphkkg = [[strytas, serrytas], [stpietus, serpietus], [stvakaras, servakaras]]
+parametkg = {
+	"kdrytas": [[kdrytas, strytas, serrytas], "kdr", CDS.srckdr.data, make_lin(p2, CDS.srckdr), parametrupavkg.index("KD")],
+	"kdpietūs": [[kdpietus, stpietus, serpietus], "kdp", CDS.srckdp.data, make_lin(p2, CDS.srckdp), parametrupavkg.index("KD")],
+	"kdvakaras": [[kdvakaras, stvakaras, servakaras], "kdv", CDS.srckdv.data, make_lin(p2, CDS.srckdv), parametrupavkg.index("KD")],
 
+	"tksirytas": [[ksirytas, strytas, serrytas], "tksir", CDS.srctksir.data, make_lin(p2, CDS.srctksir), parametrupavkg.index("t(ksi)")],
+	"tksipietūs": [[ksipietus, strytas, serrytas], "tksip", CDS.srctksip.data, make_lin(p2, CDS.srctksip), parametrupavkg.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras, strytas, serrytas], "tksiv", CDS.srctksiv.data, make_lin(p2, CDS.srctksiv), parametrupavkg.index("t(ksi)")],
 
-def sphk_update(attr, old, new):
-	for k in sphkkg:
-		stv, serv = verte(k)
-		tankindx = (stv * 1000) - 1000
-		print(stv, serv)
-		print(serv + (0.033333 * tankindx) - 0.533333)
+	# "p4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "p4r", CDS.srcppr.data, make_lin(p2, CDS.srcppr), parametrupavkg.index("Pm-1+Pm-4")],
+	# "p4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "p4p", CDS.srcppp.data, make_lin(p2, CDS.srcppp), parametrupavkg.index("Pm-1+Pm-4")],
+	# "p4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "p4v", CDS.srcppv.data, make_lin(p2, CDS.srcppv), parametrupavkg.index("Pm-1+Pm-4")],
 
+	# "kphirytas": [[psrytas, kdrytas], "kphir", CDS.srckrir.data, make_lin(p2, CDS.srckrir), parametrupavkg.index("KRi")],
+	# "kphipietūs": [[pspietus, kdpietus], "kphip", CDS.srckrip.data, make_lin(p2, CDS.srckrip), parametrupavkg.index("KRi")],
+	# "kphivakaras": [[psvakaras, kdvakaras], "kphiv", CDS.srckriv.data, make_lin(p2, CDS.srckriv), parametrupavkg.index("KRi")],
 
-for w in list(itertools.chain.from_iterable([b for b in [w for w in sphkkg]])):
-	w.on_change("value", sphk_update)
+	# "d2p4rytas": [[ktrytas], "d2p4r", CDS.srctempr.data, make_lin(p2, CDS.srctempr), parametrupavkg.index("Temp")],
+	# "d2p4pietūs": [[ktpietus], "d2p4p", CDS.srctempp.data, make_lin(p2, CDS.srctempp), parametrupavkg.index("Temp")],
+	# "d2p4vakaras": [[ktvakaras], "d2p4v", CDS.srctempv.data, make_lin(p2, CDS.srctempv), parametrupavkg.index("Temp")],
 
-# def sphkr_update(attr, old, new):
-# 	def sphkr():
-# 		tank = float(strytas.value.replace(",", "."))
-# 		vertetank = tank*1000-1000
-# 		serug = float(serrytas.value.replace(",", "."))
-# 		return serug+0.033333*vertetank-0.533333
+	# "usvrytas": [[drrytas], "usvr", CDS.srcdermr.data, make_lin(p2, CDS.srcdermr), parametrupavkg.index("Derm")],
+	# "usvpietūs": [[drpietus], "usvp", CDS.srcdermp.data, make_lin(p2, CDS.srcdermp), parametrupavkg.index("Derm")],
+	# "usvvakaras": [[drvakaras], "usvv", CDS.srcdermv.data, make_lin(p2, CDS.srcdermv), parametrupavkg.index("Derm")],
 
-# 	def sphkrriba():
-# 		if sphkr() > 4:
-# 			return 4
-# 		elif sphkr() < -4:
-# 			return -4
-# 		else:
-# 			return sphkr()
-# 	sphkrnew_data = {'x': [0, sphkrriba()], 'y': ["sphkr", "sphkr"]}
-# 	if sphkrriba() > 0:
-# 		kg1.glyph.line_color = "blue"
-# 	else:
-# 		kg1.glyph.line_color = "red"
-# 	sourcesphkr.data.update(sphkrnew_data)
-# 	return float(sphkrriba())
-# strytas.on_change("value", sphkr_update)
-# serrytas.on_change("value", sphkr_update)
+	# "uputrytas": [[vrrytas], "uputr", CDS.srcvasor.data, make_lin(p2, CDS.srcvasor), parametrupavkg.index("Vaso")],
+	# "uputpietūs": [[vrpietus], "uputp", CDS.srcvasop.data, make_lin(p2, CDS.srcvasop), parametrupavkg.index("Vaso")],
+	# "uputvakaras": [[vrvakaras], "uputv", CDS.srcvasov.data, make_lin(p2, CDS.srcvasov), parametrupavkg.index("Vaso")]
+	}
 
 
-# def sphkp_update(attr, old, new):
-# 	def sphkp():
-# 		tank = float(stpietus.value.replace(",", "."))
-# 		vertetank = tank*1000-1000
-# 		serug = float(serpietus.value.replace(",", "."))
-# 		return serug+0.033333*vertetank-0.533333
+def kd_update(attr, old, new):
+	for key in parametkg.keys():
+		if "kd" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1, stv, serv = verte(n)
+			tankindx = (stv * 1000) - 1000
+			sphk = serv + (0.033333 * tankindx) - 0.533333
+			if 7 > sphk >= 6.8:
+				sphkv = 16
+			else:
+				sphkv = 17
+			formule = v1
+			karareiksme = formulekara(formule, linija, indx, lentelekg, sphkv)
 
-# 	def sphkpriba():
-# 		if sphkp() > 4:
-# 			return 4
-# 		elif sphkp() < -4:
-# 			return -4
-# 		else:
-# 			return sphkp()
-# 	sphkpnew_data = {'x': [0, sphkpriba()], 'y': ["sphkp", "sphkp"]}
-# 	if sphkpriba() > 0:
-# 		kg2.glyph.line_color = "blue"
-# 	else:
-# 		kg2.glyph.line_color = "red"
-# 	sourcesphkp.data.update(sphkpnew_data)
-# 	return float(sphkpriba())
-# stpietus.on_change("value", sphkp_update)
-# serpietus.on_change("value", sphkp_update)
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
 
 
-# def sphkv_update(attr, old, new):
-# 	def sphkv():
-# 		tank = float(stvakaras.value.replace(",", "."))
-# 		vertetank = tank*1000-1000
-# 		serug = float(servakaras.value.replace(",", "."))
-# 		return serug+0.033333*vertetank-0.533333
+def tksi_update(attr, old, new):
+	for key in parametkg.keys():
+		if "tksi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1, stv, serv = verte(n)
+			tankindx = (stv * 1000) - 1000
+			sphk = serv + (0.033333 * tankindx) - 0.533333
+			formule = v1
+			karareiksme = formulekara(formule, linija, indx, lentelekg, sphk)
 
-# 	def sphkvriba():
-# 		if sphkv() > 4:
-# 			return 4
-# 		elif sphkv() < -4:
-# 			return -4
-# 		else:
-# 			return sphkv()
-# 	sphkvnew_data = {'x': [0, sphkvriba()], 'y': ["sphkv", "sphkv"]}
-# 	if sphkvriba() > 0:
-# 		kg3.glyph.line_color = "blue"
-# 	else:
-# 		kg3.glyph.line_color = "red"
-# 	sourcesphkv.data.update(sphkvnew_data)
-# 	return float(sphkvriba())
-# stvakaras.on_change("value", sphkv_update)
-# servakaras.on_change("value", sphkv_update)
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
 
 
-# normakkd = 15
-# pagrkd = 2
-
-
-# def kdr_update(attr, old, new):
-# 	def normaakdr():
-# 		if sphkr_update(attr, old, new) >= 6.8 and sphkr_update(attr, old, new) < 7:
-# 			return 16
-# 		else:
-# 			return 17
-# 	balankd = float((normaakdr()+normakkd)/2)
-
-# 	def zenklaskdr():
-# 		def kryptiskdr():
-# 			if normakkd-balankd < 0:
-# 				return 1
-# 			else:
-# 				return -1
-# 		vertekd = float(kdrytas.value.replace(",", "."))
-# 		if (vertekd-balankd)*kryptiskdr() >= 0:
-# 			return 1
-# 		else:
-# 			return -1
-
-
-# 	def alfakdr():
-# 		if zenklaskdr() > 0:
-# 			return (1-pagrkd)/(balankd-normaakdr())
-# 		else:
-# 			return (1-pagrkd)/(balankd-normakkd)
-
-
-# 	def betakdr():
-# 		if zenklaskdr() > 0:
-# 			return (pagrkd*balankd-normaakdr())/(balankd-normaakdr())
-# 		else:
-# 			return (pagrkd*balankd-normakkd)/(balankd-normakkd)
-
-
-# 	def karareiksmekdr():
-# 		vertekd = float(kdrytas.value.replace(",", "."))
-# 		if zenklaskdr() < 0:
-# 			return zenklaskdr()*math.log(float(alfakdr())*float(vertekd)+float(betakdr()), pagrkd)
-# 		else:
-# 			return zenklaskdr()*math.log(float(alfakdr())*float(vertekd)+float(betakdr()), pagrkd)
-
-# 	def karareiksmekdrriba():
-# 		if karareiksmekdr() > 4:
-# 			return 4
-# 		elif karareiksmekdr() < -4:
-# 			return -4
-# 		else:
-# 			return karareiksmekdr()
-# 	kdrnew_data = {'x': [0, karareiksmekdrriba()], 'y': ["kdr", "kdr"]}
-# 	if karareiksmekdrriba() > 0:
-# 		kg4.glyph.line_color = "blue"
-# 	else:
-# 		kg4.glyph.line_color = "red"
-# 	sourcekdr.data.update(kdrnew_data)
-
-# kdrytas.on_change("value", kdr_update)
-
-
-# def kdp_update(attr, old, new):
-# 	def normaakdp():
-# 		if sphkp_update(attr, old, new) >= 6.8 and sphkp_update(attr, old, new) < 7:
-# 			return 16
-# 		else:
-# 			return 17
-
-# 	balankd = float((normaakdp()+normakkd)/2)
-
-# 	def zenklaskdp():
-# 		def kryptiskdp():
-# 			if normakkd-balankd < 0:
-# 				return 1
-# 			else:
-# 				return -1
-# 		vertekd = float(kdpietus.value.replace(",", "."))
-# 		if (vertekd-balankd)*kryptiskdp() >= 0:
-# 			return 1
-# 		else:
-# 			return -1
-
-
-# 	def alfakdp():
-# 		if zenklaskdp() > 0:
-# 			return (1-pagrkd)/(balankd-normaakdp())
-# 		else:
-# 			return (1-pagrkd)/(balankd-normakkd)
-
-
-# 	def betakdp():
-# 		if zenklaskdp() > 0:
-# 			return (pagrkd*balankd-normaakdp())/(balankd-normaakdp())
-# 		else:
-# 			return (pagrkd*balankd-normakkd)/(balankd-normakkd)
-
-
-# 	def karareiksmekdp():
-# 		vertekd = float(kdpietus.value.replace(",", "."))
-# 		if zenklaskdp() < 0:
-# 			return zenklaskdp()*math.log(float(alfakdp())*float(vertekd)+float(betakdp()), pagrkd)
-# 		else:
-# 			return zenklaskdp()*math.log(float(alfakdp())*float(vertekd)+float(betakdp()), pagrkd)
-
-# 	def karareiksmekdpriba():
-# 		if karareiksmekdp() > 4:
-# 			return 4
-# 		elif karareiksmekdp() < -4:
-# 			return -4
-# 		else:
-# 			return karareiksmekdp()
-# 	kdpnew_data = {'x': [0, karareiksmekdpriba()], 'y': ["kdp", "kdp"]}
-# 	if karareiksmekdpriba() > 0:
-# 		kg5.glyph.line_color = "blue"
-# 	else:
-# 		kg5.glyph.line_color = "red"
-# 	sourcekdp.data.update(kdpnew_data)
-
-# kdpietus.on_change("value", kdp_update)
-
-
-# def kdv_update(attr, old, new):
-# 	def normaakdv():
-# 		if sphkv_update(attr, old, new) >= 6.8 and sphkv_update(attr, old, new) < 7:
-# 			return 16
-# 		else:
-# 			return 17
-
-# 	balankd = float((normaakdv()+normakkd)/2)
-
-# 	def zenklaskdv():
-# 		def kryptiskdv():
-# 			if normakkd-balankd < 0:
-# 				return 1
-# 			else:
-# 				return -1
-# 		vertekd = float(kdvakaras.value.replace(",", "."))
-# 		if (vertekd-balankd)*kryptiskdv() >= 0:
-# 			return 1
-# 		else:
-# 			return -1
-
-
-# 	def alfakdv():
-# 		if zenklaskdv() > 0:
-# 			return (1-pagrkd)/(balankd-normaakdv())
-# 		else:
-# 			return (1-pagrkd)/(balankd-normakkd)
-
-
-# 	def betakdv():
-# 		if zenklaskdv() > 0:
-# 			return (pagrkd*balankd-normaakdv())/(balankd-normaakdv())
-# 		else:
-# 			return (pagrkd*balankd-normakkd)/(balankd-normakkd)
-
-
-# 	def karareiksmekdv():
-# 		vertekd = float(kdvakaras.value.replace(",", "."))
-# 		if zenklaskdv() < 0:
-# 			return zenklaskdv()*math.log(float(alfakdv())*float(vertekd)+float(betakdv()), pagrkd)
-# 		else:
-# 			return zenklaskdv()*math.log(float(alfakdv())*float(vertekd)+float(betakdv()), pagrkd)
-
-# 	def karareiksmekdvriba():
-# 		if karareiksmekdv() > 4:
-# 			return 4
-# 		elif karareiksmekdv() < -4:
-# 			return -4
-# 		else:
-# 			return karareiksmekdv()
-# 	kdvnew_data = {'x': [0, karareiksmekdvriba()], 'y': ["kdv", "kdv"]}
-# 	if karareiksmekdvriba() > 0:
-# 		kg6.glyph.line_color = "blue"
-# 	else:
-# 		kg6.glyph.line_color = "red"
-# 	sourcekdv.data.update(kdvnew_data)
-
-# kdvakaras.on_change("value", kdv_update)
-
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
+	w.on_change(
+		"value", kd_update, tksi_update)
 
 # pagrtank = 1.2
 
@@ -2349,6 +2168,7 @@ lay1 = layout(
 	[tiriam4()],
 	[kvepparmat14()],
 	[aprkvepsu(), ksirytas, ksipietus, ksivakaras])
+
 lay2 = column(prodomas)
 lay3 = row(lay1, lay2)
 
