@@ -23,9 +23,9 @@ factorssp = [
 	"sklr", "sargr", "nosr", "tremr", "vyzdr", "vasor", "dermr", "tempr", "krir", "pm1pm4r", "s+dr", "ps1r"]
 
 factorskg = [
-	"uputv", "usvv", "d2p4v", "kphiv", "p4v", "tksiv", "kdv",
-	"uputp", "usvp", "d2p4p", "kphip", "p4p", "tksip", "kdp",
-	"uputr", "usvr", "d2p4r", "kphir", "p4r", "tksir", "kdr"]
+	"uputv", "usvv", "d2p(4)v", "kphiv", "p4v", "tksiv", "kdv",
+	"uputp", "usvp", "d2p(4)p", "kphip", "p4p", "tksip", "kdp",
+	"uputr", "usvr", "d2p(4)r", "kphir", "p4r", "tksir", "kdr"]
 
 factorsda = [
 	"uputv", "usvv", "dermv", "sphkv", "uphkv", "dtankv",
@@ -66,7 +66,7 @@ couutralac = len(factorsralac)
 
 
 def make_graf(p, pav, count, factor):
-	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=470, tools="")
+	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=(count * 8 + 182), tools="")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)

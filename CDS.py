@@ -80,3 +80,7 @@ srcusvv = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputr = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputp = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcuputr1 = ColumnDataSource(data=dict(x=[], y=[]))
+srcuputp1 = ColumnDataSource(data=dict(x=[], y=[]))
+srcuputv1 = ColumnDataSource(data=dict(x=[], y=[]))

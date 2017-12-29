@@ -659,7 +659,7 @@ srpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 srvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprssvies():
+def aprslasvies():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup6"><br>Šviesumas<br>(skaičius pagal skalę)</a>
@@ -732,9 +732,9 @@ atitinkančio stulpelio numerį:
 	""", width=250)
 
 
-ssrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
-sspietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
-ssvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+slasvrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
+slasvpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+slasvvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprstank():
@@ -812,9 +812,9 @@ skalę ir įrašoma eilutėje 2.5 „Putojimas, U-put“:
 	""", width=250)
 
 
-sprytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
-sppietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
-spvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+slaputrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
+slaputpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+slaputvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprserugst():
@@ -1642,9 +1642,14 @@ p7 = grafikai.make_graf(grafikai.plist[6], grafikai.pavadin[6], grafikai.couutra
 prodomas = [p1, p2, p3, p4, p5, p6, p7]
 
 
-def make_lin(pav, src):
-	linij = pav.line('x', 'y', source=src, line_color="blue", line_width=5)
-	return linij
+def make_lin(pav, *src):
+	if len(src) == 1:
+		linij = pav.line(x='x', y='y', source=src[0], line_width=8)
+		return [linij]
+	else:
+		linij = pav.line(x='x', y='y', source=src[0], line_width=8)
+		linij1 = pav.line(x='x', y='y', source=src[1], line_width=8)
+		return [linij, linij1]
 
 
 # simpatinis parasimpatinis
@@ -1754,6 +1759,21 @@ def formulekara(skirtum, lin, ind, lentel, *arg):
 			NormaA = (-30 * arg[0]) + 244
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
 		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+	elif NormaK == NormaA == 1002:
+		if arg[0] < 6.4:
+			NormaK = 64
+			NormaA = 68
+		elif arg[0] > 7.1:
+			NormaK = 92
+			NormaA = 96
+		else:
+			NormaK = (-30 * arg[0]) + 192
+			NormaA = (-30 * arg[0]) + 188
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+	elif NormaK == -0.28 and NormaA == -0.18:
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = -0.1
 	else:
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
 		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
@@ -1783,10 +1803,18 @@ def formulekara(skirtum, lin, ind, lentel, *arg):
 		kara = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 
 # nurodomos skirtingos spalvos
-	if kara > 0:
-		lin.glyph.line_color = "blue"
+	if len(lin) == 1:
+		if kara > 0:
+			lin[0].glyph.line_color = "blue"
+		else:
+			lin[0].glyph.line_color = "red"
 	else:
-		lin.glyph.line_color = "red"
+		if kara > 0:
+			lin[0].glyph.line_color = "blue"
+			lin[1].glyph.line_color = "blue"
+		else:
+			lin[0].glyph.line_color = "red"
+			lin[1].glyph.line_color = "blue"
 
 # apribojama reikšmė iki 4 arba -4
 	if kara > 4:
@@ -1982,29 +2010,28 @@ parametkg = {
 	"kdvakaras": [[kdvakaras, stvakaras, servakaras], "kdv", CDS.srckdv.data, make_lin(p2, CDS.srckdv), parametrupavkg.index("KD")],
 
 	"tksirytas": [[ksirytas, strytas, serrytas], "tksir", CDS.srctksir.data, make_lin(p2, CDS.srctksir), parametrupavkg.index("t(ksi)")],
-	"tksipietūs": [[ksipietus, strytas, serrytas], "tksip", CDS.srctksip.data, make_lin(p2, CDS.srctksip), parametrupavkg.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras, strytas, serrytas], "tksiv", CDS.srctksiv.data, make_lin(p2, CDS.srctksiv), parametrupavkg.index("t(ksi)")],
+	"tksipietūs": [[ksipietus, stpietus, serpietus], "tksip", CDS.srctksip.data, make_lin(p2, CDS.srctksip), parametrupavkg.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras, stvakaras, servakaras], "tksiv", CDS.srctksiv.data, make_lin(p2, CDS.srctksiv), parametrupavkg.index("t(ksi)")],
 
-	# "p4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "p4r", CDS.srcppr.data, make_lin(p2, CDS.srcppr), parametrupavkg.index("Pm-1+Pm-4")],
-	# "p4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "p4p", CDS.srcppp.data, make_lin(p2, CDS.srcppp), parametrupavkg.index("Pm-1+Pm-4")],
-	# "p4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "p4v", CDS.srcppv.data, make_lin(p2, CDS.srcppv), parametrupavkg.index("Pm-1+Pm-4")],
+	"p4rytas": [[pa45rytas, strytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
+	"p4pietūs": [[pa45pietus, stpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
+	"p4vakaras": [[pa45vakaras, stvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
 
-	# "kphirytas": [[psrytas, kdrytas], "kphir", CDS.srckrir.data, make_lin(p2, CDS.srckrir), parametrupavkg.index("KRi")],
-	# "kphipietūs": [[pspietus, kdpietus], "kphip", CDS.srckrip.data, make_lin(p2, CDS.srckrip), parametrupavkg.index("KRi")],
-	# "kphivakaras": [[psvakaras, kdvakaras], "kphiv", CDS.srckriv.data, make_lin(p2, CDS.srckriv), parametrupavkg.index("KRi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphir.data, make_lin(p2, CDS.srckphir), parametrupavkg.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphip.data, make_lin(p2, CDS.srckphip), parametrupavkg.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiv.data, make_lin(p2, CDS.srckphiv), parametrupavkg.index("KpHi")],
 
-	# "d2p4rytas": [[ktrytas], "d2p4r", CDS.srctempr.data, make_lin(p2, CDS.srctempr), parametrupavkg.index("Temp")],
-	# "d2p4pietūs": [[ktpietus], "d2p4p", CDS.srctempp.data, make_lin(p2, CDS.srctempp), parametrupavkg.index("Temp")],
-	# "d2p4vakaras": [[ktvakaras], "d2p4v", CDS.srctempv.data, make_lin(p2, CDS.srctempv), parametrupavkg.index("Temp")],
+	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", CDS.srcd2p4r.data, make_lin(p2, CDS.srcd2p4r,), parametrupavkg.index("D2-P4")],
+	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", CDS.srcd2p4p.data, make_lin(p2, CDS.srcd2p4p), parametrupavkg.index("D2-P4")],
+	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", CDS.srcd2p4v.data, make_lin(p2, CDS.srcd2p4v), parametrupavkg.index("D2-P4")],
 
-	# "usvrytas": [[drrytas], "usvr", CDS.srcdermr.data, make_lin(p2, CDS.srcdermr), parametrupavkg.index("Derm")],
-	# "usvpietūs": [[drpietus], "usvp", CDS.srcdermp.data, make_lin(p2, CDS.srcdermp), parametrupavkg.index("Derm")],
-	# "usvvakaras": [[drvakaras], "usvv", CDS.srcdermv.data, make_lin(p2, CDS.srcdermv), parametrupavkg.index("Derm")],
+	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvr.data, make_lin(p2, CDS.srcusvr), parametrupavkg.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvp.data, make_lin(p2, CDS.srcusvp), parametrupavkg.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvv.data, make_lin(p2, CDS.srcusvv), parametrupavkg.index("U-šv")],
 
-	# "uputrytas": [[vrrytas], "uputr", CDS.srcvasor.data, make_lin(p2, CDS.srcvasor), parametrupavkg.index("Vaso")],
-	# "uputpietūs": [[vrpietus], "uputp", CDS.srcvasop.data, make_lin(p2, CDS.srcvasop), parametrupavkg.index("Vaso")],
-	# "uputvakaras": [[vrvakaras], "uputv", CDS.srcvasov.data, make_lin(p2, CDS.srcvasov), parametrupavkg.index("Vaso")]
-	}
+	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputr.data, CDS.srcuputr1.data], make_lin(p2, CDS.srcuputr, CDS.srcuputr1), parametrupavkg.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputp.data, CDS.srcuputp1.data], make_lin(p2, CDS.srcuputp, CDS.srcuputp1), parametrupavkg.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputv.data, CDS.srcuputv1.data], make_lin(p2, CDS.srcuputv, CDS.srcuputv1), parametrupavkg.index("U-put")]}
 
 
 def kd_update(attr, old, new):
@@ -2041,82 +2068,79 @@ def tksi_update(attr, old, new):
 			sourcedata.update(new_data)
 
 
+def p4_update(attr, old, new):
+	for key in parametkg.keys():
+		if "p4" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1, stv, serv = verte(n)
+			tankindx = (stv * 1000) - 1000
+			sphk = serv + (0.033333 * tankindx) - 0.533333
+			formule = v1
+			karareiksme = formulekara(formule, linija, indx, lentelekg, sphk)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def kphi_update(attr, old, new):
+	for key in parametkg.keys():
+		if "kphi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1, v2 = verte(n)
+			formule = v1 - (v2 / 5)
+			karareiksme = formulekara(formule, linija, indx, lentelekg)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def d2p4_update(attr, old, new):
+	for key in parametkg.keys():
+		if "d2p(4)" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1, v2 = verte(n)
+			formule = v1 - v2
+			karareiksme = formulekara(formule, linija, indx, lentelekg)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def usv_update(attr, old, new):
+	for key in parametkg.keys():
+		if "usv" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formulekara(formule, linija, indx, lentelekg)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def uput_update(attr, old, new):
+	for key in parametkg.keys():
+		if "uput" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametkg[key]
+			v1 = verte(n)
+			sourcedata1, sourcedata2 = sourcedata
+			formule = v1
+			karareiksme = formulekara(formule, linija, indx, lentelekg)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata1.update(new_data1)
+			new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata2.update(new_data2)
+
+
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
 	w.on_change(
-		"value", kd_update, tksi_update)
-
-# pagrtank = 1.2
-
-
-# def tankr_update(attr, old, new):
-# 	def normaktankr():
-# 		if sphkr_update(attr, old, new) < 6.4:
-# 			return 67
-# 		elif sphkr_update(attr, old, new) > 7.1:
-# 			return 46
-# 		else:
-# 			return float(sphkr_update(attr, old, new)*(-30)+259)
-
-# 	def normaatank():
-# 		if sphkr_update(attr, old, new) < 6.4:
-# 			return 52
-# 		elif sphkr_update(attr, old, new) > 7.1:
-# 			return 31
-# 		else:
-# 			return float(sphkr_update(attr, old, new)*(-30)+244)
-# 	balantank = float((normaatank()+normaktankr())/2)
-
-# 	def zenklastankr():
-# 		def kryptistankr():
-# 			if normaktankr()-balantank < 0:
-# 				return 1
-# 			else:
-# 				return -1
-# 		vertetank = float(ksirytas.value.replace(",", "."))
-# 		if (vertetank-balantank)*kryptistankr() >= 0:
-# 			return 1
-# 		else:
-# 			return -1
-
-
-# 	def alfatankr():
-# 		if zenklastankr() > 0:
-# 			return (1-pagrtank)/(balantank-normaatank())
-# 		else:
-# 			return (1-pagrtank)/(balantank-normaktankr())
-
-
-# 	def betatankr():
-# 		if zenklastankr() > 0:
-# 			return (pagrtank*balantank-normaatank())/(balantank-normaatank())
-# 		else:
-# 			return (pagrtank*balantank-normaktankr())/(balantank-normaktankr())
-
-
-# 	def karareiksmetankr():
-# 		vertetank = float(ksirytas.value.replace(",", "."))
-# 		if zenklastankr() < 0:
-# 			return zenklastankr()*math.log(float(alfatankr())*float(vertetank)+float(betatankr()), pagrtank)
-# 		else:
-# 			return zenklastankr()*math.log(float(alfatankr())*float(vertetank)+float(betatankr()), pagrtank)
-
-# 	def karareiksmetankrriba():
-# 		if karareiksmetankr() > 4:
-# 			return 4
-# 		elif karareiksmetankr() < -4:
-# 			return -4
-# 		else:
-# 			return karareiksmetankr()
-# 	tankrnew_data = {'x': [0, karareiksmetankrriba()], 'y': ["tankr", "tankr"]}
-# 	if karareiksmetankrriba() > 0:
-# 		kg7.glyph.line_color = "blue"
-# 	else:
-# 		kg7.glyph.line_color = "red"
-# 	sourcetankr.data.update(tankrnew_data)
-
-
-# ksirytas.on_change("value", tankr_update)
-
+		"value", kd_update, tksi_update, p4_update, kphi_update, d2p4_update, usv_update, uput_update)
 
 # visi elementai sujungiami į norimą layout
 lay1 = layout(
@@ -2130,9 +2154,9 @@ lay1 = layout(
 	[eiga()],
 	[slapimo()],
 	[aprsrugs(), srrytas, srpietus, srvakaras],
-	[aprssvies(), ssrytas, sspietus, ssvakaras],
+	[aprslasvies(), slasvrytas, slasvpietus, slasvvakaras],
 	[aprstank(), strytas, stpietus, stvakaras],
-	[aprsputo(), sprytas, sppietus, spvakaras],
+	[aprsputo(), slaputrytas, slaputpietus, slaputvakaras],
 	[prikseil()],
 	[seiliu()],
 	[aprserugst(), serrytas, serpietus, servakaras],
