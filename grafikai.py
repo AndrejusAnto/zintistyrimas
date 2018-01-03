@@ -58,15 +58,15 @@ factorsralac = [
 # 3) y categorical axis range'as
 countsp = len(factorssp)
 countkg = len(factorskg)
-couutda = len(factorsda)
-couutmalac = len(factorsmalac)
-couutetp = len(factorsetp)
-couutktp = len(factorsktp)
-couutralac = len(factorsralac)
+countda = len(factorsda)
+countmalac = len(factorsmalac)
+countetp = len(factorsetp)
+countktp = len(factorsktp)
+countralac = len(factorsralac)
 
 
 def make_graf(p, pav, count, factor):
-	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=(count * 8 + 182), tools="")
+	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=(count * 13), tools="")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)

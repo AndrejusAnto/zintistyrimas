@@ -654,9 +654,9 @@ U-pH 2 “.<i>Jei naudojamas tik matuoklis, šis punktas praleidžiamas</i>.
 	""", width=250)
 
 
-srrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
-srpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
-srvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+slarugrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
+slarugpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+slarugvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprslasvies():
@@ -760,9 +760,9 @@ matavimą pakartoti.
 	""", width=250)
 
 
-strytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
-stpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
-stvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+slatankrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
+slatankpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
+slatankvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
 def aprsputo():
@@ -1633,11 +1633,11 @@ ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
 p2 = grafikai.make_graf(grafikai.plist[1], grafikai.pavadin[1], grafikai.countkg, grafikai.factorskg)
-p3 = grafikai.make_graf(grafikai.plist[2], grafikai.pavadin[2], grafikai.couutda, grafikai.factorsda)
-p4 = grafikai.make_graf(grafikai.plist[3], grafikai.pavadin[3], grafikai.couutmalac, grafikai.factorsmalac)
-p5 = grafikai.make_graf(grafikai.plist[4], grafikai.pavadin[4], grafikai.couutetp, grafikai.factorsetp)
-p6 = grafikai.make_graf(grafikai.plist[5], grafikai.pavadin[5], grafikai.couutktp, grafikai.factorsktp)
-p7 = grafikai.make_graf(grafikai.plist[6], grafikai.pavadin[6], grafikai.couutralac, grafikai.factorsralac)
+p3 = grafikai.make_graf(grafikai.plist[2], grafikai.pavadin[2], grafikai.countda, grafikai.factorsda)
+p4 = grafikai.make_graf(grafikai.plist[3], grafikai.pavadin[3], grafikai.countmalac, grafikai.factorsmalac)
+p5 = grafikai.make_graf(grafikai.plist[4], grafikai.pavadin[4], grafikai.countetp, grafikai.factorsetp)
+p6 = grafikai.make_graf(grafikai.plist[5], grafikai.pavadin[5], grafikai.countktp, grafikai.factorsktp)
+p7 = grafikai.make_graf(grafikai.plist[6], grafikai.pavadin[6], grafikai.countralac, grafikai.factorsralac)
 
 prodomas = [p1, p2, p3, p4, p5, p6, p7]
 
@@ -1650,67 +1650,6 @@ def make_lin(pav, *src):
 		linij = pav.line(x='x', y='y', source=src[0], line_width=8)
 		linij1 = pav.line(x='x', y='y', source=src[1], line_width=8)
 		return [linij, linij1]
-
-
-# simpatinis parasimpatinis
-
-simparasim = {
-	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
-	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
-	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
-
-parametrupavsp = ["Ps-1", "S+D", "Pm-1+Pm-4", "KRi", "Temp", "Derm", "Vaso", "Vyzd", "Trem", "Nos", "Sarg", "S-kl"]
-lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
-lentelesp = lentelesp[["Norma K", "Norma A", "Pagrindas"]]
-
-parametsp = {
-	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
-	"ps1pietūs": [[pspietus, pgpietus], "ps1p", CDS.srcps1p.data, make_lin(p1, CDS.srcps1p), parametrupavsp.index("Ps-1")],
-	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", CDS.srcps1v.data, make_lin(p1, CDS.srcps1v), parametrupavsp.index("Ps-1")],
-
-	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcsdr.data, make_lin(p1, CDS.srcsdr), parametrupavsp.index("S+D")],
-	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcsdp.data, make_lin(p1, CDS.srcsdp), parametrupavsp.index("S+D")],
-	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcsdv.data, make_lin(p1, CDS.srcsdv), parametrupavsp.index("S+D")],
-
-	"pm1pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1pm4r", CDS.srcppr.data, make_lin(p1, CDS.srcppr), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1pm4p", CDS.srcppp.data, make_lin(p1, CDS.srcppp), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1pm4v", CDS.srcppv.data, make_lin(p1, CDS.srcppv), parametrupavsp.index("Pm-1+Pm-4")],
-
-	"krirytas": [[psrytas, kdrytas], "krir", CDS.srckrir.data, make_lin(p1, CDS.srckrir), parametrupavsp.index("KRi")],
-	"kripietūs": [[pspietus, kdpietus], "krip", CDS.srckrip.data, make_lin(p1, CDS.srckrip), parametrupavsp.index("KRi")],
-	"krivakaras": [[psvakaras, kdvakaras], "kriv", CDS.srckriv.data, make_lin(p1, CDS.srckriv), parametrupavsp.index("KRi")],
-
-	"temprytas": [[ktrytas], "tempr", CDS.srctempr.data, make_lin(p1, CDS.srctempr), parametrupavsp.index("Temp")],
-	"temppietūs": [[ktpietus], "tempp", CDS.srctempp.data, make_lin(p1, CDS.srctempp), parametrupavsp.index("Temp")],
-	"tempvakaras": [[ktvakaras], "tempv", CDS.srctempv.data, make_lin(p1, CDS.srctempv), parametrupavsp.index("Temp")],
-
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermr.data, make_lin(p1, CDS.srcdermr), parametrupavsp.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermp.data, make_lin(p1, CDS.srcdermp), parametrupavsp.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermv.data, make_lin(p1, CDS.srcdermv), parametrupavsp.index("Derm")],
-
-	"vasorytas": [[vrrytas], "vasor", CDS.srcvasor.data, make_lin(p1, CDS.srcvasor), parametrupavsp.index("Vaso")],
-	"vasopietūs": [[vrpietus], "vasop", CDS.srcvasop.data, make_lin(p1, CDS.srcvasop), parametrupavsp.index("Vaso")],
-	"vasovakaras": [[vrvakaras], "vasov", CDS.srcvasov.data, make_lin(p1, CDS.srcvasov), parametrupavsp.index("Vaso")],
-
-	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdr.data, make_lin(p1, CDS.srcvyzdr), parametrupavsp.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdp.data, make_lin(p1, CDS.srcvyzdp), parametrupavsp.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdv.data, make_lin(p1, CDS.srcvyzdv), parametrupavsp.index("Vyzd")],
-
-	"tremrytas": [[trrytas], "tremr", CDS.srctremr.data, make_lin(p1, CDS.srctremr), parametrupavsp.index("Trem")],
-	"trempietūs": [[trpietus], "tremp", CDS.srctremp.data, make_lin(p1, CDS.srctremp), parametrupavsp.index("Trem")],
-	"tremvakaras": [[trvakaras], "tremv", CDS.srctremv.data, make_lin(p1, CDS.srctremv), parametrupavsp.index("Trem")],
-
-	"nosrytas": [[surytas], "nosr", CDS.srcnosr.data, make_lin(p1, CDS.srcnosr), parametrupavsp.index("Nos")],
-	"nospietūs": [[supietus], "nosp", CDS.srcnosp.data, make_lin(p1, CDS.srcnosp), parametrupavsp.index("Nos")],
-	"nosvakaras": [[suvakaras], "nosv", CDS.srcnosv.data, make_lin(p1, CDS.srcnosv), parametrupavsp.index("Nos")],
-
-	"sargrytas": [[slrytas], "sargr", CDS.srcsargr.data, make_lin(p1, CDS.srcsargr), parametrupavsp.index("Sarg")],
-	"sargpietūs": [[slpietus], "sargp", CDS.srcsargp.data, make_lin(p1, CDS.srcsargp), parametrupavsp.index("Sarg")],
-	"sargvakaras": [[slvakaras], "sargv", CDS.srcsargv.data, make_lin(p1, CDS.srcsargv), parametrupavsp.index("Sarg")],
-
-	"sklrytas": [[sekrytas], "sklr", CDS.srcsklr.data, make_lin(p1, CDS.srcsklr), parametrupavsp.index("S-kl")],
-	"sklpietūs": [[sekpietus], "sklp", CDS.srcsklp.data, make_lin(p1, CDS.srcsklp), parametrupavsp.index("S-kl")],
-	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
 
 
 def verte(*reiksme):
@@ -1739,7 +1678,7 @@ def verte(*reiksme):
 		return verte1, verte2, verte3, verte4
 
 
-def formulekara(skirtum, lin, ind, lentel, *arg):
+def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
 	NormaK = lentel.loc[lentel.index[ind], "Norma K"]
 	NormaA = lentel.loc[lentel.index[ind], "Norma A"]
 
@@ -1798,33 +1737,94 @@ def formulekara(skirtum, lin, ind, lentel, *arg):
 
 # nustatoma ar katabolizmo ar anabolizmo reikšmė
 	if zenklas < 0:
-		kara = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 	else:
-		kara = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 
 # nurodomos skirtingos spalvos
 	if len(lin) == 1:
-		if kara > 0:
+		if ktarap > 0:
 			lin[0].glyph.line_color = "blue"
 		else:
 			lin[0].glyph.line_color = "red"
 	else:
-		if kara > 0:
-			lin[0].glyph.line_color = "blue"
+		if ktarap > 0:
+			lin[0].glyph.line_color = "red"
 			lin[1].glyph.line_color = "blue"
 		else:
 			lin[0].glyph.line_color = "red"
 			lin[1].glyph.line_color = "blue"
 
 # apribojama reikšmė iki 4 arba -4
-	if kara > 4:
-		karariba = 4
-	elif kara < -4:
-		karariba = -4
+	if ktarap > 4:
+		ktarapriba = 4
+	elif ktarap < -4:
+		ktarapriba = -4
 	else:
-		karariba = kara
-	logging.info(kara)
-	return karariba
+		ktarapriba = ktarap
+	logging.info(ktarap)
+	return ktarapriba
+
+
+# simpatinis|parasimpatinis
+
+simparasim = {
+	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
+	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
+	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
+
+parametrupavsp = ["Ps-1", "S+D", "Pm-1+Pm-4", "KRi", "Temp", "Derm", "Vaso", "Vyzd", "Trem", "Nos", "Sarg", "S-kl"]
+lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
+lentelesp = lentelesp[["Norma K", "Norma A", "Pagrindas"]]
+
+parametsp = {
+	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
+	"ps1pietūs": [[pspietus, pgpietus], "ps1p", CDS.srcps1p.data, make_lin(p1, CDS.srcps1p), parametrupavsp.index("Ps-1")],
+	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", CDS.srcps1v.data, make_lin(p1, CDS.srcps1v), parametrupavsp.index("Ps-1")],
+
+	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcsdr.data, make_lin(p1, CDS.srcsdr), parametrupavsp.index("S+D")],
+	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcsdp.data, make_lin(p1, CDS.srcsdp), parametrupavsp.index("S+D")],
+	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcsdv.data, make_lin(p1, CDS.srcsdv), parametrupavsp.index("S+D")],
+
+	"pm1pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1pm4r", CDS.srcppr.data, make_lin(p1, CDS.srcppr), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1pm4p", CDS.srcppp.data, make_lin(p1, CDS.srcppp), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1pm4v", CDS.srcppv.data, make_lin(p1, CDS.srcppv), parametrupavsp.index("Pm-1+Pm-4")],
+
+	"krirytas": [[psrytas, kdrytas], "krir", CDS.srckrir.data, make_lin(p1, CDS.srckrir), parametrupavsp.index("KRi")],
+	"kripietūs": [[pspietus, kdpietus], "krip", CDS.srckrip.data, make_lin(p1, CDS.srckrip), parametrupavsp.index("KRi")],
+	"krivakaras": [[psvakaras, kdvakaras], "kriv", CDS.srckriv.data, make_lin(p1, CDS.srckriv), parametrupavsp.index("KRi")],
+
+	"temprytas": [[ktrytas], "tempr", CDS.srctempr.data, make_lin(p1, CDS.srctempr), parametrupavsp.index("Temp")],
+	"temppietūs": [[ktpietus], "tempp", CDS.srctempp.data, make_lin(p1, CDS.srctempp), parametrupavsp.index("Temp")],
+	"tempvakaras": [[ktvakaras], "tempv", CDS.srctempv.data, make_lin(p1, CDS.srctempv), parametrupavsp.index("Temp")],
+
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermspr.data, make_lin(p1, CDS.srcdermspr), parametrupavsp.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermspp.data, make_lin(p1, CDS.srcdermspp), parametrupavsp.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermspv.data, make_lin(p1, CDS.srcdermspv), parametrupavsp.index("Derm")],
+
+	"vasorytas": [[vrrytas], "vasor", CDS.srcvasor.data, make_lin(p1, CDS.srcvasor), parametrupavsp.index("Vaso")],
+	"vasopietūs": [[vrpietus], "vasop", CDS.srcvasop.data, make_lin(p1, CDS.srcvasop), parametrupavsp.index("Vaso")],
+	"vasovakaras": [[vrvakaras], "vasov", CDS.srcvasov.data, make_lin(p1, CDS.srcvasov), parametrupavsp.index("Vaso")],
+
+	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdr.data, make_lin(p1, CDS.srcvyzdr), parametrupavsp.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdp.data, make_lin(p1, CDS.srcvyzdp), parametrupavsp.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdv.data, make_lin(p1, CDS.srcvyzdv), parametrupavsp.index("Vyzd")],
+
+	"tremrytas": [[trrytas], "tremr", CDS.srctremr.data, make_lin(p1, CDS.srctremr), parametrupavsp.index("Trem")],
+	"trempietūs": [[trpietus], "tremp", CDS.srctremp.data, make_lin(p1, CDS.srctremp), parametrupavsp.index("Trem")],
+	"tremvakaras": [[trvakaras], "tremv", CDS.srctremv.data, make_lin(p1, CDS.srctremv), parametrupavsp.index("Trem")],
+
+	"nosrytas": [[surytas], "nosr", CDS.srcnosr.data, make_lin(p1, CDS.srcnosr), parametrupavsp.index("Nos")],
+	"nospietūs": [[supietus], "nosp", CDS.srcnosp.data, make_lin(p1, CDS.srcnosp), parametrupavsp.index("Nos")],
+	"nosvakaras": [[suvakaras], "nosv", CDS.srcnosv.data, make_lin(p1, CDS.srcnosv), parametrupavsp.index("Nos")],
+
+	"sargrytas": [[slrytas], "sargr", CDS.srcsargr.data, make_lin(p1, CDS.srcsargr), parametrupavsp.index("Sarg")],
+	"sargpietūs": [[slpietus], "sargp", CDS.srcsargp.data, make_lin(p1, CDS.srcsargp), parametrupavsp.index("Sarg")],
+	"sargvakaras": [[slvakaras], "sargv", CDS.srcsargv.data, make_lin(p1, CDS.srcsargv), parametrupavsp.index("Sarg")],
+
+	"sklrytas": [[sekrytas], "sklr", CDS.srcsklr.data, make_lin(p1, CDS.srcsklr), parametrupavsp.index("S-kl")],
+	"sklpietūs": [[sekpietus], "sklp", CDS.srcsklp.data, make_lin(p1, CDS.srcsklp), parametrupavsp.index("S-kl")],
+	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
 
 
 def ps1_update(attr, old, new):
@@ -1833,7 +1833,7 @@ def ps1_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2 = verte(n)
 			formule = (v1 - v2)
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1846,7 +1846,7 @@ def sd_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2, v3, v4 = verte(n)
 			formule = (v1 - v2) + (v3 - v4)
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1861,7 +1861,7 @@ def pm1pm4_update(attr, old, new):
 			r1 = max(v1, v2, v3, v4) - v1
 			r2 = max(v1, v2, v3, v4) - v4
 			formule = (r1 + r2)
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1875,7 +1875,7 @@ def kri_update(attr, old, new):
 			v1, v2 = verte(n)
 			if v2 != 0:
 				formule = (v1 / v2)
-				karareiksme = formulekara(formule, linija, indx, lentelesp)
+				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 				new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1888,20 +1888,20 @@ def temp_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
 
-def derm_update(attr, old, new):
+def dermsp_update(attr, old, new):
 	for key in parametsp.keys():
 		if "derm" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1914,7 +1914,7 @@ def vaso_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1927,7 +1927,7 @@ def vyzd_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1940,7 +1940,7 @@ def trem_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1953,7 +1953,7 @@ def nos_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1966,7 +1966,7 @@ def sarg_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1979,7 +1979,7 @@ def skl_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -1989,52 +1989,52 @@ def skl_update(attr, old, new):
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
 	w.on_change(
 		"value",
-		ps1_update, sd_update, pm1pm4_update, kri_update, temp_update, derm_update,
+		ps1_update, sd_update, pm1pm4_update, kri_update, temp_update, dermsp_update,
 		vaso_update, vyzd_update, trem_update, nos_update, sarg_update, skl_update)
 
 
-# ketogeninis gliukogeninis
+# ketogeninis|gliukogeninis
 
 ketogliuko = {
 	"Norma K": [15, 1001, 1002, 6, 5, 1, -0.28],
 	"Norma A": [1000, 1001, 1002, 8, 0, -1, -0.18],
-	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2, ]}
+	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2]}
 
 parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
 lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
 lentelekg = lentelekg[["Norma K", "Norma A", "Pagrindas"]]
 
 parametkg = {
-	"kdrytas": [[kdrytas, strytas, serrytas], "kdr", CDS.srckdr.data, make_lin(p2, CDS.srckdr), parametrupavkg.index("KD")],
-	"kdpietūs": [[kdpietus, stpietus, serpietus], "kdp", CDS.srckdp.data, make_lin(p2, CDS.srckdp), parametrupavkg.index("KD")],
-	"kdvakaras": [[kdvakaras, stvakaras, servakaras], "kdv", CDS.srckdv.data, make_lin(p2, CDS.srckdv), parametrupavkg.index("KD")],
+	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", CDS.srckdkgr.data, make_lin(p2, CDS.srckdkgr), parametrupavkg.index("KD")],
+	"kdpietūs": [[kdpietus, slatankpietus, serpietus], "kdp", CDS.srckdkgp.data, make_lin(p2, CDS.srckdkgp), parametrupavkg.index("KD")],
+	"kdvakaras": [[kdvakaras, slatankvakaras, servakaras], "kdv", CDS.srckdkgv.data, make_lin(p2, CDS.srckdkgv), parametrupavkg.index("KD")],
 
-	"tksirytas": [[ksirytas, strytas, serrytas], "tksir", CDS.srctksir.data, make_lin(p2, CDS.srctksir), parametrupavkg.index("t(ksi)")],
-	"tksipietūs": [[ksipietus, stpietus, serpietus], "tksip", CDS.srctksip.data, make_lin(p2, CDS.srctksip), parametrupavkg.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras, stvakaras, servakaras], "tksiv", CDS.srctksiv.data, make_lin(p2, CDS.srctksiv), parametrupavkg.index("t(ksi)")],
+	"tksirytas": [[ksirytas, slatankrytas, serrytas], "tksir", CDS.srctksikgr.data, make_lin(p2, CDS.srctksikgr), parametrupavkg.index("t(ksi)")],
+	"tksipietūs": [[ksipietus, slatankpietus, serpietus], "tksip", CDS.srctksikgp.data, make_lin(p2, CDS.srctksikgp), parametrupavkg.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras, slatankvakaras, servakaras], "tksiv", CDS.srctksikgv.data, make_lin(p2, CDS.srctksikgv), parametrupavkg.index("t(ksi)")],
 
-	"p4rytas": [[pa45rytas, strytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
-	"p4pietūs": [[pa45pietus, stpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
-	"p4vakaras": [[pa45vakaras, stvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
+	"p4rytas": [[pa45rytas, slatankrytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
+	"p4pietūs": [[pa45pietus, slatankpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
+	"p4vakaras": [[pa45vakaras, slatankvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
 
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphir.data, make_lin(p2, CDS.srckphir), parametrupavkg.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphip.data, make_lin(p2, CDS.srckphip), parametrupavkg.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiv.data, make_lin(p2, CDS.srckphiv), parametrupavkg.index("KpHi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphikgr.data, make_lin(p2, CDS.srckphikgr), parametrupavkg.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphikgp.data, make_lin(p2, CDS.srckphikgp), parametrupavkg.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphikgv.data, make_lin(p2, CDS.srckphikgv), parametrupavkg.index("KpHi")],
 
 	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", CDS.srcd2p4r.data, make_lin(p2, CDS.srcd2p4r,), parametrupavkg.index("D2-P4")],
 	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", CDS.srcd2p4p.data, make_lin(p2, CDS.srcd2p4p), parametrupavkg.index("D2-P4")],
 	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", CDS.srcd2p4v.data, make_lin(p2, CDS.srcd2p4v), parametrupavkg.index("D2-P4")],
 
-	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvr.data, make_lin(p2, CDS.srcusvr), parametrupavkg.index("U-šv")],
-	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvp.data, make_lin(p2, CDS.srcusvp), parametrupavkg.index("U-šv")],
-	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvv.data, make_lin(p2, CDS.srcusvv), parametrupavkg.index("U-šv")],
+	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvkgr.data, make_lin(p2, CDS.srcusvkgr), parametrupavkg.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvkgp.data, make_lin(p2, CDS.srcusvkgp), parametrupavkg.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvkgv.data, make_lin(p2, CDS.srcusvkgv), parametrupavkg.index("U-šv")],
 
-	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputr.data, CDS.srcuputr1.data], make_lin(p2, CDS.srcuputr, CDS.srcuputr1), parametrupavkg.index("U-put")],
-	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputp.data, CDS.srcuputp1.data], make_lin(p2, CDS.srcuputp, CDS.srcuputp1), parametrupavkg.index("U-put")],
-	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputv.data, CDS.srcuputv1.data], make_lin(p2, CDS.srcuputv, CDS.srcuputv1), parametrupavkg.index("U-put")]}
+	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputkgr.data, CDS.srcuputkg1r.data], make_lin(p2, CDS.srcuputkgr, CDS.srcuputkg1r), parametrupavkg.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputkgp.data, CDS.srcuputkg1p.data], make_lin(p2, CDS.srcuputkgp, CDS.srcuputkg1p), parametrupavkg.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputkgv.data, CDS.srcuputkg1v.data], make_lin(p2, CDS.srcuputkgv, CDS.srcuputkg1v), parametrupavkg.index("U-put")]}
 
 
-def kd_update(attr, old, new):
+def kdkg_update(attr, old, new):
 	for key in parametkg.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
@@ -2046,14 +2046,14 @@ def kd_update(attr, old, new):
 			else:
 				sphkv = 17
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelekg, sphkv)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphkv)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
 
-def tksi_update(attr, old, new):
+def tksikg_update(attr, old, new):
 	for key in parametkg.keys():
 		if "tksi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
@@ -2061,7 +2061,7 @@ def tksi_update(attr, old, new):
 			tankindx = (stv * 1000) - 1000
 			sphk = serv + (0.033333 * tankindx) - 0.533333
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelekg, sphk)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphk)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -2076,20 +2076,20 @@ def p4_update(attr, old, new):
 			tankindx = (stv * 1000) - 1000
 			sphk = serv + (0.033333 * tankindx) - 0.533333
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelekg, sphk)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphk)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
 
-def kphi_update(attr, old, new):
+def kphikg_update(attr, old, new):
 	for key in parametkg.keys():
 		if "kphi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, v2 = verte(n)
 			formule = v1 - (v2 / 5)
-			karareiksme = formulekara(formule, linija, indx, lentelekg)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -2102,34 +2102,37 @@ def d2p4_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, v2 = verte(n)
 			formule = v1 - v2
-			karareiksme = formulekara(formule, linija, indx, lentelekg)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
 
-def usv_update(attr, old, new):
+def usvkg_update(attr, old, new):
 	for key in parametkg.keys():
 		if "usv" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelekg)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
 
-def uput_update(attr, old, new):
+def uputkg_update(attr, old, new):
 	for key in parametkg.keys():
 		if "uput" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1 = verte(n)
 			sourcedata1, sourcedata2 = sourcedata
 			formule = v1
-			karareiksme = formulekara(formule, linija, indx, lentelekg)
+			if formule == -1:
+				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
+			else:
+				karareiksme = 0
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -2140,7 +2143,267 @@ def uput_update(attr, old, new):
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
 	w.on_change(
-		"value", kd_update, tksi_update, p4_update, kphi_update, d2p4_update, usv_update, uput_update)
+		"value", kdkg_update, tksikg_update, p4_update, kphikg_update, d2p4_update, usvkg_update, uputkg_update)
+
+# disaerobinis|anaerobinis
+
+disaeanae = {
+	"Norma K": [18, 6.1, 6.8, 1, 1, 0.75],
+	"Norma A": [14, 6.3, 6.6, 2, -1, -0.5],
+	"Pagrindas": [1.5, 2, 2, 1.5, 1.3, 1.1]}
+
+parametrupavda = ["d(tank)", "U-pHK", "S-pHK", "Derm", "U-šv", "U-put"]
+lenteleda = pd.DataFrame(disaeanae, index=parametrupavda)
+lenteleda = lenteleda[["Norma K", "Norma A", "Pagrindas"]]
+
+parametda = {
+	"dtankrytas": [[slatankrytas], "dtankr", CDS.srcdtankr.data, make_lin(p3, CDS.srcdtankr), parametrupavda.index("d(tank)")],
+	"dtankpietūs": [[slatankpietus], "dtankp", CDS.srcdtankp.data, make_lin(p3, CDS.srcdtankp), parametrupavda.index("d(tank)")],
+	"dtankvakaras": [[slatankvakaras], "dtankv", CDS.srcdtankv.data, make_lin(p3, CDS.srcdtankv), parametrupavda.index("d(tank)")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkdar.data, make_lin(p3, CDS.srcuphkdar), parametrupavda.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkdap.data, make_lin(p3, CDS.srcuphkdap), parametrupavda.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkdav.data, make_lin(p3, CDS.srcuphkdav), parametrupavda.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkdar.data, make_lin(p3, CDS.srcsphkdar), parametrupavda.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkdap.data, make_lin(p3, CDS.srcsphkdap), parametrupavda.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkdav.data, make_lin(p3, CDS.srcsphkdav), parametrupavda.index("S-pHK")],
+
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermdar.data, make_lin(p3, CDS.srcdermdar), parametrupavda.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermdap.data, make_lin(p3, CDS.srcdermdap), parametrupavda.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermdav.data, make_lin(p3, CDS.srcdermdav), parametrupavda.index("Derm")],
+
+	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvdar.data, make_lin(p3, CDS.srcusvdar), parametrupavda.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvdap.data, make_lin(p3, CDS.srcusvdap), parametrupavda.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvdav.data, make_lin(p3, CDS.srcusvdav), parametrupavda.index("U-šv")],
+
+	"uputrytas": [[slaputrytas], "uputr", CDS.srcuputdar.data, make_lin(p3, CDS.srcuputdar), parametrupavda.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", CDS.srcuputdap.data, make_lin(p3, CDS.srcuputdap), parametrupavda.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", CDS.srcuputdav.data, make_lin(p3, CDS.srcuputdav), parametrupavda.index("U-put")]}
+
+
+def dtank_update(attr, old, new):
+	for key in parametda.keys():
+		if "dtank" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			v1 = verte(n)
+			formule = (v1 * 1000) - 1000
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def uphkda_update(attr, old, new):
+	for key in parametda.keys():
+		if "uphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			slatv, slarugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = slarugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def sphkda_update(attr, old, new):
+	for key in parametda.keys():
+		if "sphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			slatv, serugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = serugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+# derm_update jau anksčiau apibrėžtas
+def dermda_update(attr, old, new):
+	for key in parametda.keys():
+		if "derm" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def usvda_update(attr, old, new):
+	for key in parametda.keys():
+		if "usv" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def uputda_update(attr, old, new):
+	for key in parametda.keys():
+		if "uput" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametda[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda.values()]])):
+	w.on_change(
+		"value", dtank_update, uphkda_update, sphkda_update, dermda_update, usvda_update, uputda_update)
+
+alkaacid = {
+	"Norma K": [13, 65, 5, 6.3, 6.6, 67, 0],
+	"Norma A": [19, 40, 10, 5.9, 6.8, 75, 10],
+	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
+
+parametrupavalac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4–P1"]
+lentelealac = pd.DataFrame(alkaacid, index=parametrupavalac)
+lentelealac = lentelealac[["Norma K", "Norma A", "Pagrindas"]]
+
+parametalac = {
+	"kdrytas": [[kdrytas], "kdr", CDS.srckdalacr.data, make_lin(p4, CDS.srckdalacr), parametrupavalac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", CDS.srckdalacp.data, make_lin(p4, CDS.srckdalacp), parametrupavalac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdalacv.data, make_lin(p4, CDS.srckdalacv), parametrupavalac.index("KD")],
+
+	"tksirytas": [[ksirytas], "tksir", CDS.srctksialacr.data, make_lin(p4, CDS.srctksialacr), parametrupavalac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", CDS.srctksialacp.data, make_lin(p4, CDS.srctksialacp), parametrupavalac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksialacv.data, make_lin(p4, CDS.srctksialacv), parametrupavalac.index("t(ksi)")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphialacr.data, make_lin(p4, CDS.srckphialacr), parametrupavalac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphialacp.data, make_lin(p4, CDS.srckphialacp), parametrupavalac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphialacv.data, make_lin(p4, CDS.srckphialacv), parametrupavalac.index("KpHi")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkalacr.data, make_lin(p4, CDS.srcuphkalacr), parametrupavalac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkalacp.data, make_lin(p4, CDS.srcuphkalacp), parametrupavalac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkalacv.data, make_lin(p4, CDS.srcuphkalacv), parametrupavalac.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkalacr.data, make_lin(p4, CDS.srcsphkalacr), parametrupavalac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkalacp.data, make_lin(p4, CDS.srcsphkalacp), parametrupavalac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkalacv.data, make_lin(p4, CDS.srcsphkalacv), parametrupavalac.index("S-pHK")],
+
+	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1r.data, make_lin(p4, CDS.srcp1r), parametrupavalac.index("P1")],
+	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1p.data, make_lin(p4, CDS.srcp1p), parametrupavalac.index("P1")],
+	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1v.data, make_lin(p4, CDS.srcp1v), parametrupavalac.index("P1")],
+
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1r.data, make_lin(p4, CDS.srcp4p1r), parametrupavalac.index("P4–P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1p.data, make_lin(p4, CDS.srcp4p1p), parametrupavalac.index("P4–P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1v.data, make_lin(p4, CDS.srcp4p1v), parametrupavalac.index("P4–P1")]}
+
+
+def kdalac_update(attr, old, new):
+	for key in parametalac.keys():
+		if "kd" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def tksialac_update(attr, old, new):
+	for key in parametalac.keys():
+		if "tksi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def kphialac_update(attr, old, new):
+	for key in parametalac.keys():
+		if "kphi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			v1, v2 = verte(n)
+			formule = v1 - (v2 / 5)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def uphkalac_update(attr, old, new):
+	for key in parametalac.keys():
+		if "uphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			slatv, slarugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = slarugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def sphkalac_update(attr, old, new):
+	for key in parametalac.keys():
+		if "sphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			slatv, serugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = serugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def p1_update(attr, old, new):
+	for key in parametalac.keys():
+		if "p(1)" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def p4p1_update(attr, old, new):
+	for key in parametalac.keys():
+		if "p4p1" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametalac[key]
+			v1, v2 = verte(n)
+			formule = v1 - v2
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+			if karareiksme < 0:
+				karareiksme = 0
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
+	w.on_change(
+		"value", kdalac_update, tksialac_update, kphialac_update, uphkalac_update, sphkalac_update, p1_update, p4p1_update)
 
 # visi elementai sujungiami į norimą layout
 lay1 = layout(
@@ -2153,9 +2416,9 @@ lay1 = layout(
 	[pav4()],
 	[eiga()],
 	[slapimo()],
-	[aprsrugs(), srrytas, srpietus, srvakaras],
+	[aprsrugs(), slarugrytas, slarugpietus, slarugvakaras],
 	[aprslasvies(), slasvrytas, slasvpietus, slasvvakaras],
-	[aprstank(), strytas, stpietus, stvakaras],
+	[aprstank(), slatankrytas, slatankpietus, slatankvakaras],
 	[aprsputo(), slaputrytas, slaputpietus, slaputvakaras],
 	[prikseil()],
 	[seiliu()],
