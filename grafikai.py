@@ -7,7 +7,7 @@ from bokeh.models.ranges import FactorRange
 # grafikai
 pavadin = [
 	"<-Simpatinis|Parasimpatinis->",
-	"<-Katogeniniss|Gliukogeninis->",
+	"<-Ketogeniniss|Gliukogeninis->",
 	"<-Disaerobinis|Anaerobinis->",
 	"<-Rūgščių trūkumas|Rūgščių perteklius->",
 	"<-Elektrolitų trūkumas|Elektrolitų perteklius->",
@@ -16,11 +16,11 @@ pavadin = [
 
 plist = ["p1", "p2", "p3", "p4", "p5", "p6", "p7"]
 
-# categorical tipo duomenys, kad būtų galima atvaziduoti grafike, atitinaktys kiekvieno tyrimo ryto, pietų ir vakaro (kol kas tik 2)
+# categorical tipo duomenys, kad būtų galima atvaziduoti grafike, atitinaktys kiekvieno tyrimo ryto, pietų ir vakaro
 factorssp = [
-	"sklv", "sargv", "nosv", "tremv", "vyzdv", "vasov", "dermv", "tempv", "kriv", "pm1pm4v", "s+dv", "ps1v",
-	"sklp", "sargp", "nosp", "tremp", "vyzdp", "vasop", "dermp", "tempp", "krip", "pm1pm4p", "s+dp", "ps1p",
-	"sklr", "sargr", "nosr", "tremr", "vyzdr", "vasor", "dermr", "tempr", "krir", "pm1pm4r", "s+dr", "ps1r"]
+	"sklv", "sargv", "nosv", "tremv", "vyzdv", "vasov", "dermv", "tempv", "kriv", "pm1+pm4v", "s+dv", "ps1v",
+	"sklp", "sargp", "nosp", "tremp", "vyzdp", "vasop", "dermp", "tempp", "krip", "pm1+pm4p", "s+dp", "ps1p",
+	"sklr", "sargr", "nosr", "tremr", "vyzdr", "vasor", "dermr", "tempr", "krir", "pm1+pm4r", "s+dr", "ps1r"]
 
 factorskg = [
 	"uputv", "usvv", "d2p(4)v", "kphiv", "p4v", "tksiv", "kdv",
@@ -38,9 +38,9 @@ factorsmalac = [
 	"p4p1r", "p1r", "sphkr", "uphkr", "kphir", "tksir", "kdr"]
 
 factorsetp = [
-	"s-dv", "smdmv", "pm1pm4v", "pm1+s21v", "pm1-s21v",
-	"s-dp", "smdmp", "pm1pm4p", "pm1+s21p", "pm1-s21p",
-	"s-dr", "smdmr", "pm1pm4r", "pm1+s21r", "pm1-s21r"]
+	"s-dv", "smdmv", "pm1-pm4v", "pm1+s21v", "pm1-s21v",
+	"s-dp", "smdmp", "pm1-pm4p", "pm1+s21p", "pm1-s21p",
+	"s-dr", "smdmr", "pm1-pm4r", "pm1+s21r", "pm1-s21r"]
 
 factorsktp = [
 	"p4p1v", "dermv", "vyzdv", "sphkv", "uphkv", "kphiv", "tksiv", "kdv",

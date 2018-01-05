@@ -1670,54 +1670,65 @@ def verte(*reiksme):
 		verte2 = float("".join(str(i) for i in (L[0][1].value)).replace(",", "."))
 		verte3 = float("".join(str(i) for i in (L[0][-1].value)).replace(",", "."))
 		return verte1, verte2, verte3
-	else:
+	elif len(L[0]) == 4:
 		verte1 = float("".join(str(i) for i in (L[0][0].value)).replace(",", "."))
 		verte2 = float("".join(str(i) for i in (L[0][1].value)).replace(",", "."))
 		verte3 = float("".join(str(i) for i in (L[0][2].value)).replace(",", "."))
 		verte4 = float("".join(str(i) for i in (L[0][-1].value)).replace(",", "."))
 		return verte1, verte2, verte3, verte4
+	else:
+		verte1 = float("".join(str(i) for i in (L[0][0].value)).replace(",", "."))
+		verte2 = float("".join(str(i) for i in (L[0][1].value)).replace(",", "."))
+		verte3 = float("".join(str(i) for i in (L[0][2].value)).replace(",", "."))
+		verte4 = float("".join(str(i) for i in (L[0][3].value)).replace(",", "."))
+		verte5 = float("".join(str(i) for i in (L[0][4].value)).replace(",", "."))
+		verte6 = float("".join(str(i) for i in (L[0][-1].value)).replace(",", "."))
+		return verte1, verte2, verte3, verte4, verte5, verte6
 
 
 def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
-	NormaK = lentel.loc[lentel.index[ind], "Norma K"]
-	NormaA = lentel.loc[lentel.index[ind], "Norma A"]
+	NormaKT = lentel.loc[lentel.index[ind], "Norma KT"]
+	NormaAP = lentel.loc[lentel.index[ind], "Norma AP"]
 
-	if NormaA == 1000:
-		NormaA = arg[0]
+	if NormaAP == 1000:
+		NormaAP = arg[0]
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
-		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
-	elif NormaK == NormaA == 1001:
+		balansas = sum([NormaAP, NormaKT]) / len([NormaAP, NormaKT])
+	elif NormaKT == NormaAP == 1001:
 		if arg[0] < 6.4:
-			NormaK = 67
-			NormaA = 52
+			NormaKT = 67
+			NormaAP = 52
 		elif arg[0] > 7.1:
-			NormaK = 46
-			NormaA = 31
+			NormaKT = 46
+			NormaAP = 31
 		else:
-			NormaK = (-30 * arg[0]) + 259
-			NormaA = (-30 * arg[0]) + 244
+			NormaKT = (-30 * arg[0]) + 259
+			NormaAP = (-30 * arg[0]) + 244
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
-		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
-	elif NormaK == NormaA == 1002:
+		balansas = sum([NormaAP, NormaKT]) / len([NormaAP, NormaKT])
+	elif NormaKT == NormaAP == 1002:
 		if arg[0] < 6.4:
-			NormaK = 64
-			NormaA = 68
+			NormaKT = 64
+			NormaAP = 68
 		elif arg[0] > 7.1:
-			NormaK = 92
-			NormaA = 96
+			NormaKT = 92
+			NormaAP = 96
 		else:
-			NormaK = (-30 * arg[0]) + 192
-			NormaA = (-30 * arg[0]) + 188
+			NormaKT = (-30 * arg[0]) + 192
+			NormaAP = (-30 * arg[0]) + 188
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
-		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
-	elif NormaK == -0.28 and NormaA == -0.18:
+		balansas = sum([NormaAP, NormaKT]) / len([NormaAP, NormaKT])
+	elif NormaKT == -0.28 and NormaAP == -0.18:
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
 		balansas = -0.1
+	elif NormaKT == 10 and NormaAP == 10:
+		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
+		balansas = 0
 	else:
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
-		balansas = sum([NormaA, NormaK]) / len([NormaA, NormaK])
+		balansas = sum([NormaAP, NormaKT]) / len([NormaAP, NormaKT])
 
-	if (NormaK - balansas) < 0:
+	if (NormaKT - balansas) < 0:
 		kryptis = 1
 	else:
 		kryptis = -1
@@ -1729,17 +1740,25 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
 
 # nustatoma alfa  ir beta reikšmės
 	if zenklas > 0:
-		alfa = (1 - pagrindas) / (balansas - NormaA)
-		beta = (pagrindas * balansas - NormaA) / (balansas - NormaA)
+		alfa = (1 - pagrindas) / (balansas - NormaAP)
+		beta = (pagrindas * balansas - NormaAP) / (balansas - NormaAP)
 	else:
-		alfa = (1 - pagrindas) / (balansas - NormaK)
-		beta = (pagrindas * balansas - NormaK) / (balansas - NormaK)
+		alfa = (1 - pagrindas) / (balansas - NormaKT)
+		beta = (pagrindas * balansas - NormaKT) / (balansas - NormaKT)
 
 # nustatoma ar katabolizmo ar anabolizmo reikšmė
 	if zenklas < 0:
-		ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		if NormaKT == 16 and NormaAP == 22:
+			pagrindas = 16
+			ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		else:
+			ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 	else:
-		ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		if NormaKT == 16 and NormaAP == 8:
+			pagrindas = 16
+			ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+		else:
+			ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 
 # nurodomos skirtingos spalvos
 	if len(lin) == 1:
@@ -1769,26 +1788,26 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
 # simpatinis|parasimpatinis
 
 simparasim = {
-	"Norma K": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
-	"Norma A": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
+	"Norma KT": [-2, 11, 25, 6, 36.7, 1, -1, 1, 1, -1, 1, 1],
+	"Norma AP": [0, 6, 22, 4, 36.5, 2, 1, -1, -1, 1, -1, -1],
 	"Pagrindas": [2, 2, 2, 1.001, 2, 1.2, 1.001, 1.001, 1.001, 1.001, 1.001, 1.001]}
 
-parametrupavsp = ["Ps-1", "S+D", "Pm-1+Pm-4", "KRi", "Temp", "Derm", "Vaso", "Vyzd", "Trem", "Nos", "Sarg", "S-kl"]
+parametrupavsp = ["Ps-1", "S+D", "Pm1+Pm4", "KRi", "Temp", "Derm", "Vaso", "Vyzd", "Trem", "Nos", "Sarg", "S-kl"]
 lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
-lentelesp = lentelesp[["Norma K", "Norma A", "Pagrindas"]]
+lentelesp = lentelesp[["Norma KT", "Norma AP", "Pagrindas"]]
 
 parametsp = {
 	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
 	"ps1pietūs": [[pspietus, pgpietus], "ps1p", CDS.srcps1p.data, make_lin(p1, CDS.srcps1p), parametrupavsp.index("Ps-1")],
 	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", CDS.srcps1v.data, make_lin(p1, CDS.srcps1v), parametrupavsp.index("Ps-1")],
 
-	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcsdr.data, make_lin(p1, CDS.srcsdr), parametrupavsp.index("S+D")],
-	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcsdp.data, make_lin(p1, CDS.srcsdp), parametrupavsp.index("S+D")],
-	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcsdv.data, make_lin(p1, CDS.srcsdv), parametrupavsp.index("S+D")],
+	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcspdr.data, make_lin(p1, CDS.srcspdr), parametrupavsp.index("S+D")],
+	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcspdp.data, make_lin(p1, CDS.srcspdp), parametrupavsp.index("S+D")],
+	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcspdv.data, make_lin(p1, CDS.srcspdv), parametrupavsp.index("S+D")],
 
-	"pm1pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1pm4r", CDS.srcppr.data, make_lin(p1, CDS.srcppr), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1pm4p", CDS.srcppp.data, make_lin(p1, CDS.srcppp), parametrupavsp.index("Pm-1+Pm-4")],
-	"pm1pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1pm4v", CDS.srcppv.data, make_lin(p1, CDS.srcppv), parametrupavsp.index("Pm-1+Pm-4")],
+	"pm1+pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1+pm4r", CDS.srcpm1ppm4r.data, make_lin(p1, CDS.srcpm1ppm4r), parametrupavsp.index("Pm1+Pm4")],
+	"pm1+pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1+pm4p", CDS.srcpm1ppm4p.data, make_lin(p1, CDS.srcpm1ppm4p), parametrupavsp.index("Pm1+Pm4")],
+	"pm1+pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1+pm4v", CDS.srcpm1ppm4v.data, make_lin(p1, CDS.srcpm1ppm4v), parametrupavsp.index("Pm1+Pm4")],
 
 	"krirytas": [[psrytas, kdrytas], "krir", CDS.srckrir.data, make_lin(p1, CDS.srckrir), parametrupavsp.index("KRi")],
 	"kripietūs": [[pspietus, kdpietus], "krip", CDS.srckrip.data, make_lin(p1, CDS.srckrip), parametrupavsp.index("KRi")],
@@ -1840,7 +1859,7 @@ def ps1_update(attr, old, new):
 			sourcedata.update(new_data)
 
 
-def sd_update(attr, old, new):
+def spd_update(attr, old, new):
 	for key in parametsp.keys():
 		if "s+d" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
@@ -1855,7 +1874,7 @@ def sd_update(attr, old, new):
 
 def pm1pm4_update(attr, old, new):
 	for key in parametsp.keys():
-		if "pm1pm4" in str(key):
+		if "pm1+pm4" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2, v3, v4 = verte(n)
 			r1 = max(v1, v2, v3, v4) - v1
@@ -1989,20 +2008,20 @@ def skl_update(attr, old, new):
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
 	w.on_change(
 		"value",
-		ps1_update, sd_update, pm1pm4_update, kri_update, temp_update, dermsp_update,
+		ps1_update, spd_update, pm1pm4_update, kri_update, temp_update, dermsp_update,
 		vaso_update, vyzd_update, trem_update, nos_update, sarg_update, skl_update)
 
 
 # ketogeninis|gliukogeninis
 
 ketogliuko = {
-	"Norma K": [15, 1001, 1002, 6, 5, 1, -0.28],
-	"Norma A": [1000, 1001, 1002, 8, 0, -1, -0.18],
+	"Norma KT": [15, 1001, 1002, 6, 5, 1, -0.28],
+	"Norma AP": [1000, 1001, 1002, 8, 0, -1, -0.18],
 	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2]}
 
 parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
 lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
-lentelekg = lentelekg[["Norma K", "Norma A", "Pagrindas"]]
+lentelekg = lentelekg[["Norma KT", "Norma AP", "Pagrindas"]]
 
 parametkg = {
 	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", CDS.srckdkgr.data, make_lin(p2, CDS.srckdkgr), parametrupavkg.index("KD")],
@@ -2129,7 +2148,7 @@ def uputkg_update(attr, old, new):
 			v1 = verte(n)
 			sourcedata1, sourcedata2 = sourcedata
 			formule = v1
-			if formule == -1:
+			if formule < 0:
 				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
 			else:
 				karareiksme = 0
@@ -2148,13 +2167,13 @@ for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg
 # disaerobinis|anaerobinis
 
 disaeanae = {
-	"Norma K": [18, 6.1, 6.8, 1, 1, 0.75],
-	"Norma A": [14, 6.3, 6.6, 2, -1, -0.5],
+	"Norma KT": [18, 6.1, 6.8, 1, 1, 0.75],
+	"Norma AP": [14, 6.3, 6.6, 2, -1, -0.5],
 	"Pagrindas": [1.5, 2, 2, 1.5, 1.3, 1.1]}
 
 parametrupavda = ["d(tank)", "U-pHK", "S-pHK", "Derm", "U-šv", "U-put"]
 lenteleda = pd.DataFrame(disaeanae, index=parametrupavda)
-lenteleda = lenteleda[["Norma K", "Norma A", "Pagrindas"]]
+lenteleda = lenteleda[["Norma KT", "Norma AP", "Pagrindas"]]
 
 parametda = {
 	"dtankrytas": [[slatankrytas], "dtankr", CDS.srcdtankr.data, make_lin(p3, CDS.srcdtankr), parametrupavda.index("d(tank)")],
@@ -2267,14 +2286,16 @@ for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda
 	w.on_change(
 		"value", dtank_update, uphkda_update, sphkda_update, dermda_update, usvda_update, uputda_update)
 
+# metabolinė alkalozė|acidozė
+
 alkaacid = {
-	"Norma K": [13, 65, 5, 6.3, 6.6, 67, 0],
-	"Norma A": [19, 40, 10, 5.9, 6.8, 75, 10],
+	"Norma KT": [13, 65, 5, 6.3, 6.6, 67, 0],
+	"Norma AP": [19, 40, 10, 5.9, 6.8, 75, 10],
 	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
 
 parametrupavalac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4–P1"]
 lentelealac = pd.DataFrame(alkaacid, index=parametrupavalac)
-lentelealac = lentelealac[["Norma K", "Norma A", "Pagrindas"]]
+lentelealac = lentelealac[["Norma KT", "Norma AP", "Pagrindas"]]
 
 parametalac = {
 	"kdrytas": [[kdrytas], "kdr", CDS.srckdalacr.data, make_lin(p4, CDS.srckdalacr), parametrupavalac.index("KD")],
@@ -2404,6 +2425,122 @@ def p4p1_update(attr, old, new):
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
 	w.on_change(
 		"value", kdalac_update, tksialac_update, kphialac_update, uphkalac_update, sphkalac_update, p1_update, p4p1_update)
+
+# elektrolitų trūkumas|perteklius
+
+elektroltp = {
+	"Norma KT": [16, 16, 10, 180, -8],
+	"Norma AP": [8, 22, 10, 220, 2],
+	"Pagrindas": [2, 2, 1.2, 1.001, 1.4]}
+
+parametrupavetp = ["Pm1-S21", "Pm1+S21", "Pm1-Pm4", "Sm+Dm", "S-D"]
+lenteleetp = pd.DataFrame(elektroltp, index=parametrupavetp)
+lenteleetp = lenteleetp[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametetp = {
+	"pm1-s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1-s21r", CDS.srcpm1ms21r.data, make_lin(p5, CDS.srcpm1ms21r), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1-s21p", CDS.srcpm1ms21p.data, make_lin(p5, CDS.srcpm1ms21p), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1-s21v", CDS.srcpm1ms21v.data, make_lin(p5, CDS.srcpm1ms21v), parametrupavetp.index("Pm1-S21")],
+
+	"pm1+s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1+s21r", CDS.srcpm1ps21r.data, make_lin(p5, CDS.srcpm1ps21r), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1+s21p", CDS.srcpm1ps21p.data, make_lin(p5, CDS.srcpm1ps21p), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1+s21v", CDS.srcpm1ps21v.data, make_lin(p5, CDS.srcpm1ps21v), parametrupavetp.index("Pm1+S21")],
+
+	"pm1-pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1-pm4r", [CDS.srcpm1mpm4r.data, CDS.src1pm1mpm4r.data], make_lin(p5, CDS.srcpm1mpm4r, CDS.src1pm1mpm4r), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1-pm4p", [CDS.srcpm1mpm4p.data, CDS.src1pm1mpm4p.data], make_lin(p5, CDS.srcpm1mpm4p, CDS.src1pm1mpm4p), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1-pm4v", [CDS.srcpm1mpm4v.data, CDS.src1pm1mpm4v.data], make_lin(p5, CDS.srcpm1mpm4v, CDS.src1pm1mpm4v), parametrupavetp.index("Pm1-Pm4")],
+
+	"smdmrytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "smdmr", CDS.srcsmdmr.data, make_lin(p5, CDS.srcsmdmr), parametrupavetp.index("Sm+Dm")],
+	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", CDS.srcsmdmp.data, make_lin(p5, CDS.srcsmdmp), parametrupavetp.index("Sm+Dm")],
+	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", CDS.srcsmdmv.data, make_lin(p5, CDS.srcsmdmv), parametrupavetp.index("Sm+Dm")],
+
+	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", CDS.srcsmdr.data, make_lin(p5, CDS.srcsmdr), parametrupavetp.index("S-D")],
+	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", CDS.srcsmdp.data, make_lin(p5, CDS.srcsmdp), parametrupavetp.index("S-D")],
+	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", CDS.srcsmdv.data, make_lin(p5, CDS.srcsmdv), parametrupavetp.index("S-D")]}
+
+
+def pm1ms21_update(attr, old, new):
+	for key in parametetp.keys():
+		if "pm1-s21" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametetp[key]
+			v1, v2, v3, v4, v5, v6 = verte(n)
+			r1 = max(v1, v2, v3, v4) - v1
+			formule = r1 - v5 + v6
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def pm1ps21_update(attr, old, new):
+	for key in parametetp.keys():
+		if "pm1+s21" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametetp[key]
+			v1, v2, v3, v4, v5, v6 = verte(n)
+			r1 = max(v1, v2, v3, v4) - v1
+			formule = r1 + v5 - v6
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def pm1mpm4_update(attr, old, new):
+	for key in parametetp.keys():
+		if "pm1-pm4" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametetp[key]
+			v1, v2, v3, v4 = verte(n)
+			r1 = max(v1, v2, v3, v4) - v1
+			r2 = max(v1, v2, v3, v4) - v4
+			sourcedata1, sourcedata2 = sourcedata
+			formule = (r1 - r2)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			if karareiksme < 0:
+				karareiksme
+			else:
+				karareiksme = 0
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata1.update(new_data1)
+			new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata2.update(new_data2)
+
+
+def smdm_update(attr, old, new):
+	for key in parametetp.keys():
+		if "smdm" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametetp[key]
+			v1, v2, v3, v4 = verte(n)
+			formule = max(v1, v2) + max(v3, v4)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			# kažką sugalvoti, kad negali būti 0
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def smd_update(attr, old, new):
+	for key in parametetp.keys():
+		if "s-d" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametetp[key]
+			36, 40, 37, 41
+			40 - 36 - 41 + 37
+			v1, v2, v3, v4 = verte(n)
+			formule = v2 - v1 - v4 + v3
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			# kažką sugalvoti, kad negali būti 0
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
+	w.on_change("value", pm1ms21_update, pm1ps21_update, pm1mpm4_update, smdm_update, smd_update)
 
 # visi elementai sujungiami į norimą layout
 lay1 = layout(

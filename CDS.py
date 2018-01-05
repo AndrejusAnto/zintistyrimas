@@ -7,13 +7,13 @@ srcps1r = ColumnDataSource(data=dict(x=[], y=[]))
 srcps1p = ColumnDataSource(data=dict(x=[], y=[]))
 srcps1v = ColumnDataSource(data=dict(x=[], y=[]))
 
-srcsdr = ColumnDataSource(data=dict(x=[], y=[]))
-srcsdp = ColumnDataSource(data=dict(x=[], y=[]))
-srcsdv = ColumnDataSource(data=dict(x=[], y=[]))
+srcspdr = ColumnDataSource(data=dict(x=[], y=[]))
+srcspdp = ColumnDataSource(data=dict(x=[], y=[]))
+srcspdv = ColumnDataSource(data=dict(x=[], y=[]))
 
-srcppr = ColumnDataSource(data=dict(x=[], y=[]))
-srcppp = ColumnDataSource(data=dict(x=[], y=[]))
-srcppv = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ppm4r = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ppm4p = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ppm4v = ColumnDataSource(data=dict(x=[], y=[]))
 
 srckrir = ColumnDataSource(data=dict(x=[], y=[]))
 srckrip = ColumnDataSource(data=dict(x=[], y=[]))
@@ -140,3 +140,29 @@ srcp1v = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1r = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1p = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1v = ColumnDataSource(data=dict(x=[], y=[]))
+
+# elektrolitų trūkumas|perteklius
+
+srcpm1ms21r = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ms21p = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ms21v = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcpm1ps21r = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ps21p = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1ps21v = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcpm1mpm4r = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1mpm4p = ColumnDataSource(data=dict(x=[], y=[]))
+srcpm1mpm4v = ColumnDataSource(data=dict(x=[], y=[]))
+
+src1pm1mpm4r = ColumnDataSource(data=dict(x=[], y=[]))
+src1pm1mpm4p = ColumnDataSource(data=dict(x=[], y=[]))
+src1pm1mpm4v = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcsmdmr = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmdmp = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmdmv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcsmdr = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmdp = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmdv = ColumnDataSource(data=dict(x=[], y=[]))
