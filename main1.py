@@ -1825,9 +1825,9 @@ parametsp = {
 	"vasopietūs": [[vrpietus], "vasop", CDS.srcvasop.data, make_lin(p1, CDS.srcvasop), parametrupavsp.index("Vaso")],
 	"vasovakaras": [[vrvakaras], "vasov", CDS.srcvasov.data, make_lin(p1, CDS.srcvasov), parametrupavsp.index("Vaso")],
 
-	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdr.data, make_lin(p1, CDS.srcvyzdr), parametrupavsp.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdp.data, make_lin(p1, CDS.srcvyzdp), parametrupavsp.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdv.data, make_lin(p1, CDS.srcvyzdv), parametrupavsp.index("Vyzd")],
+	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdspr.data, make_lin(p1, CDS.srcvyzdspr), parametrupavsp.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdspp.data, make_lin(p1, CDS.srcvyzdspp), parametrupavsp.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdspv.data, make_lin(p1, CDS.srcvyzdspv), parametrupavsp.index("Vyzd")],
 
 	"tremrytas": [[trrytas], "tremr", CDS.srctremr.data, make_lin(p1, CDS.srctremr), parametrupavsp.index("Trem")],
 	"trempietūs": [[trpietus], "tremp", CDS.srctremp.data, make_lin(p1, CDS.srctremp), parametrupavsp.index("Trem")],
@@ -1940,7 +1940,7 @@ def vaso_update(attr, old, new):
 			sourcedata.update(new_data)
 
 
-def vyzd_update(attr, old, new):
+def vyzdsp_update(attr, old, new):
 	for key in parametsp.keys():
 		if "vyzd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
@@ -2009,7 +2009,7 @@ for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp
 	w.on_change(
 		"value",
 		ps1_update, spd_update, pm1pm4_update, kri_update, temp_update, dermsp_update,
-		vaso_update, vyzd_update, trem_update, nos_update, sarg_update, skl_update)
+		vaso_update, vyzdsp_update, trem_update, nos_update, sarg_update, skl_update)
 
 
 # ketogeninis|gliukogeninis
@@ -2322,9 +2322,9 @@ parametalac = {
 	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1p.data, make_lin(p4, CDS.srcp1p), parametrupavalac.index("P1")],
 	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1v.data, make_lin(p4, CDS.srcp1v), parametrupavalac.index("P1")],
 
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1r.data, make_lin(p4, CDS.srcp4p1r), parametrupavalac.index("P4–P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1p.data, make_lin(p4, CDS.srcp4p1p), parametrupavalac.index("P4–P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1v.data, make_lin(p4, CDS.srcp4p1v), parametrupavalac.index("P4–P1")]}
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1alacr.data, make_lin(p4, CDS.srcp4p1alacr), parametrupavalac.index("P4–P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1alacp.data, make_lin(p4, CDS.srcp4p1alacp), parametrupavalac.index("P4–P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1alacv.data, make_lin(p4, CDS.srcp4p1alacv), parametrupavalac.index("P4–P1")]}
 
 
 def kdalac_update(attr, old, new):
@@ -2407,7 +2407,7 @@ def p1_update(attr, old, new):
 			sourcedata.update(new_data)
 
 
-def p4p1_update(attr, old, new):
+def p4p1alac_update(attr, old, new):
 	for key in parametalac.keys():
 		if "p4p1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
@@ -2416,6 +2416,8 @@ def p4p1_update(attr, old, new):
 			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
 			if karareiksme < 0:
 				karareiksme = 0
+			else:
+				karareiksme
 
 	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
@@ -2424,7 +2426,7 @@ def p4p1_update(attr, old, new):
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
 	w.on_change(
-		"value", kdalac_update, tksialac_update, kphialac_update, uphkalac_update, sphkalac_update, p1_update, p4p1_update)
+		"value", kdalac_update, tksialac_update, kphialac_update, uphkalac_update, sphkalac_update, p1_update, p4p1alac_update)
 
 # elektrolitų trūkumas|perteklius
 
@@ -2541,6 +2543,179 @@ def smd_update(attr, old, new):
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
 	w.on_change("value", pm1ms21_update, pm1ps21_update, pm1mpm4_update, smdm_update, smd_update)
+
+# kalio trūkumo alkalozė|pertekliaus acidozė
+
+kaliotalpac = {
+	"Norma KT": [13, 65, 5, 5.9, 6.6, 1, 1, 0],
+	"Norma AP": [19, 40, 10, 6.3, 6.8, -1, 2, 10],
+	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.001, 1.2, 2]}
+
+parametrupavktalpac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "Vyzd", "Derm", "P4-P1"]
+lentelektalpac = pd.DataFrame(kaliotalpac, index=parametrupavktalpac)
+lentelektalpac = lentelektalpac[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametktalpac = {
+	"kdrytas": [[kdrytas], "kdr", CDS.srckdktalpacr.data, make_lin(p6, CDS.srckdktalpacr), parametrupavktalpac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", CDS.srckdktalpacp.data, make_lin(p6, CDS.srckdktalpacp), parametrupavktalpac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdktalpacv.data, make_lin(p6, CDS.srckdktalpacv), parametrupavktalpac.index("KD")],
+
+	"tksirytas": [[ksirytas], "tksir", CDS.srctksiktalpacr.data, make_lin(p6, CDS.srctksiktalpacr), parametrupavktalpac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiktalpacp.data, make_lin(p6, CDS.srctksiktalpacp), parametrupavktalpac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiktalpacv.data, make_lin(p6, CDS.srctksiktalpacv), parametrupavktalpac.index("t(ksi)")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiktalpacr.data, make_lin(p6, CDS.srckphiktalpacr), parametrupavktalpac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiktalpacp.data, make_lin(p6, CDS.srckphiktalpacp), parametrupavktalpac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiktalpacv.data, make_lin(p6, CDS.srckphiktalpacv), parametrupavktalpac.index("KpHi")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkktalpacr.data, make_lin(p6, CDS.srcuphkktalpacr), parametrupavktalpac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkktalpacp.data, make_lin(p6, CDS.srcuphkktalpacp), parametrupavktalpac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkktalpacv.data, make_lin(p6, CDS.srcuphkktalpacv), parametrupavktalpac.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkktalpacr.data, make_lin(p6, CDS.srcsphkktalpacr), parametrupavktalpac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkktalpacp.data, make_lin(p6, CDS.srcsphkktalpacp), parametrupavktalpac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkktalpacv.data, make_lin(p6, CDS.srcsphkktalpacv), parametrupavktalpac.index("S-pHK")],
+
+	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdktalpacr.data, make_lin(p6, CDS.srcvyzdktalpacr), parametrupavktalpac.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdktalpacp.data, make_lin(p6, CDS.srcvyzdktalpacp), parametrupavktalpac.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdktalpacv.data, make_lin(p6, CDS.srcvyzdktalpacv), parametrupavktalpac.index("Vyzd")],
+
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermktalpacr.data, make_lin(p6, CDS.srcdermktalpacr), parametrupavktalpac.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermktalpacp.data, make_lin(p6, CDS.srcdermktalpacp), parametrupavktalpac.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermktalpacv.data, make_lin(p6, CDS.srcdermktalpacv), parametrupavktalpac.index("Derm")],
+
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ktalpacr.data, make_lin(p6, CDS.srcp4p1ktalpacr), parametrupavktalpac.index("P4-P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ktalpacp.data, make_lin(p6, CDS.srcp4p1ktalpacp), parametrupavktalpac.index("P4-P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ktalpacv.data, make_lin(p6, CDS.srcp4p1ktalpacv), parametrupavktalpac.index("P4-P1")]}
+
+
+def kdktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "kd" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def tksiktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "tksi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def kphiktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "kphi" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1, v2 = verte(n)
+			formule = v1 - (v2 / 5)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def uphkktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "uphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			slatv, slarugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = slarugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			if karareiksme < 0:
+				karareiksme = 0
+			else:
+				karareiksme
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def sphkktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "sphk" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			slatv, serugv = verte(n)
+			tankindx = (slatv * 1000) - 1000
+			formule = serugv + (0.033333 * tankindx) - 0.533333
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def vyzdktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "vyzd" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			if karareiksme > 0:
+				karareiksme = 0
+			else:
+				karareiksme
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def dermktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "derm" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1 = verte(n)
+			formule = v1
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			if karareiksme > 0:
+				karareiksme = 0
+			else:
+				karareiksme
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+def p4p1ktalpac_update(attr, old, new):
+	for key in parametktalpac.keys():
+		if "p4p1" in str(key):
+			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
+			v1, v2 = verte(n)
+			formule = v1 - v2
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			if karareiksme < 0:
+				karareiksme = 0
+			else:
+				karareiksme
+
+	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+			sourcedata.update(new_data)
+
+
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametktalpac.values()]])):
+	w.on_change(
+		"value", kdktalpac_update, tksiktalpac_update, kphiktalpac_update, uphkktalpac_update,
+		sphkktalpac_update, vyzdktalpac_update, dermktalpac_update, p4p1ktalpac_update)
+
 
 # visi elementai sujungiami į norimą layout
 lay1 = layout(

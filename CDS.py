@@ -1,7 +1,7 @@
 from bokeh.plotting import ColumnDataSource
 
 # ši dalims tam, kad suvedus duomenis į atitinakmą TextInput, grafike atsispindėtų
-# simpatinis|parasimpatinis
+# Simpatinis|parasimpatinis
 
 srcps1r = ColumnDataSource(data=dict(x=[], y=[]))
 srcps1p = ColumnDataSource(data=dict(x=[], y=[]))
@@ -31,9 +31,9 @@ srcvasor = ColumnDataSource(data=dict(x=[], y=[]))
 srcvasop = ColumnDataSource(data=dict(x=[], y=[]))
 srcvasov = ColumnDataSource(data=dict(x=[], y=[]))
 
-srcvyzdr = ColumnDataSource(data=dict(x=[], y=[]))
-srcvyzdp = ColumnDataSource(data=dict(x=[], y=[]))
-srcvyzdv = ColumnDataSource(data=dict(x=[], y=[]))
+srcvyzdspr = ColumnDataSource(data=dict(x=[], y=[]))
+srcvyzdspp = ColumnDataSource(data=dict(x=[], y=[]))
+srcvyzdspv = ColumnDataSource(data=dict(x=[], y=[]))
 
 srctremr = ColumnDataSource(data=dict(x=[], y=[]))
 srctremp = ColumnDataSource(data=dict(x=[], y=[]))
@@ -51,7 +51,7 @@ srcsklr = ColumnDataSource(data=dict(x=[], y=[]))
 srcsklp = ColumnDataSource(data=dict(x=[], y=[]))
 srcsklv = ColumnDataSource(data=dict(x=[], y=[]))
 
-# ketogeninis|gliukogeninis
+# Ketogeninis|gliukogeninis
 
 srckdkgr = ColumnDataSource(data=dict(x=[], y=[]))
 srckdkgp = ColumnDataSource(data=dict(x=[], y=[]))
@@ -85,7 +85,7 @@ srcuputkg1r = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputkg1p = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputkg1v = ColumnDataSource(data=dict(x=[], y=[]))
 
-# disaerobinis|anaerobinis
+# Disaerobinis|anaerobinis
 
 srcdtankr = ColumnDataSource(data=dict(x=[], y=[]))
 srcdtankp = ColumnDataSource(data=dict(x=[], y=[]))
@@ -111,7 +111,7 @@ srcuputdar = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputdap = ColumnDataSource(data=dict(x=[], y=[]))
 srcuputdav = ColumnDataSource(data=dict(x=[], y=[]))
 
-# metabolinė alkalozė|acidozė
+# Metabolinė alkalozė|acidozė
 
 srckdalacr = ColumnDataSource(data=dict(x=[], y=[]))
 srckdalacp = ColumnDataSource(data=dict(x=[], y=[]))
@@ -137,11 +137,11 @@ srcp1r = ColumnDataSource(data=dict(x=[], y=[]))
 srcp1p = ColumnDataSource(data=dict(x=[], y=[]))
 srcp1v = ColumnDataSource(data=dict(x=[], y=[]))
 
-srcp4p1r = ColumnDataSource(data=dict(x=[], y=[]))
-srcp4p1p = ColumnDataSource(data=dict(x=[], y=[]))
-srcp4p1v = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1alacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1alacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1alacv = ColumnDataSource(data=dict(x=[], y=[]))
 
-# elektrolitų trūkumas|perteklius
+# Elektrolitų trūkumas|perteklius
 
 srcpm1ms21r = ColumnDataSource(data=dict(x=[], y=[]))
 srcpm1ms21p = ColumnDataSource(data=dict(x=[], y=[]))
@@ -166,3 +166,37 @@ srcsmdmv = ColumnDataSource(data=dict(x=[], y=[]))
 srcsmdr = ColumnDataSource(data=dict(x=[], y=[]))
 srcsmdp = ColumnDataSource(data=dict(x=[], y=[]))
 srcsmdv = ColumnDataSource(data=dict(x=[], y=[]))
+
+# Kalio trūkumo alkalozė|pertekliaus acidozė
+
+srckdktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srckdktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srckdktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srctksiktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srctksiktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srctksiktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srckphiktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srckphiktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srckphiktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcuphkktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcuphkktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcuphkktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcsphkktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcsphkktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcsphkktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcvyzdktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcvyzdktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcvyzdktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcdermktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcdermktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcdermktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcp4p1ktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1ktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1ktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
