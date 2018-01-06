@@ -66,7 +66,7 @@ countralac = len(factorsralac)
 
 
 def make_graf(p, pav, count, factor):
-	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=(count * 13), tools="")
+	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=400, tools="")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)
