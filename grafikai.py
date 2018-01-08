@@ -48,8 +48,8 @@ factorsktp = [
 	"p4p1r", "dermr", "vyzdr", "sphkr", "uphkr", "kphir", "tksir", "kdr"]
 
 factorsralac = [
-	"p4p1p", "p1p", "sphkp", "uphkp", "kphip", "tksip", "kdp",
 	"p4p1v", "p1v", "sphkv", "uphkv", "kphiv", "tksiv", "kdv",
+	"p4p1p", "p1p", "sphkp", "uphkp", "kphip", "tksip", "kdp",
 	"p4p1r", "p1r", "sphkr", "uphkr", "kphir", "tksir", "kdr"]
 
 # skaičiuojam atitinakamų categorical skaičių, kad
@@ -65,8 +65,16 @@ countktp = len(factorsktp)
 countralac = len(factorsralac)
 
 
+def heigth_count(h):
+	if h < 36:
+		h_c = 165 + h * 5
+	else:
+		h_c = 220 + h * 5
+	return h_c
+
+
 def make_graf(p, pav, count, factor):
-	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=400, tools="")
+	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=heigth_count(count), tools="")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)

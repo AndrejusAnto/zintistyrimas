@@ -133,9 +133,9 @@ srcsphkalacr = ColumnDataSource(data=dict(x=[], y=[]))
 srcsphkalacp = ColumnDataSource(data=dict(x=[], y=[]))
 srcsphkalacv = ColumnDataSource(data=dict(x=[], y=[]))
 
-srcp1r = ColumnDataSource(data=dict(x=[], y=[]))
-srcp1p = ColumnDataSource(data=dict(x=[], y=[]))
-srcp1v = ColumnDataSource(data=dict(x=[], y=[]))
+srcp1alacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcp1alacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcp1alacv = ColumnDataSource(data=dict(x=[], y=[]))
 
 srcp4p1alacr = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1alacp = ColumnDataSource(data=dict(x=[], y=[]))
@@ -200,3 +200,33 @@ srcdermktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ktalpacp = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ktalpacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+# Respiracinė alkalozė|acidozė
+
+srckdralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srckdralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srckdralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srctksiralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srctksiralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srctksiralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srckphiralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srckphiralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srckphiralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcuphkralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcuphkralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcuphkralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcsphkralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcsphkralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcsphkralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcp1ralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcp1ralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcp1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+srcp4p1ralacr = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1ralacp = ColumnDataSource(data=dict(x=[], y=[]))
+srcp4p1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
