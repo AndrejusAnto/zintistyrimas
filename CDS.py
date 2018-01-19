@@ -167,6 +167,10 @@ srcsmdr = ColumnDataSource(data=dict(x=[], y=[]))
 srcsmdp = ColumnDataSource(data=dict(x=[], y=[]))
 srcsmdv = ColumnDataSource(data=dict(x=[], y=[]))
 
+srcsmd1r = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmd1p = ColumnDataSource(data=dict(x=[], y=[]))
+srcsmd1v = ColumnDataSource(data=dict(x=[], y=[]))
+
 # Kalio trūkumo alkalozė|pertekliaus acidozė
 
 srckdktalpacr = ColumnDataSource(data=dict(x=[], y=[]))
@@ -230,3 +234,72 @@ srcp1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ralacr = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ralacp = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
+
+produksar = [
+	"Sotieji riebalai",
+	"Stipriai pakitę baltymai ir riebalai",
+	"Kiaušiniai",
+	"Organai",
+	"Pieno baltymai",
+	"Moliuskai ir vėžiagyviai",
+	"Balta mėsa",
+	"Raudona mėsa",
+	"Grybai",
+	"Augaliniai baltymai"]
+
+# Kitų medžiagų vartojimo prioritetai
+
+# Pakeistų savybių vanduo
+# Slopikliai
+# Stimuliatoriai
+# Rūkalai
+
+# Kiti elgsenos prioritetai
+# Didelio intensyvumo trumpos trukmės fizinė veikla
+# Mažo intensyvumo ilgos trukmės fizinė veikla
+# Kvėpavimo balansavmas
+# Hipoventiliacija
+# Grūdinimasis
+# Kaitinimasis
+# Galūnių laikymas šiltai
+# Galūnių laikymas šaltai
+# Buvimas šiltesnėje aplinkoje
+# Buvimas šaltesnėje aplinkoje
+# Atidėta ejakuliacija (vyrams)
+# Pakartotinis orgazmas (moterims)
+# Limfotakos aktyvavimas
+# Subalansuotas miegas
+
+produkapr = [
+	"jautienos ir avienos tarpraumeniniai riebalai, pieno riebalai (sviestas, grietinėlė, grietinė, maskarponė), kokosų aliejus, kakavos sviestas, kokosai",
+	"Kepta mėsa ir žuvis; kepti, kietai ir skystai virti kiaušiniai; kaitinimo metu savo sulčių netekusi mėsa; mėsos ir žuvies konservai; šaltienos mėsa (bet ne drebučiai); virtos dešros, dešrelės, kumpeliai ir vyniotiniai; karštai rūkyti mėsos gaminiai; viešojo maitinimo įstaigose keptas arba virtas maistas; mikrobangėje pašildytas maistas; pakartotinai kaitintas maistas; geltoni sūriai (fermentiniai sūriai, brandinti sūriai, džiovinti sūriai, kepinti sūriai), lydyti sūreliai, pelėsiniai sūriai, papildomai kaitinti balti sūriai; virintas pienas ir grietinėlė; UAT pienas (pvz: ,Margė', ,Mū'' ir pan.)",
+	"paukščių kiaušiniai, kiaušinių tryniai, kiaušinių baltymai",
+	"kepenys, širdys, skrandžiai, inkstai, liežuviai, smegenys, kaulų čiulpai, kraujas, akys",
+	"pienas, balti sūriai (mocarela, saldaus pieno sūris, varškė, feta, brinza), rūgpienis, kefyras, jogurtas (be papildomų skonių), raugintos pasukos",
+	"sraigės, austrės, midijos, kalmarai, aštuonkojai, vėžiai, krabai, krevetės ir pan.",
+	"vištiena, triušiena, putpeliena, kalakutiena, žąsiena, kiauliena (dalys), silkė, karpis, lydeka, upėtakis ir pan.",
+	"jautiena, aviena, ožkiena, žvėriena, antiena, laukiniai paukščiai, tunas, lašiša, skumbrė, kiauliena (dalys) ir pan.",
+	"pievagrybiai, voveraitės, baravykai ir kiti valgomi grybai",
+	"lazdyno riešutai, migdolai, žalieji žirneliai, žirniai, avinžirniai, lęšiai, sojos produktai"]
+
+# jonizuotas vanduo, „gyvas“ vanduo, „negyvvas“ vanduo, distiliuotas vanduo, osmosinių filtrų vanduo, pakaitinių jonų vandens minkštinimo filtrų vanduo
+# alkoholis, raminamieji vaistai, migdomieji vaistai, raminamosios vaistažolės
+# kava, juodoji arbata, žalioji arbata, geltonoji arbata, baltoji arbata, pu-erh arbata, kakava, šokoladas, kola, energiniai gėrimai
+# cigaretės, kaljanas, kanapės
+
+# Kvazi-izometriniai jėgos pratimai, po 1 apie 90 s trukmės priėjimą ne dažniau nei 2 kartus per savaitę (plačiau svetainėje www.zintis.lt)
+# Aerobika, ilgų distancijų bėgimas ir kita „aerobinė“, „kardio“ ar „ištvermės“ treniruotė
+# Savo kvėpavimo stebėjimas
+# Kvėpavimo sulaikymas arba labai lėtas kvėpavimas
+# Maudymasis lediniame vandenyje, apsiliejimas šaltu vandeniu po pirties, kontrastinis dušas ir pan.
+# Kaitinimasis pirtyje, maudymasis po labai karštu vandeniu, deginimasis saulės atokaitoje ir pan.
+# Kojinių ir šliurių dėvėjimas namie, pirštinių dėvėjimas lauke šaltu metų laiku ir pan.
+# Vaikščiojimas basomis namie ir pirštinių nedėvėjimas vėsiu metų laiku
+# Kambarių temperatūros virš 20ºC, šiltesnė apranga lauke.
+# Kambarių temperatūros žemiau 20ºC, plonesnė apranga lauke.
+# Specialių pratimų pagalba iki lytinio akto pabaigos kelis kartus atidėti ejakuliaciją
+# Jei įmanoma, vieno lytinio akto metu bandyti patirti kelis orgazmus
+# Šokinėjimas ant batuto, įvairūs lankstymosi per juosmenį pratimai.
+# Reguliarus miegas tamsoje, jei įmanoma, trukmė turi būti 1,5 val. kartotinis, keltis šviesoje (tamsiuoju metų laiku uždegti lempą)
+
+produkreko = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]

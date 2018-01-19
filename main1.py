@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc
 from bokeh.layouts import column, row, layout
-from bokeh.models.widgets import TextInput, Div, Select
+from bokeh.models.widgets import TextInput, Div, Select, Button
+from bokeh.models import Spacer
 import jinja2
 import math
 import logging
@@ -20,7 +21,7 @@ curdoc().template = jinja2.Template(source='''
 	<html lang="en">
 	<head>
 	<meta charset="utf-8">
-	<title>{{ title if title else "Bokeh Plot" }} </title>
+	<title>{{ title if title else "Žintis tyrimas" }} </title>
 	{{ bokeh_css }}
 	{{ bokeh_js }}
 	<style>
@@ -266,12 +267,12 @@ curdoc().template = jinja2.Template(source='''
 
 			table {
 			border-collapse: collapse;
-			margin-bottom:3%;
+			margin-bottom:1%;
 			}
 
 			th,td {
 			border: 1px solid #c6c7cc;
-			padding: 10px 15px;
+			padding: 5px 5px;
 			}
 
 			th {
@@ -367,7 +368,7 @@ inamz = TextInput(name="amz", value="", title="Amžius", width=80)
 
 def tikslus():
 	return Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
-	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=780)
+	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=750)
 
 
 def eiga():
@@ -391,7 +392,7 @@ Tyrimo trukmė apie 45 minutės. Pamatuoti duomenys rašomi į <b>„Organizmo b
 <br>•Minkštas metras
 <br><br><b>TYRIMO EIGA:</b>
 <br><b>1.</b> 2 valandos iki tyrimo<b><i>nevalgyti</b></i>, jei norisi,<b><i>galima gerti negazuoto vandens</b></i>.
-<br><b>2.</b> 30 minučių iki tyrimo<b><i>nieko negerti ir nekramtyti</b></i>.""", width=780)
+<br><b>2.</b> 30 minučių iki tyrimo<b><i>nieko negerti ir nekramtyti</b></i>.""", width=750)
 
 
 def slapimo():
@@ -400,7 +401,7 @@ def slapimo():
 
 def prikseil():
 	return Div(text="""<b > 4.</b><i>Tiriamojo paprašoma prikaupti seilių ir įspjauti į valgomąjį šaukštą. Seilių turi būti
-maždaug mažojo piršto galinio narelio dydžio lašas.</i>""", width=780)
+maždaug mažojo piršto galinio narelio dydžio lašas.</i>""", width=750)
 
 
 def seiliu():
@@ -424,12 +425,12 @@ def tiriam1():
 ištiestomis kojomis, galvą dedant taip, kad prie sofos ar lovos krašto būtų tiriamojo kairė
 pusė. Paliekamas toks tarpas nuo sofos ar lovos krašto, kad tiriamojo kairė ranka laisvai
 gulėtų šalia delnu į viršų. Paprašoma atsipalaiduoti, nekalbėti ir nusiraminti. Taip
-tiriamasis turi pagulėti daugiau nei 1 minutę.</i>""", width=780)
+tiriamasis turi pagulėti daugiau nei 1 minutę.</i>""", width=750)
 
 
 def tiriam2():
 	return Div(text="""<b>9.</b><i>Tiriamajam pranešama, kad jis jau gali užsidengti pilvą ir paprašoma atsipalaiduoti,
-nekalbėti ir nusiraminti. Taip tiriamasis turi pagulėti daugiau nei 1 minutę.</i></b>""", width=780)
+nekalbėti ir nusiraminti. Taip tiriamasis turi pagulėti daugiau nei 1 minutę.</i></b>""", width=750)
 
 
 def kvepparmat10():
@@ -458,7 +459,7 @@ nuspausti paleidimo mygtuką.
 punkte. Riešą reikia apminti patogiai, kad pirštai testo metu nenuslystų, ir tam,
 kad būtų galima testo metu lengvai koreguoti jų padėtį.
 <br>•<i>Tiriamojo paprašoma atsistoti</i>. Jo kairė ranka laikoma sulenkta stačiu kampu.
-Tiriamajam besistojant, Jūs turite likti sėdėti.""", width=780)
+Tiriamajam besistojant, Jūs turite likti sėdėti.""", width=750)
 
 
 def atsist():
@@ -1631,6 +1632,85 @@ ksirytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+
+def rekokatego():
+	return Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
+		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
+
+
+def rekotipai():
+	return Div(text="""<i>Prioritetų žymėjimas:
+		„T“ rekomenduojama vartoti daugiau,
+		„N“ vartoti nerekomenduojama,
+		„S“ vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+		„-“ papildomų rekomendacijų nėra.</i>""", width=570)
+
+
+def rekomendac():
+	return Div(text="""
+<div>
+<table>
+	<tr>
+		<th scope="col"><b>Grupė</b></th>
+		<th scope="col"><b>Produktai</b></th>
+	</tr>
+	<tr>
+		<td>Geriamasis vanduo</td>
+		<td>šaltinio vanduo, šulinio vanduo, mineraliniai vandenys "Neptūnas", "Aqua Panna",
+		"Evian", "Vittel", geriamasis vanduo, "Vichy".</td>
+	</tr>
+	<tr>
+		<td>Organinės rūgštys</td>
+		<td>actas, citrinos rūgštis, pieno rūgštis, rūgštūs pieno produktai (grietinė, rūgpienis, kefyras, jogurtas,
+		raugintos pasukos, maskarponė), mariruona mėsa, raugintos arba marinuotos daržovės, pomidorų pasta, pomidorų padažas,
+		majonezas, kiti padažai, vynas, vaisiai, pomidorai</td>
+	</tr>
+	<tr>
+		<td>Hidrokarbonatai</td>
+		<td>soda, gazuoti gėrimai</td>
+	</tr>
+	<tr>
+		<td>Natris, chloras, fluoras</td>
+		<td>valgomoji druska, soda, sūdyti produktai (vytinta mėsa, rūkinta mėsa, sūdyti lašiniai, geltoni sūriai,),
+		mineraliniai vandenys "Vytautas", "Birutė", "Akvilė", "Rasa", "Borjomi", "Darida"</td>
+	</tr>
+	<tr>
+		<td>Sulfatai</td>
+		<td>mineralinis vanduo "Tichė"</td>
+	</tr>
+	<tr>
+		<td>Krakmolo šaltiniai</td>
+		<td>Bulviniai, grūdai, kruopos, dribsniai, miltų gaminiai, ankštiniai</td>
+	</tr>
+	<tr>
+		<td>Augaliniai inertinai (ląsteliena)</td>
+		<td>daržovės (vaisinės, šakninės, lapinės, stiebinės), kokosų drožlės, kokosai</td>
+	</tr>
+	<tr>
+		<td>Neaugaliniai inertinai</td>
+		<td>Jungiamasis audinys (oda, sąnariai, kremzlės, sausgyslės, kraujagyslės) tikras sultinys, drebučiai,
+		želatina, nariuotakojų kiautai</td>
+	</tr>
+	<tr>
+		<td>Polinesotieji riebalai</td>
+		<td>Augaliniai aliejai – saulėgrąžų, rapsų, sezamų, linų sėmenų, nakvišų, moliūgų sėklų, sojų; sėklos – saulėgrąžų,
+		aguonų, sezamų, linų sėmenys ir pan.; riešutai – žemės, graikiniai, kedrų, anakardžių, kepintos pistacijos;
+		riebios žuvys – lašiša, skumbrė, ungurys, menkė, žuvų taukai ir pan.; gaminiai iš aliejaus – majonezas, margarinas,
+		„grietinės ir augalinių riebalų mišiniai“, „tepami riebalų mišiniai“, „sūrio produktai“, picų padažai; konservai aliejuje</td>
+	</tr>
+	<tr>
+		<td>Mononesotieji riebalai</td>
+		<td>riebi mėsa (lašiniai, šoninė, paslėpsniai, karka, paukščių uodegos ir pan.), alyvuogių aliejus, migdolų aliejus,
+		avokadų aliejus,  lazdyno riešutų aliejus, alyvuogės, avokadai, migdolai, lazdyno riešutai</td>
+	</tr>
+</table>
+</div>
+	""", width=500)
+
+
+rekomendmyg = Button(label="Rekomendacijos", button_type="success")
+spacer_1 = Spacer(width=150)
+
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
 p2 = grafikai.make_graf(grafikai.plist[1], grafikai.pavadin[1], grafikai.countkg, grafikai.factorskg)
 p3 = grafikai.make_graf(grafikai.plist[2], grafikai.pavadin[2], grafikai.countda, grafikai.factorsda)
@@ -1686,7 +1766,7 @@ def verte(*reiksme):
 		return verte1, verte2, verte3, verte4, verte5, verte6
 
 
-def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
+def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 	NormaKT = lentel.loc[lentel.index[ind], "Norma KT"]
 	NormaAP = lentel.loc[lentel.index[ind], "Norma AP"]
 
@@ -1766,6 +1846,9 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 			else:
 				ktarap = 0
+		elif NormaKT == -8 and NormaAP == 2:
+			if (alfa * skirtum + beta) > 0:
+				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 		else:
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
@@ -1793,8 +1876,228 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, *arg):
 		ktarapriba = -4
 	else:
 		ktarapriba = ktarap
-	logging.info(ktarap)
+	# logging.info(k + " " + str(ktarap))
 	return ktarapriba
+
+
+def buklnustat(val1, val2, val3, param):
+	buklkr = len([val1[i] for i in val1 if val1[i] < -1])
+	buklar = len([val1[i] for i in val1 if val1[i] > 1])
+	buklkp = len([val2[i] for i in val2 if val2[i] < -1])
+	buklap = len([val2[i] for i in val2 if val2[i] > 1])
+	buklkv = len([val3[i] for i in val3 if val3[i] < -1])
+	buklav = len([val3[i] for i in val3 if val3[i] > 1])
+
+	if param == "simparasim":
+		if buklkr >= 5:
+			bksrreiksme = "T"
+		else:
+			bksrreiksme = "N"
+		if buklar >= 5:
+			bkprreiksme = "T"
+		else:
+			bkprreiksme = "N"
+
+		if buklkp >= 5:
+			bkspreiksme = "T"
+		else:
+			bkspreiksme = "N"
+		if buklap >= 5:
+			bkppreiksme = "T"
+		else:
+			bkppreiksme = "N"
+
+		if buklkv >= 5:
+			bksvreiksme = "T"
+		else:
+			bksvreiksme = "N"
+		if buklav >= 5:
+			bkpvreiksme = "T"
+		else:
+			bkpvreiksme = "N"
+
+	elif param == "ketogliuko":
+		if buklkr >= 4:
+			bksrreiksme = "T"
+		else:
+			bksrreiksme = "N"
+		if buklar >= 4:
+			bkprreiksme = "T"
+		else:
+			bkprreiksme = "N"
+
+		if buklkp >= 4:
+			bkspreiksme = "T"
+		else:
+			bkspreiksme = "N"
+		if buklap >= 4:
+			bkppreiksme = "T"
+		else:
+			bkppreiksme = "N"
+
+		if buklkv >= 4:
+			bksvreiksme = "T"
+		else:
+			bksvreiksme = "N"
+		if buklav >= 4:
+			bkpvreiksme = "T"
+		else:
+			bkpvreiksme = "N"
+
+	elif param == "disaeanae":
+		if buklkr >= 3:
+			bksrreiksme = "T"
+		else:
+			bksrreiksme = "N"
+		if buklar >= 3:
+			bkprreiksme = "T"
+		else:
+			bkprreiksme = "N"
+
+		if buklkp >= 3:
+			bkspreiksme = "T"
+		else:
+			bkspreiksme = "N"
+		if buklap >= 3:
+			bkppreiksme = "T"
+		else:
+			bkppreiksme = "N"
+
+		if buklkv >= 3:
+			bksvreiksme = "T"
+		else:
+			bksvreiksme = "N"
+		if buklav >= 3:
+			bkpvreiksme = "T"
+		else:
+			bkpvreiksme = "N"
+
+	elif param == "elektroltp":
+		if buklkr >= 3:
+			bksrreiksme = "T"
+		else:
+			bksrreiksme = "N"
+		if buklar >= 3:
+			bkprreiksme = "T"
+		else:
+			bkprreiksme = "N"
+
+		if buklkp >= 3:
+			bkspreiksme = "T"
+		else:
+			bkspreiksme = "N"
+		if buklap >= 3:
+			bkppreiksme = "T"
+		else:
+			bkppreiksme = "N"
+
+		if buklkv >= 3:
+			bksvreiksme = "T"
+		else:
+			bksvreiksme = "N"
+		if buklav >= 3:
+			bkpvreiksme = "T"
+		else:
+			bkpvreiksme = "N"
+
+	bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
+	bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
+	bendrasan = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "N"])
+	bendrasat = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "T"])
+
+	if bendraskn > bendraskt:
+		galutineknt = "N"
+	else:
+		galutineknt = "T"
+
+	if bendrasan > bendrasat:
+		galutineant = "N"
+	else:
+		galutineant = "T"
+
+	print("Katabolizmo", param, galutineknt, val1, val2, val3)
+	print("Anabolizmo", param, galutineant, val1, val2, val3)
+
+
+def buklnustat1(val1, val2, val3, param):
+	kdtksikphir = [val1["kdrytas"], val1["tksirytas"], val1["kphirytas"]]
+	kdtksikphip = [val2["kdpietūs"], val2["tksipietūs"], val2["kphipietūs"]]
+	kdtksikphiv = [val3["kdvakaras"], val3["tksivakaras"], val3["kphivakaras"]]
+
+	uphksphkr = [val1["uphkrytas"], val1["sphkrytas"]]
+	uphksphkp = [val2["uphkpietūs"], val2["sphkpietūs"]]
+	uphksphkv = [val3["uphkvakaras"], val3["sphkvakaras"]]
+
+	p1p4p1r = [val1["p(1)rytas"], val1["tksirytas"]]
+	p1p4p1p = [val2["p(1)pietūs"], val2["tksipietūs"]]
+	p1p4p1v = [val3["p(1)vakaras"], val3["tksivakaras"]]
+
+	buklkdtksikphirkr = len([i for i in kdtksikphir if i < -1])
+	uphksphkrkr = len([i for i in uphksphkr if i < -1])
+	p1p4p1rkr = len([i for i in p1p4p1r if i < -1])
+	buklkdtksikphirar = len([i for i in kdtksikphir if i > 1])
+	uphksphkrar = len([i for i in uphksphkr if i > 1])
+	p1p4p1rar = len([i for i in p1p4p1r if i > 1])
+
+	buklkdtksikphipkp = len([i for i in kdtksikphip if i < -1])
+	uphksphkpkp = len([i for i in uphksphkp if i < -1])
+	p1p4p1pkp = len([i for i in p1p4p1r if i < -1])
+	buklkdtksikphipap = len([i for i in kdtksikphip if i > 1])
+	uphksphkpap = len([i for i in uphksphkp if i > 1])
+	p1p4p1pap = len([i for i in p1p4p1p if i > 1])
+
+	buklkdtksikphivkv = len([i for i in kdtksikphiv if i < -1])
+	uphksphkvkv = len([i for i in uphksphkv if i < -1])
+	p1p4p1vkv = len([i for i in p1p4p1v if i < -1])
+	buklkdtksikphivav = len([i for i in kdtksikphiv if i > 1])
+	uphksphkvav = len([i for i in uphksphkv if i > 1])
+	p1p4p1vav = len([i for i in p1p4p1v if i > 1])
+
+	if param == ("alkaacid" or "kaliotalpac" or "respialac"):
+		if buklkdtksikphirkr >= 2 and uphksphkrkr == 2 and p1p4p1rkr >= 1:
+			bksrreiksme = "T"
+		else:
+			bksrreiksme = "N"
+		if buklkdtksikphirar >= 2 and uphksphkrar == 2 and p1p4p1rar >= 1:
+			bkprreiksme = "T"
+		else:
+			bkprreiksme = "N"
+
+		if buklkdtksikphipkp >= 2 and uphksphkpkp == 2 and p1p4p1pkp >= 1:
+			bkspreiksme = "T"
+		else:
+			bkspreiksme = "N"
+		if buklkdtksikphipap >= 2 and uphksphkpap == 2 and p1p4p1pap >= 1:
+			bkppreiksme = "T"
+		else:
+			bkppreiksme = "N"
+
+		if buklkdtksikphivkv >= 2 and uphksphkvkv == 2 and p1p4p1vkv >= 1:
+			bksvreiksme = "T"
+		else:
+			bksvreiksme = "N"
+		if buklkdtksikphivav >= 2 and uphksphkvav == 2 and p1p4p1vav >= 1:
+			bkpvreiksme = "T"
+		else:
+			bkpvreiksme = "N"
+
+	bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
+	bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
+	bendrasan = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "N"])
+	bendrasat = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "T"])
+
+	if bendraskn > bendraskt:
+		galutineknt = "N"
+	else:
+		galutineknt = "T"
+
+	if bendrasan > bendrasat:
+		galutineant = "N"
+	else:
+		galutineant = "T"
+
+	print("Katabolizmo", param, galutineknt)
+	print("Anabolizmo", param, galutineant)
 
 
 # Simpatinis|parasimpatinis
@@ -1858,170 +2161,128 @@ parametsp = {
 	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
 
 
-def ps1_update(attr, old, new):
+def simparasim_update(attr, old, new):
+	simparasimr = {}
+	simparasimp = {}
+	simparasimv = {}
+	dictpav = "simparasim"
 	for key in parametsp.keys():
 		if "ps1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2 = verte(n)
 			formule = (v1 - v2)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+	# taip bokeh atnaujinama x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def spd_update(attr, old, new):
-	for key in parametsp.keys():
-		if "s+d" in str(key):
+		elif "s+d" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2, v3, v4 = verte(n)
 			formule = (v1 - v2) + (v3 - v4)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def pm1pm4_update(attr, old, new):
-	for key in parametsp.keys():
-		if "pm1+pm4" in str(key):
+		elif "pm1+pm4" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2, v3, v4 = verte(n)
 			r1 = max(v1, v2, v3, v4) - v1
 			r2 = max(v1, v2, v3, v4) - v4
 			formule = (r1 + r2)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def kri_update(attr, old, new):
-	for key in parametsp.keys():
-		if "kri" in str(key):
+		elif "kri" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1, v2 = verte(n)
 			if v2 != 0:
 				formule = (v1 / v2)
-				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 				new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 				sourcedata.update(new_data)
+			else:
+				pass
 
-
-def temp_update(attr, old, new):
-	for key in parametsp.keys():
-		if "temp" in str(key):
+		elif "temp" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def dermsp_update(attr, old, new):
-	for key in parametsp.keys():
-		if "derm" in str(key):
+		elif "derm" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def vaso_update(attr, old, new):
-	for key in parametsp.keys():
-		if "vaso" in str(key):
+		elif "vaso" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def vyzdsp_update(attr, old, new):
-	for key in parametsp.keys():
-		if "vyzd" in str(key):
+		elif "vyzd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def trem_update(attr, old, new):
-	for key in parametsp.keys():
-		if "trem" in str(key):
+		elif "trem" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def nos_update(attr, old, new):
-	for key in parametsp.keys():
-		if "nos" in str(key):
+		elif "nos" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def sarg_update(attr, old, new):
-	for key in parametsp.keys():
-		if "sarg" in str(key):
+		elif "sarg" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def skl_update(attr, old, new):
-	for key in parametsp.keys():
-		if "skl" in str(key):
+		elif "skl" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelesp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
+
+		# if "rytas" in str(key):
+		# 	simparasimr[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	simparasimp[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	simparasimv[key] = karareiksme
+
+		# # if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
+		# # 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
-	w.on_change(
-		"value",
-		ps1_update, spd_update, pm1pm4_update, kri_update, temp_update, dermsp_update,
-		vaso_update, vyzdsp_update, trem_update, nos_update, sarg_update, skl_update)
+	w.on_change("value", simparasim_update)
 
 
 # Ketogeninis|gliukogeninis
@@ -2065,7 +2326,11 @@ parametkg = {
 	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputkgv.data, CDS.srcuputkg1v.data], make_lin(p2, CDS.srcuputkgv, CDS.srcuputkg1v), parametrupavkg.index("U-put")]}
 
 
-def kdkg_update(attr, old, new):
+def ketogliuko_update(attr, old, new):
+	ketogliukor = {}
+	ketogliukop = {}
+	ketogliukov = {}
+	dictpav = "ketogliuko"
 	for key in parametkg.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
@@ -2077,104 +2342,96 @@ def kdkg_update(attr, old, new):
 			else:
 				sphkv = 17
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphkv)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key, sphkv)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def tksikg_update(attr, old, new):
-	for key in parametkg.keys():
-		if "tksi" in str(key):
+		elif "tksi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, stv, serv = verte(n)
 			tankindx = (stv * 1000) - 1000
 			sphk = serv + (0.033333 * tankindx) - 0.533333
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphk)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key, sphk)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p4_update(attr, old, new):
-	for key in parametkg.keys():
-		if "p4" in str(key):
+		elif "p4" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, stv, serv = verte(n)
 			tankindx = (stv * 1000) - 1000
 			sphk = serv + (0.033333 * tankindx) - 0.533333
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, sphk)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key, sphk)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def kphikg_update(attr, old, new):
-	for key in parametkg.keys():
-		if "kphi" in str(key):
+		elif "kphi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, v2 = verte(n)
 			formule = v1 - (v2 / 5)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def d2p4_update(attr, old, new):
-	for key in parametkg.keys():
-		if "d2p(4)" in str(key):
+		elif "d2p(4)" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1, v2 = verte(n)
 			formule = v1 - v2
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def usvkg_update(attr, old, new):
-	for key in parametkg.keys():
-		if "usv" in str(key):
+		elif "usv" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uputkg_update(attr, old, new):
-	for key in parametkg.keys():
-		if "uput" in str(key):
+		elif "uput" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
 			v1 = verte(n)
 			sourcedata1, sourcedata2 = sourcedata
 			formule = v1
 			if formule < 0:
-				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg)
+				karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelekg, key)
 			else:
 				karareiksme = 0
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata1.update(new_data1)
 			new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata2.update(new_data2)
 
+		# if "rytas" in str(key):
+		# 	if key == "uputrytas":
+		# 		key1 = "uputrytas1"
+		# 		ketogliukor[key] = karareiksme
+		# 		ketogliukor[key1] = -karareiksme
+		# 	else:
+		# 		ketogliukor[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	if key == "uputpietūs":
+		# 		key1 = "uputpietūs1"
+		# 		ketogliukop[key] = karareiksme
+		# 		ketogliukop[key1] = -karareiksme
+		# 	else:
+		# 		ketogliukop[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	if key == "uputvakaras":
+		# 		key1 = "uputvakaras1"
+		# 		ketogliukov[key] = karareiksme
+		# 		ketogliukov[key1] = -karareiksme
+		# 	else:
+		# 		ketogliukor[key] = karareiksme
+
+		# # if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 7:
+		# buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav)
+
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
-	w.on_change(
-		"value", kdkg_update, tksikg_update, p4_update, kphikg_update, d2p4_update, usvkg_update, uputkg_update)
+	w.on_change("value", ketogliuko_update)
 
 # Disaerobinis|anaerobinis
 
@@ -2213,90 +2470,75 @@ parametda = {
 	"uputvakaras": [[slaputvakaras], "uputv", CDS.srcuputdav.data, make_lin(p3, CDS.srcuputdav), parametrupavda.index("U-put")]}
 
 
-def dtank_update(attr, old, new):
+def disaeanae_update(attr, old, new):
+	disaeanaer = {}
+	disaeanaep = {}
+	disaeanaev = {}
+	dictpav = "disaeanae"
 	for key in parametda.keys():
 		if "dtank" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			v1 = verte(n)
 			formule = (v1 * 1000) - 1000
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uphkda_update(attr, old, new):
-	for key in parametda.keys():
-		if "uphk" in str(key):
+		elif "uphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			slatv, slarugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = slarugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def sphkda_update(attr, old, new):
-	for key in parametda.keys():
-		if "sphk" in str(key):
+		elif "sphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			slatv, serugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = serugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-# derm_update jau anksčiau apibrėžtas
-def dermda_update(attr, old, new):
-	for key in parametda.keys():
-		if "derm" in str(key):
+		elif "derm" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def usvda_update(attr, old, new):
-	for key in parametda.keys():
-		if "usv" in str(key):
+		elif "usv" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uputda_update(attr, old, new):
-	for key in parametda.keys():
-		if "uput" in str(key):
+		elif "uput" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleda, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
+
+		# if "rytas" in str(key):
+		# 	disaeanaer[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	disaeanaep[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	disaeanaev[key] = karareiksme
+
+		# # if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
+		# buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda.values()]])):
-	w.on_change(
-		"value", dtank_update, uphkda_update, sphkda_update, dermda_update, usvda_update, uputda_update)
+	w.on_change("value", disaeanae_update)
 
 # Metabolinė alkalozė|acidozė
 
@@ -2339,106 +2581,87 @@ parametalac = {
 	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1alacv.data, make_lin(p4, CDS.srcp4p1alacv), parametrupavalac.index("P4–P1")]}
 
 
-def kdalac_update(attr, old, new):
+def alkaacid_update(attr, old, new):
+	alkaacidr = {}
+	alkaacidp = {}
+	alkaacidv = {}
+	dictpav = "alkaacid"
 	for key in parametalac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def tksialac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "tksi" in str(key):
+		elif "tksi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def kphialac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "kphi" in str(key):
+		elif "kphi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			v1, v2 = verte(n)
 			formule = v1 - (v2 / 5)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uphkalac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "uphk" in str(key):
+		elif "uphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			slatv, slarugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = slarugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def sphkalac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "sphk" in str(key):
+		elif "sphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			slatv, serugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = serugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p1alac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "p(1)" in str(key):
+		elif "p(1)" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p4p1alac_update(attr, old, new):
-	for key in parametalac.keys():
-		if "p4p1" in str(key):
+		elif "p4p1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
 			v1, v2 = verte(n)
 			formule = v1 - v2
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelealac, key)
 			if karareiksme < 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
+		# if "rytas" in str(key):
+		# 	alkaacidr[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	alkaacidp[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	alkaacidv[key] = karareiksme
+
+		# if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
+		# 	buklnustat1(alkaacidr, alkaacidp, alkaacidv, dictpav)
+
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
-	w.on_change(
-		"value", kdalac_update, tksialac_update, kphialac_update, uphkalac_update, sphkalac_update, p1alac_update, p4p1alac_update)
+	w.on_change("value", alkaacid_update)
 
 # Elektrolitų trūkumas|perteklius
 
@@ -2468,91 +2691,134 @@ parametetp = {
 	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", CDS.srcsmdmp.data, make_lin(p5, CDS.srcsmdmp), parametrupavetp.index("Sm+Dm")],
 	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", CDS.srcsmdmv.data, make_lin(p5, CDS.srcsmdmv), parametrupavetp.index("Sm+Dm")],
 
-	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", CDS.srcsmdr.data, make_lin(p5, CDS.srcsmdr), parametrupavetp.index("S-D")],
-	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", CDS.srcsmdp.data, make_lin(p5, CDS.srcsmdp), parametrupavetp.index("S-D")],
-	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", CDS.srcsmdv.data, make_lin(p5, CDS.srcsmdv), parametrupavetp.index("S-D")]}
+	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", [CDS.srcsmdr.data, CDS.srcsmd1r.data], make_lin(p5, CDS.srcsmdr, CDS.srcsmd1r), parametrupavetp.index("S-D")],
+	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", [CDS.srcsmdp.data, CDS.srcsmd1p.data], make_lin(p5, CDS.srcsmdp, CDS.srcsmd1p), parametrupavetp.index("S-D")],
+	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", [CDS.srcsmdv.data, CDS.srcsmd1v.data], make_lin(p5, CDS.srcsmdv, CDS.srcsmd1v), parametrupavetp.index("S-D")]}
 
 
-def pm1ms21_update(attr, old, new):
+def elektroltp_update(attr, old, new):
+	elektroltpr = {}
+	elektroltpp = {}
+	elektroltpv = {}
+	dictpav = "elektroltp"
 	for key in parametetp.keys():
 		if "pm1-s21" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
 			v1, v2, v3, v4, v5, v6 = verte(n)
 			r1 = max(v1, v2, v3, v4) - v1
 			formule = r1 - v5 + v6
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def pm1ps21_update(attr, old, new):
-	for key in parametetp.keys():
-		if "pm1+s21" in str(key):
+		elif "pm1+s21" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
 			v1, v2, v3, v4, v5, v6 = verte(n)
 			r1 = max(v1, v2, v3, v4) - v1
 			formule = r1 + v5 - v6
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def pm1mpm4_update(attr, old, new):
-	for key in parametetp.keys():
-		if "pm1-pm4" in str(key):
+		elif "pm1-pm4" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
 			v1, v2, v3, v4 = verte(n)
 			r1 = max(v1, v2, v3, v4) - v1
 			r2 = max(v1, v2, v3, v4) - v4
 			sourcedata1, sourcedata2 = sourcedata
 			formule = (r1 - r2)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp, key)
 			if karareiksme < 0:
 				karareiksme
 			else:
 				karareiksme = 0
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata1.update(new_data1)
 			new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata2.update(new_data2)
 
-
-def smdm_update(attr, old, new):
-	for key in parametetp.keys():
-		if "smdm" in str(key):
+		elif "smdm" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
 			v1, v2, v3, v4 = verte(n)
 			formule = max(v1, v2) + max(v3, v4)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp, key)
 			# kažką sugalvoti, kad negali būti 0
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def smd_update(attr, old, new):
-	for key in parametetp.keys():
-		if "s-d" in str(key):
+		elif "s-d" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
 			v1, v2, v3, v4 = verte(n)
+			sourcedata1, sourcedata2 = sourcedata
 			formule = v2 - v1 - v4 + v3
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleetp, key)
 			# kažką sugalvoti, kad negali būti 0
+			if karareiksme < 0:
+				new_data1 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+				sourcedata1.update(new_data1)
+				new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
+				sourcedata2.update(new_data2)
+			else:
+				new_data1 = {'x': [0, 0], 'y': [yreiksme, yreiksme]}
+				sourcedata1.update(new_data1)
+				new_data2 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
+				sourcedata2.update(new_data2)
 
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
-			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
-			sourcedata.update(new_data)
+		if "rytas" in str(key):
+			if key == "pm1-pm4rytas":
+				key1 = "pm1-pm4rytas1"
+				elektroltpr[key] = karareiksme
+				elektroltpr[key1] = -karareiksme
+			elif key == "s-drytas":
+				if karareiksme < 0:
+					key1 = "s-drytas1"
+					elektroltpr[key] = karareiksme
+					elektroltpr[key1] = -karareiksme
+				else:
+					key1 = "s-drytas1"
+					elektroltpr[key] = 0
+					elektroltpr[key1] = karareiksme
+			else:
+				elektroltpr[key] = karareiksme
+		elif "pietūs" in str(key):
+			if key == "pm1-pm4pietūs":
+				key1 = "pm1-pm4pietūs1"
+				elektroltpp[key] = karareiksme
+				elektroltpp[key1] = -karareiksme
+			elif key == "s-dpietūs":
+				if karareiksme < 0:
+					key1 = "s-dpietūs"
+					elektroltpp[key] = karareiksme
+					elektroltpp[key1] = -karareiksme
+				else:
+					key1 = "s-dpietūs1"
+					elektroltpp[key] = 0
+					elektroltpp[key1] = karareiksme
+			else:
+				elektroltpp[key] = karareiksme
+		elif "vakaras" in str(key):
+			if key == "pm1-pm4vakaras":
+				key1 = "pm1-pm4vakaras1"
+				elektroltpv[key] = karareiksme
+				elektroltpv[key1] = -karareiksme
+			elif key == "s-dvakaras":
+				if karareiksme < 0:
+					key1 = "s-dvakaras1"
+					elektroltpv[key] = karareiksme
+					elektroltpv[key1] = -karareiksme
+				else:
+					key1 = "s-dvakaras1"
+					elektroltpv[key] = 0
+					elektroltpv[key1] = karareiksme
+			else:
+				elektroltpv[key] = karareiksme
+
+		# if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 5:
+		buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
-	w.on_change("value", pm1ms21_update, pm1ps21_update, pm1mpm4_update, smdm_update, smd_update)
+	w.on_change("value", elektroltp_update)
 
 # Kalio trūkumo alkalozė|pertekliaus acidozė
 
@@ -2599,132 +2865,109 @@ parametktalpac = {
 	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ktalpacv.data, make_lin(p6, CDS.srcp4p1ktalpacv), parametrupavktalpac.index("P4-P1")]}
 
 
-def kdktalpac_update(attr, old, new):
+def kaliotalpac_update(attr, old, new):
+	kaliotalpacr = {}
+	kaliotalpacp = {}
+	kaliotalpacv = {}
+	dictpav = "kaliotalpac"
 	for key in parametktalpac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def tksiktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "tksi" in str(key):
+		elif "tksi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def kphiktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "kphi" in str(key):
+		elif "kphi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1, v2 = verte(n)
 			formule = v1 - (v2 / 5)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uphkktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "uphk" in str(key):
+		elif "uphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			slatv, slarugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = slarugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			if karareiksme < 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def sphkktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "sphk" in str(key):
+		elif "sphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			slatv, serugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = serugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def vyzdktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "vyzd" in str(key):
+		elif "vyzd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			if karareiksme > 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def dermktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "derm" in str(key):
+		elif "derm" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			if karareiksme > 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p4p1ktalpac_update(attr, old, new):
-	for key in parametktalpac.keys():
-		if "p4p1" in str(key):
+		elif "p4p1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
 			v1, v2 = verte(n)
 			formule = v1 - v2
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lentelektalpac, key)
 			if karareiksme < 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
+		try:
+			if "rytas" in str(key):
+				kaliotalpacr[key] = karareiksme
+			elif "pietūs" in str(key):
+				kaliotalpacp[key] = karareiksme
+			elif "vakaras" in str(key):
+				kaliotalpacv[key] = karareiksme
+		except UnboundLocalError:
+			pass
+
+		# buklnustat1(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav)
+
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametktalpac.values()]])):
-	w.on_change(
-		"value", kdktalpac_update, tksiktalpac_update, kphiktalpac_update, uphkktalpac_update,
-		sphkktalpac_update, vyzdktalpac_update, dermktalpac_update, p4p1ktalpac_update)
+	w.on_change("value", kaliotalpac_update)
 
 # Respiracinė alkalozė|acidozė
 
@@ -2767,110 +3010,93 @@ parametralac = {
 	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ralacv.data, make_lin(p7, CDS.srcp4p1ralacv), parametrupavralac.index("P4-P1")]}
 
 
-def kdralac_update(attr, old, new):
+def respialac_update(attr, old, new):
+	respialacr = {}
+	respialacp = {}
+	respialacv = {}
+	dictpav = "respialac"
 	for key in parametralac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def tksiralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "tksi" in str(key):
+		elif "tksi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def kphiralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "kphi" in str(key):
+		elif "kphi" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			v1, v2 = verte(n)
 			formule = v1 - (v2 / 5)
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def uphkralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "uphk" in str(key):
+		elif "uphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			slatv, slarugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = slarugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def sphkralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "sphk" in str(key):
+		elif "sphk" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			slatv, serugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
 			formule = serugv + (0.033333 * tankindx) - 0.533333
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p1ralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "p(1)" in str(key):
+		elif "p(1)" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			v1 = verte(n)
 			formule = v1
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			if karareiksme < 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-
-def p4p1ralac_update(attr, old, new):
-	for key in parametralac.keys():
-		if "p4p1" in str(key):
+		elif "p4p1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			v1, v2 = verte(n)
 			formule = v1 - v2
-			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac)
+			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			if karareiksme < 0:
 				karareiksme = 0
 			else:
 				karareiksme
-
-	# atnaujinamas x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
+		try:
+			if "rytas" in str(key):
+				respialacr[key] = karareiksme
+			elif "pietūs" in str(key):
+				respialacp[key] = karareiksme
+			elif "vakaras" in str(key):
+				respialacv[key] = karareiksme
+		except UnboundLocalError:
+			pass
+
+		# buklnustat1(respialacr, respialacp, respialacv, dictpav)
+
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
-	w.on_change(
-		"value", kdralac_update, tksiralac_update, kphiralac_update, uphkralac_update, sphkralac_update, p1ralac_update, p4p1ralac_update)
+	w.on_change("value", respialac_update)
 
 # visi elementai sujungiami į norimą layout
 lay1 = layout(
@@ -2924,7 +3150,9 @@ lay1 = layout(
 	[aprkvepsu(), ksirytas, ksipietus, ksivakaras])
 
 lay2 = column(prodomas)
-lay3 = row(lay1, lay2)
+lay3 = row(spacer_1, rekomendmyg)
+lay4 = column(lay2, lay3, rekokatego(), rekotipai(), rekomendac())
+lay5 = row(lay1, lay4)
 
 # add the layout to curdoc
-curdoc().add_root(lay3)
+curdoc().add_root(lay5)
