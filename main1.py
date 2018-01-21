@@ -1794,8 +1794,8 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 			NormaKT = 92
 			NormaAP = 96
 		else:
-			NormaKT = (-30 * arg[0]) + 192
-			NormaAP = (-30 * arg[0]) + 188
+			NormaKT = (40 * arg[0]) - 192
+			NormaAP = (40 * arg[0]) - 188
 		pagrindas = lentel.loc[lentel.index[ind], "Pagrindas"]
 		balansas = sum([NormaAP, NormaKT]) / len([NormaAP, NormaKT])
 	elif NormaKT == -0.28 and NormaAP == -0.18:
@@ -1832,28 +1832,18 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 			pagrindas = 16
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
-			else:
-				ktarap = 0
 		else:
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
-			else:
-				ktarap = 0
+
 	else:
 		if NormaKT == 16 and NormaAP == 8:
 			pagrindas = 16
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
-			else:
-				ktarap = 0
-		elif NormaKT == -8 and NormaAP == 2:
-			if (alfa * skirtum + beta) > 0:
-				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 		else:
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
-			else:
-				ktarap = 0
 
 # nurodomos skirtingos spalvos
 	if len(lin) == 1:
@@ -1876,129 +1866,119 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 		ktarapriba = -4
 	else:
 		ktarapriba = ktarap
-	# logging.info(k + " " + str(ktarap))
 	return ktarapriba
 
 
 def buklnustat(val1, val2, val3, param):
-	buklkr = len([val1[i] for i in val1 if val1[i] < -1])
-	buklar = len([val1[i] for i in val1 if val1[i] > 1])
-	buklkp = len([val2[i] for i in val2 if val2[i] < -1])
-	buklap = len([val2[i] for i in val2 if val2[i] > 1])
-	buklkv = len([val3[i] for i in val3 if val3[i] < -1])
-	buklav = len([val3[i] for i in val3 if val3[i] > 1])
+	for api, skaic in param.items():
+		if skaic is not None:
+			buklkr = len([val1[i] for i in val1 if val1[i] < -1])
+			buklar = len([val1[i] for i in val1 if val1[i] > 1])
+			buklkp = len([val2[i] for i in val2 if val2[i] < -1])
+			buklap = len([val2[i] for i in val2 if val2[i] > 1])
+			buklkv = len([val3[i] for i in val3 if val3[i] < -1])
+			buklav = len([val3[i] for i in val3 if val3[i] > 1])
 
-	if param == "simparasim":
-		if buklkr >= 5:
-			bksrreiksme = "T"
-		else:
-			bksrreiksme = "N"
-		if buklar >= 5:
-			bkprreiksme = "T"
-		else:
-			bkprreiksme = "N"
+			if buklkr >= skaic:
+				bksrreiksme = "T"
+			else:
+				bksrreiksme = "N"
+			if buklar >= skaic:
+				bkprreiksme = "T"
+			else:
+				bkprreiksme = "N"
 
-		if buklkp >= 5:
-			bkspreiksme = "T"
-		else:
-			bkspreiksme = "N"
-		if buklap >= 5:
-			bkppreiksme = "T"
-		else:
-			bkppreiksme = "N"
+			if buklkp >= skaic:
+				bkspreiksme = "T"
+			else:
+				bkspreiksme = "N"
+			if buklap >= skaic:
+				bkppreiksme = "T"
+			else:
+				bkppreiksme = "N"
 
-		if buklkv >= 5:
-			bksvreiksme = "T"
-		else:
-			bksvreiksme = "N"
-		if buklav >= 5:
-			bkpvreiksme = "T"
-		else:
-			bkpvreiksme = "N"
+			if buklkv >= skaic:
+				bksvreiksme = "T"
+			else:
+				bksvreiksme = "N"
+			if buklav >= skaic:
+				bkpvreiksme = "T"
+			else:
+				bkpvreiksme = "N"
 
-	elif param == "ketogliuko":
-		if buklkr >= 4:
-			bksrreiksme = "T"
 		else:
-			bksrreiksme = "N"
-		if buklar >= 4:
-			bkprreiksme = "T"
-		else:
-			bkprreiksme = "N"
+			if api != "kaliotalpac":
+				kdtksikphir = [val1["kdrytas"], val1["tsksirytas"], val1["kphirytas"]]
+				kdtksikphip = [val2["kdpietūs"], val2["tksipietūs"], val2["kphipietūs"]]
+				kdtksikphiv = [val3["kdvakaras"], val3["tksivakaras"], val3["kphivakaras"]]
 
-		if buklkp >= 4:
-			bkspreiksme = "T"
-		else:
-			bkspreiksme = "N"
-		if buklap >= 4:
-			bkppreiksme = "T"
-		else:
-			bkppreiksme = "N"
+				uphksphkr = [val1["uphkrytas"], val1["sphkrytas"]]
+				uphksphkp = [val2["uphkpietūs"], val2["sphkpietūs"]]
+				uphksphkv = [val3["uphkvakaras"], val3["sphkvakaras"]]
 
-		if buklkv >= 4:
-			bksvreiksme = "T"
-		else:
-			bksvreiksme = "N"
-		if buklav >= 4:
-			bkpvreiksme = "T"
-		else:
-			bkpvreiksme = "N"
+				p1p4p1r = [val1["p(1)rytas"], val1["p4p1rytas"]]
+				p1p4p1p = [val2["p(1)pietūs"], val2["p4p1pietūs"]]
+				p1p4p1v = [val3["p(1)vakaras"], val3["p4p1vakaras"]]
+			else:
+				kdtksikphir = [val1["kdrytas"], val1["tksirytas"], val1["kphirytas"]]
+				kdtksikphip = [val2["kdpietūs"], val2["tksipietūs"], val2["kphipietūs"]]
+				kdtksikphiv = [val3["kdvakaras"], val3["tksivakaras"], val3["kphivakaras"]]
 
-	elif param == "disaeanae":
-		if buklkr >= 3:
-			bksrreiksme = "T"
-		else:
-			bksrreiksme = "N"
-		if buklar >= 3:
-			bkprreiksme = "T"
-		else:
-			bkprreiksme = "N"
+				uphksphkr = [val1["uphkrytas"], val1["sphkrytas"]]
+				uphksphkp = [val2["uphkpietūs"], val2["sphkpietūs"]]
+				uphksphkv = [val3["uphkvakaras"], val3["sphkvakaras"]]
 
-		if buklkp >= 3:
-			bkspreiksme = "T"
-		else:
-			bkspreiksme = "N"
-		if buklap >= 3:
-			bkppreiksme = "T"
-		else:
-			bkppreiksme = "N"
+				p1p4p1r = [val1["dermrytas"], val1["vyzdrytas"], val1["p4p1rytas"]]
+				p1p4p1p = [val2["dermpietūs"], val2["vyzdpietūs"], val2["p4p1pietūs"]]
+				p1p4p1v = [val3["dermvakaras"], val3["vyzdvakaras"], val3["p4p1vakaras"]]
 
-		if buklkv >= 3:
-			bksvreiksme = "T"
-		else:
-			bksvreiksme = "N"
-		if buklav >= 3:
-			bkpvreiksme = "T"
-		else:
-			bkpvreiksme = "N"
+			buklkdtksikphirkr = len([i for i in kdtksikphir if i < -1])
+			uphksphkrkr = len([i for i in uphksphkr if i < -1])
+			p1p4p1rkr = len([i for i in p1p4p1r if i < -1])
+			buklkdtksikphirar = len([i for i in kdtksikphir if i > 1])
+			uphksphkrar = len([i for i in uphksphkr if i > 1])
+			p1p4p1rar = len([i for i in p1p4p1r if i > 1])
 
-	elif param == "elektroltp":
-		if buklkr >= 3:
-			bksrreiksme = "T"
-		else:
-			bksrreiksme = "N"
-		if buklar >= 3:
-			bkprreiksme = "T"
-		else:
-			bkprreiksme = "N"
+			buklkdtksikphipkp = len([i for i in kdtksikphip if i < -1])
+			uphksphkpkp = len([i for i in uphksphkp if i < -1])
+			p1p4p1pkp = len([i for i in p1p4p1r if i < -1])
+			buklkdtksikphipap = len([i for i in kdtksikphip if i > 1])
+			uphksphkpap = len([i for i in uphksphkp if i > 1])
+			p1p4p1pap = len([i for i in p1p4p1p if i > 1])
 
-		if buklkp >= 3:
-			bkspreiksme = "T"
-		else:
-			bkspreiksme = "N"
-		if buklap >= 3:
-			bkppreiksme = "T"
-		else:
-			bkppreiksme = "N"
+			buklkdtksikphivkv = len([i for i in kdtksikphiv if i < -1])
+			uphksphkvkv = len([i for i in uphksphkv if i < -1])
+			p1p4p1vkv = len([i for i in p1p4p1v if i < -1])
+			buklkdtksikphivav = len([i for i in kdtksikphiv if i > 1])
+			uphksphkvav = len([i for i in uphksphkv if i > 1])
+			p1p4p1vav = len([i for i in p1p4p1v if i > 1])
 
-		if buklkv >= 3:
-			bksvreiksme = "T"
-		else:
-			bksvreiksme = "N"
-		if buklav >= 3:
-			bkpvreiksme = "T"
-		else:
-			bkpvreiksme = "N"
+			if buklkdtksikphirkr >= 2 and uphksphkrkr == 2 and p1p4p1rkr >= 1:
+				bksrreiksme = "T"
+			else:
+				bksrreiksme = "N"
+			if buklkdtksikphirar >= 2 and uphksphkrar == 2 and p1p4p1rar >= 1:
+				bkprreiksme = "T"
+			else:
+				bkprreiksme = "N"
+
+			if buklkdtksikphipkp >= 2 and uphksphkpkp == 2 and p1p4p1pkp >= 1:
+				bkspreiksme = "T"
+			else:
+				bkspreiksme = "N"
+			if buklkdtksikphipap >= 2 and uphksphkpap == 2 and p1p4p1pap >= 1:
+				bkppreiksme = "T"
+			else:
+				bkppreiksme = "N"
+
+			if buklkdtksikphivkv >= 2 and uphksphkvkv == 2 and p1p4p1vkv >= 1:
+				bksvreiksme = "T"
+			else:
+				bksvreiksme = "N"
+			if buklkdtksikphivav >= 2 and uphksphkvav == 2 and p1p4p1vav >= 1:
+				bkpvreiksme = "T"
+			else:
+				bkpvreiksme = "N"
 
 	bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
 	bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
@@ -2015,89 +1995,8 @@ def buklnustat(val1, val2, val3, param):
 	else:
 		galutineant = "T"
 
-	print("Katabolizmo", param, galutineknt, val1, val2, val3)
-	print("Anabolizmo", param, galutineant, val1, val2, val3)
-
-
-def buklnustat1(val1, val2, val3, param):
-	kdtksikphir = [val1["kdrytas"], val1["tksirytas"], val1["kphirytas"]]
-	kdtksikphip = [val2["kdpietūs"], val2["tksipietūs"], val2["kphipietūs"]]
-	kdtksikphiv = [val3["kdvakaras"], val3["tksivakaras"], val3["kphivakaras"]]
-
-	uphksphkr = [val1["uphkrytas"], val1["sphkrytas"]]
-	uphksphkp = [val2["uphkpietūs"], val2["sphkpietūs"]]
-	uphksphkv = [val3["uphkvakaras"], val3["sphkvakaras"]]
-
-	p1p4p1r = [val1["p(1)rytas"], val1["tksirytas"]]
-	p1p4p1p = [val2["p(1)pietūs"], val2["tksipietūs"]]
-	p1p4p1v = [val3["p(1)vakaras"], val3["tksivakaras"]]
-
-	buklkdtksikphirkr = len([i for i in kdtksikphir if i < -1])
-	uphksphkrkr = len([i for i in uphksphkr if i < -1])
-	p1p4p1rkr = len([i for i in p1p4p1r if i < -1])
-	buklkdtksikphirar = len([i for i in kdtksikphir if i > 1])
-	uphksphkrar = len([i for i in uphksphkr if i > 1])
-	p1p4p1rar = len([i for i in p1p4p1r if i > 1])
-
-	buklkdtksikphipkp = len([i for i in kdtksikphip if i < -1])
-	uphksphkpkp = len([i for i in uphksphkp if i < -1])
-	p1p4p1pkp = len([i for i in p1p4p1r if i < -1])
-	buklkdtksikphipap = len([i for i in kdtksikphip if i > 1])
-	uphksphkpap = len([i for i in uphksphkp if i > 1])
-	p1p4p1pap = len([i for i in p1p4p1p if i > 1])
-
-	buklkdtksikphivkv = len([i for i in kdtksikphiv if i < -1])
-	uphksphkvkv = len([i for i in uphksphkv if i < -1])
-	p1p4p1vkv = len([i for i in p1p4p1v if i < -1])
-	buklkdtksikphivav = len([i for i in kdtksikphiv if i > 1])
-	uphksphkvav = len([i for i in uphksphkv if i > 1])
-	p1p4p1vav = len([i for i in p1p4p1v if i > 1])
-
-	if param == ("alkaacid" or "kaliotalpac" or "respialac"):
-		if buklkdtksikphirkr >= 2 and uphksphkrkr == 2 and p1p4p1rkr >= 1:
-			bksrreiksme = "T"
-		else:
-			bksrreiksme = "N"
-		if buklkdtksikphirar >= 2 and uphksphkrar == 2 and p1p4p1rar >= 1:
-			bkprreiksme = "T"
-		else:
-			bkprreiksme = "N"
-
-		if buklkdtksikphipkp >= 2 and uphksphkpkp == 2 and p1p4p1pkp >= 1:
-			bkspreiksme = "T"
-		else:
-			bkspreiksme = "N"
-		if buklkdtksikphipap >= 2 and uphksphkpap == 2 and p1p4p1pap >= 1:
-			bkppreiksme = "T"
-		else:
-			bkppreiksme = "N"
-
-		if buklkdtksikphivkv >= 2 and uphksphkvkv == 2 and p1p4p1vkv >= 1:
-			bksvreiksme = "T"
-		else:
-			bksvreiksme = "N"
-		if buklkdtksikphivav >= 2 and uphksphkvav == 2 and p1p4p1vav >= 1:
-			bkpvreiksme = "T"
-		else:
-			bkpvreiksme = "N"
-
-	bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
-	bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
-	bendrasan = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "N"])
-	bendrasat = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "T"])
-
-	if bendraskn > bendraskt:
-		galutineknt = "N"
-	else:
-		galutineknt = "T"
-
-	if bendrasan > bendrasat:
-		galutineant = "N"
-	else:
-		galutineant = "T"
-
-	print("Katabolizmo", param, galutineknt)
-	print("Anabolizmo", param, galutineant)
+	print("Katabolizmo", api, galutineknt, val1, val2, val3)
+	print("Anabolizmo", api, galutineant, val1, val2, val3)
 
 
 # Simpatinis|parasimpatinis
@@ -2165,7 +2064,7 @@ def simparasim_update(attr, old, new):
 	simparasimr = {}
 	simparasimp = {}
 	simparasimv = {}
-	dictpav = "simparasim"
+	dictpav = {"simparasim": 5}
 	for key in parametsp.keys():
 		if "ps1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
@@ -2277,8 +2176,8 @@ def simparasim_update(attr, old, new):
 		# elif "vakaras" in str(key):
 		# 	simparasimv[key] = karareiksme
 
-		# # if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
-		# # 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
+		# if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
+		# 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
@@ -2330,7 +2229,7 @@ def ketogliuko_update(attr, old, new):
 	ketogliukor = {}
 	ketogliukop = {}
 	ketogliukov = {}
-	dictpav = "ketogliuko"
+	dictpav = {"ketogliuko": 4}
 	for key in parametkg.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
@@ -2424,10 +2323,10 @@ def ketogliuko_update(attr, old, new):
 		# 		ketogliukov[key] = karareiksme
 		# 		ketogliukov[key1] = -karareiksme
 		# 	else:
-		# 		ketogliukor[key] = karareiksme
+		# 		ketogliukov[key] = karareiksme
 
-		# # if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 7:
-		# buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav)
+		# if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 8:
+		# 	buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
@@ -2474,7 +2373,7 @@ def disaeanae_update(attr, old, new):
 	disaeanaer = {}
 	disaeanaep = {}
 	disaeanaev = {}
-	dictpav = "disaeanae"
+	dictpav = {"disaeanae": 3}
 	for key in parametda.keys():
 		if "dtank" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
@@ -2533,8 +2432,8 @@ def disaeanae_update(attr, old, new):
 		# elif "vakaras" in str(key):
 		# 	disaeanaev[key] = karareiksme
 
-		# # if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
-		# buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav)
+		# if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
+		# 	buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda.values()]])):
@@ -2585,7 +2484,7 @@ def alkaacid_update(attr, old, new):
 	alkaacidr = {}
 	alkaacidp = {}
 	alkaacidv = {}
-	dictpav = "alkaacid"
+	dictpav = {"alkaacid": None}
 	for key in parametalac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
@@ -2657,7 +2556,7 @@ def alkaacid_update(attr, old, new):
 		# 	alkaacidv[key] = karareiksme
 
 		# if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
-		# 	buklnustat1(alkaacidr, alkaacidp, alkaacidv, dictpav)
+		# 	buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
@@ -2700,7 +2599,7 @@ def elektroltp_update(attr, old, new):
 	elektroltpr = {}
 	elektroltpp = {}
 	elektroltpv = {}
-	dictpav = "elektroltp"
+	dictpav = {"elektroltp": 3}
 	for key in parametetp.keys():
 		if "pm1-s21" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
@@ -2764,57 +2663,57 @@ def elektroltp_update(attr, old, new):
 				new_data2 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 				sourcedata2.update(new_data2)
 
-		if "rytas" in str(key):
-			if key == "pm1-pm4rytas":
-				key1 = "pm1-pm4rytas1"
-				elektroltpr[key] = karareiksme
-				elektroltpr[key1] = -karareiksme
-			elif key == "s-drytas":
-				if karareiksme < 0:
-					key1 = "s-drytas1"
-					elektroltpr[key] = karareiksme
-					elektroltpr[key1] = -karareiksme
-				else:
-					key1 = "s-drytas1"
-					elektroltpr[key] = 0
-					elektroltpr[key1] = karareiksme
-			else:
-				elektroltpr[key] = karareiksme
-		elif "pietūs" in str(key):
-			if key == "pm1-pm4pietūs":
-				key1 = "pm1-pm4pietūs1"
-				elektroltpp[key] = karareiksme
-				elektroltpp[key1] = -karareiksme
-			elif key == "s-dpietūs":
-				if karareiksme < 0:
-					key1 = "s-dpietūs"
-					elektroltpp[key] = karareiksme
-					elektroltpp[key1] = -karareiksme
-				else:
-					key1 = "s-dpietūs1"
-					elektroltpp[key] = 0
-					elektroltpp[key1] = karareiksme
-			else:
-				elektroltpp[key] = karareiksme
-		elif "vakaras" in str(key):
-			if key == "pm1-pm4vakaras":
-				key1 = "pm1-pm4vakaras1"
-				elektroltpv[key] = karareiksme
-				elektroltpv[key1] = -karareiksme
-			elif key == "s-dvakaras":
-				if karareiksme < 0:
-					key1 = "s-dvakaras1"
-					elektroltpv[key] = karareiksme
-					elektroltpv[key1] = -karareiksme
-				else:
-					key1 = "s-dvakaras1"
-					elektroltpv[key] = 0
-					elektroltpv[key1] = karareiksme
-			else:
-				elektroltpv[key] = karareiksme
+		# if "rytas" in str(key):
+		# 	if key == "pm1-pm4rytas":
+		# 		key1 = "pm1-pm4rytas1"
+		# 		elektroltpr[key] = karareiksme
+		# 		elektroltpr[key1] = -karareiksme
+		# 	elif key == "s-drytas":
+		# 		if karareiksme < 0:
+		# 			key1 = "s-drytas1"
+		# 			elektroltpr[key] = karareiksme
+		# 			elektroltpr[key1] = -karareiksme
+		# 		else:
+		# 			key1 = "s-drytas1"
+		# 			elektroltpr[key] = 0
+		# 			elektroltpr[key1] = karareiksme
+		# 	else:
+		# 		elektroltpr[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	if key == "pm1-pm4pietūs":
+		# 		key1 = "pm1-pm4pietūs1"
+		# 		elektroltpp[key] = karareiksme
+		# 		elektroltpp[key1] = -karareiksme
+		# 	elif key == "s-dpietūs":
+		# 		if karareiksme < 0:
+		# 			key1 = "s-dpietūs1"
+		# 			elektroltpp[key] = karareiksme
+		# 			elektroltpp[key1] = -karareiksme
+		# 		else:
+		# 			key1 = "s-dpietūs1"
+		# 			elektroltpp[key] = 0
+		# 			elektroltpp[key1] = karareiksme
+		# 	else:
+		# 		elektroltpp[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	if key == "pm1-pm4vakaras":
+		# 		key1 = "pm1-pm4vakaras1"
+		# 		elektroltpv[key] = karareiksme
+		# 		elektroltpv[key1] = -karareiksme
+		# 	elif key == "s-dvakaras":
+		# 		if karareiksme < 0:
+		# 			key1 = "s-dvakaras1"
+		# 			elektroltpv[key] = karareiksme
+		# 			elektroltpv[key1] = -karareiksme
+		# 		else:
+		# 			key1 = "s-dvakaras1"
+		# 			elektroltpv[key] = 0
+		# 			elektroltpv[key1] = karareiksme
+		# 	else:
+		# 		elektroltpv[key] = karareiksme
 
-		# if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 5:
-		buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
+		# if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 7:
+		# 	buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
@@ -2869,7 +2768,7 @@ def kaliotalpac_update(attr, old, new):
 	kaliotalpacr = {}
 	kaliotalpacp = {}
 	kaliotalpacv = {}
-	dictpav = "kaliotalpac"
+	dictpav = {"kaliotalpac": None}
 	for key in parametktalpac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
@@ -2953,17 +2852,15 @@ def kaliotalpac_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		try:
-			if "rytas" in str(key):
-				kaliotalpacr[key] = karareiksme
-			elif "pietūs" in str(key):
-				kaliotalpacp[key] = karareiksme
-			elif "vakaras" in str(key):
-				kaliotalpacv[key] = karareiksme
-		except UnboundLocalError:
-			pass
+		# if "rytas" in str(key):
+		# 	kaliotalpacr[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	kaliotalpacp[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	kaliotalpacv[key] = karareiksme
 
-		# buklnustat1(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav)
+		# if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
+		# 	buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametktalpac.values()]])):
@@ -3014,7 +2911,7 @@ def respialac_update(attr, old, new):
 	respialacr = {}
 	respialacp = {}
 	respialacv = {}
-	dictpav = "respialac"
+	dictpav = {"respialac": None}
 	for key in parametralac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
@@ -3082,17 +2979,15 @@ def respialac_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		try:
-			if "rytas" in str(key):
-				respialacr[key] = karareiksme
-			elif "pietūs" in str(key):
-				respialacp[key] = karareiksme
-			elif "vakaras" in str(key):
-				respialacv[key] = karareiksme
-		except UnboundLocalError:
-			pass
+		# if "rytas" in str(key):
+		# 	respialacr[key] = karareiksme
+		# elif "pietūs" in str(key):
+		# 	respialacp[key] = karareiksme
+		# elif "vakaras" in str(key):
+		# 	respialacv[key] = karareiksme
 
-		# buklnustat1(respialacr, respialacp, respialacv, dictpav)
+		# if len(respialacr) == len(respialacp) == len(respialacv) == 7:
+		# 	buklnustat(respialacr, respialacp, respialacv, dictpav)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
