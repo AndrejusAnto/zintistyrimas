@@ -1908,7 +1908,7 @@ def buklnustat(val1, val2, val3, param):
 
 		else:
 			if api != "kaliotalpac":
-				kdtksikphir = [val1["kdrytas"], val1["tsksirytas"], val1["kphirytas"]]
+				kdtksikphir = [val1["kdrytas"], val1["tksirytas"], val1["kphirytas"]]
 				kdtksikphip = [val2["kdpietūs"], val2["tksipietūs"], val2["kphipietūs"]]
 				kdtksikphiv = [val3["kdvakaras"], val3["tksivakaras"], val3["kphivakaras"]]
 
@@ -2177,7 +2177,7 @@ def simparasim_update(attr, old, new):
 		# 	simparasimv[key] = karareiksme
 
 		# if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
-		# 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
+		# 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
@@ -2326,7 +2326,7 @@ def ketogliuko_update(attr, old, new):
 		# 		ketogliukov[key] = karareiksme
 
 		# if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 8:
-		# 	buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav)
+		# 	buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
@@ -2433,7 +2433,7 @@ def disaeanae_update(attr, old, new):
 		# 	disaeanaev[key] = karareiksme
 
 		# if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
-		# 	buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav)
+		# 	buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda.values()]])):
@@ -2556,7 +2556,7 @@ def alkaacid_update(attr, old, new):
 		# 	alkaacidv[key] = karareiksme
 
 		# if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
-		# 	buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav)
+		# 	buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav) GERAi
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
@@ -2713,7 +2713,7 @@ def elektroltp_update(attr, old, new):
 		# 		elektroltpv[key] = karareiksme
 
 		# if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 7:
-		# 	buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
+		# 	buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
@@ -2860,7 +2860,7 @@ def kaliotalpac_update(attr, old, new):
 		# 	kaliotalpacv[key] = karareiksme
 
 		# if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
-		# 	buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav)
+		# 	buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametktalpac.values()]])):
@@ -2987,7 +2987,7 @@ def respialac_update(attr, old, new):
 		# 	respialacv[key] = karareiksme
 
 		# if len(respialacr) == len(respialacp) == len(respialacv) == 7:
-		# 	buklnustat(respialacr, respialacp, respialacv, dictpav)
+		# 	buklnustat(respialacr, respialacp, respialacv, dictpav) GERAI
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
