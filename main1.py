@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc
-from bokeh.layouts import column, row, layout
-from bokeh.models.widgets import TextInput, Div, Select, Button
+from bokeh.layouts import column, row, layout, gridplot
+from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
 import jinja2
 import math
@@ -11,6 +11,7 @@ import pandas as pd
 import itertools
 import grafikai
 import CDS
+
 
 # ši dalis, tam, kad būtų galima reguliuoti TextInput width, nes yra nustatytas Bokeh TextInput default min width,
 # kurio negalima mažinti per parametrų nurodymą. Pvz. "invard = TextInput(name = "vard", value="", title = "Vardas", width = 130"
@@ -338,7 +339,7 @@ curdoc().template = jinja2.Template(source='''
 			@media screen and (max-width: 100%)
 			{
 			.box{
-			width: 80%;
+			width: 70%;
 			}
 
 			.popup{
@@ -357,13 +358,13 @@ curdoc().template = jinja2.Template(source='''
 
 # viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
 def protok():
-	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=None)
+	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
 
 
-invard = TextInput(name="vard", value="", title="Vardas", width=130)
-inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160)
-lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], width=130)
-inamz = TextInput(name="amz", value="", title="Amžius", width=80)
+invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
+inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
+lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], width=130, height=20)
+inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
 
 
 def tikslus():
@@ -371,140 +372,8 @@ def tikslus():
 	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=750)
 
 
-def eiga():
-	return Div(text="""<b>ORGANIZMO BŪKLĖS TYRIMO EIGA</b>
-<br><br>Organizmo būklės nustatymo tikslumui lemiamos įtakos turi tikslūs organizmo parametrų išmatavimai.
-Šiuos parametrus stipriai veikia tiriamojo psichologinė būklė tyrimo metu, taip pat matavimų eilės tvarka.
-Svarbu, kad organizmo būklės tyrimas būtų vykdomas griežtai pagal nurodytą seką.
-Taip pat rekomenduotina kelias dienas iki tyrimo pasipraktikuoti jį atlikti, kad tyrimo dieną viskas vyktų sklandžiai.
-Tyrimo trukmė apie 45 minutės. Pamatuoti duomenys rašomi į <b>„Organizmo būklės tyrimo formos“ </b>skiltį<b><i> „Tyrimo protokolas“</i></b>.
-<br><br><b>PRIEMONĖS</b>:
-<br>•pH metras arba daugiaspalėvės rūgštingumo matavimo juostelės (tikslumas bent 0,5, minimalios skalės ribos nuo 4,5 iki 8)
-<br>•Areometras (kuo mažesnis, minimalios skalės ribos nuo 1,000 g/ml iki 1,030 g/ml) ir pritaikytas matavimo cilindras jam.
-<br>•Chronometras
-<br>•Skaitmeninis kraujospūdžio matuoklis (su manžete ant žasto)
-<br>•Kūno termometras
-<br>•Kūno svarstyklės
-<br>•Indeliai šlapimo mėginiams
-<br>•Įrankis brėžimui neužapvalintu galu (įtrauktas tušinukas, bambukinė lazdelė ir pan.)
-<br>•Popierinis rankšluostis
-<br>•Valgomasis šaukštas
-<br>•Minkštas metras
-<br><br><b>TYRIMO EIGA:</b>
-<br><b>1.</b> 2 valandos iki tyrimo<b><i>nevalgyti</b></i>, jei norisi,<b><i>galima gerti negazuoto vandens</b></i>.
-<br><b>2.</b> 30 minučių iki tyrimo<b><i>nieko negerti ir nekramtyti</b></i>.""", width=750)
-
-
-def slapimo():
-	return Div(text="""<b>3. Šlapimo parametrų matavimas:</b>""", width=780)
-
-
-def prikseil():
-	return Div(text="""<b > 4.</b><i>Tiriamojo paprašoma prikaupti seilių ir įspjauti į valgomąjį šaukštą. Seilių turi būti
-maždaug mažojo piršto galinio narelio dydžio lašas.</i>""", width=750)
-
-
-def seiliu():
-	return Div(text="""<b>5. Seilių parametrų matavimas:</b>""", width=780)
-
-
-def tiriam():
-	return Div(text="""<b>6.</b><i>Tiriamojo paprašoma atsisėsti ant sofos arba lovos per vidurį.</i>""", width=780)
-
-
-def kraujot():
-	return Div(text="""<b>7. Kraujotakos parametrų matavimas:</b>""", width=780)
-
-
-def refleksu():
-	return Div(text="""<b>8. Refleksų tyrimas:</b>""", width=780)
-
-
-def tiriam1():
-	return Div(text="""<i>Tiriamojo paprašoma atsigulti ant sofos ar lovos ant kurios sėdi. Gulamasi
-ištiestomis kojomis, galvą dedant taip, kad prie sofos ar lovos krašto būtų tiriamojo kairė
-pusė. Paliekamas toks tarpas nuo sofos ar lovos krašto, kad tiriamojo kairė ranka laisvai
-gulėtų šalia delnu į viršų. Paprašoma atsipalaiduoti, nekalbėti ir nusiraminti. Taip
-tiriamasis turi pagulėti daugiau nei 1 minutę.</i>""", width=750)
-
-
-def tiriam2():
-	return Div(text="""<b>9.</b><i>Tiriamajam pranešama, kad jis jau gali užsidengti pilvą ir paprašoma atsipalaiduoti,
-nekalbėti ir nusiraminti. Taip tiriamasis turi pagulėti daugiau nei 1 minutę.</i></b>""", width=750)
-
-
-def kvepparmat10():
-	return Div(text="""<b>10. Kvėpavimo parametrų matavimas:</b>""", width=780)
-
-
-def tiriam3():
-	return Div(text="""<b>11.</b><i>Tiriamajam ant kairės rankos žasto uždedama kraujospūdžio matavimo manžetė.</i>""", width=780)
-
-
-def kraujparmat():
-	return Div(text="""<b>12. Kraujotakos parametrų matavimas:</b>""", width=780)
-
-
-def ortatest():
-	return Div(text="""<b>Ortostatinis testas.</b> Tiriamajam atsistojus, kraujospūdžio matuoklio žarnelė neturi
-būti tempiama, todėl matuoklį reikia<i>padėti ant paaukštinimo, pritvirtinti prie manžetės
-arba duoti laikyti tiriamajam laisvoje rankoje</i>.
-<br>• Tiriamajam pranešama, kad paprašius reikės RAMIAI atsistoti šalia ir atsisėsti
-TIK LEIDUS.
-<br>• Įjungiamas kraujospūdžio matuoklis ir jo pompa paimama dešinės rankos
-mažyliu, bevardžiu ir didžiuoju pirštais, taip pat į dešinę ranką paimamas
-chronometras ir laikomas taip, kad smiliumi arba nykščiu būtų galima lengvai
-nuspausti paleidimo mygtuką.
-<br>• Kaire ranka užčiuopiamas tiriamojo pulsas kairėje rankoje taip, kaip nurodyta 8
-punkte. Riešą reikia apminti patogiai, kad pirštai testo metu nenuslystų, ir tam,
-kad būtų galima testo metu lengvai koreguoti jų padėtį.
-<br>•<i>Tiriamojo paprašoma atsistoti</i>. Jo kairė ranka laikoma sulenkta stačiu kampu.
-Tiriamajam besistojant, Jūs turite likti sėdėti.""", width=750)
-
-
-def atsist():
-	return Div(text="""<br>Atsistojus<br>(dūžių skaičius per pirmas 15 s,×4)""", width=300)
-
-
-def po15():
-	return Div(text="""<br>Po 15 s.<br>(dūžių skaičius tarp 15-tos ir 45-tos sekundės,×2)""", width=300)
-
-
-def siskraujatsi():
-	return Div(text="""<br>Sistolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „SYS“ po 45 s)""", width=300)
-
-
-def diaskraujatsi():
-	return Div(text="""<br>Diastolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „DIA“)""", width=300)
-
-
-def pulsatsi45():
-	return Div(text="""<br>Pulsas atsistojus po 45 s<br>(rodmuo ekrane ties „PULS“)""", width=300)
-
-
-def tiriam4():
-	return Div(text="""<b>13.</b><i> Nuimama manžetė nuo tiriamojo žasto.</i>""", width=780)
-
-
-def kvepparmat14():
-	return Div(text="""<b>14. Kvėpavimo parametrų matavimas:</b>""", width=780)
-
-
-def kataanab():
-	return Div(text="""<b>KATABOLIZMAS|ANABOLIZMAS</b>""", width=780)
-
-
-def pav1():
-	return Div(text="""
-<div class="box">
-	<a class="button" href="#popup1">3-2 SAVAITĖS IKI TYRIMŲ DIENOS</a>
-</div>
-
-<div id="popup1" class="overlay">
-	<div class="popup" id="showpopup">
-		<h2>3-2 SAVAITĖS IKI TYRIMŲ DIENOS</h2>
-		<a class="close" href="#showpopup">&times;</a>
-		<div class="content">
+def pagrapras():
+	return Div(text="""<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
 Jei tai pirmasis tyrimas, pradedama keisti mityba, jei tai pakartotinis tyrimas, toliau
 maitinamasi pagal ankstesnio tyrimo metu pateiktas rekomendacijas. Mitybos keitimas
 reikalingas norint padėti:
@@ -515,21 +384,21 @@ nukrypimų, reikalavimai gali likti tokie patys, sugriežtėti arba sušvelnėti
 <br>• atsistatyti storojo žarnyno mikroflorai, nes nustojus vartoti krakmolą ir pradėjus vartoti
 daugiau inertinų (ląstelienos) mikroflora persitvarko mažiausiai per 2 sav.
 <br>Keičiant mitybą reikia nustoti vartoti šiuos produktus:
-<br><b>Krakmolo šaltinius:</b><i>Bulves ir jų produktus (traškučius, lietuviškas mišraines, tirštas
+<br><b>Krakmolo šaltinius: </b><i>Bulves ir jų produktus (traškučius, lietuviškas mišraines, tirštas
 sriubas, kisielių ir pan.), miltų gaminius (duoną, batoną, bandeles, pyragus, blynus,
 makaronus ir pan.), grūdus (kviečius, rugius, ryžius, grikius, avižas, miežius, soras ir pan.),
 visas kruopas, dribsnius, ankštinius (pupas, pupeles, lęšius, žirnius). GALIMA VARTOTI
 žaliuosius žirnelis ir visas daržoves neribotais kiekiais.</i>
-<br><b>Saldžius produktus:</b><i>Saldainius, tortus, pyragėlius, sausainius, šokoladą, ledus, medų,
+<br><b>Saldžius produktus: </b><i>Saldainius, tortus, pyragėlius, sausainius, šokoladą, ledus, medų,
 uogienes, sirupus, sultis, limonadus, vaisius, uogas, alų, likerį, saldų bei pusiau sausą vyną,
 saldų bei pusiau sausą putojantį vyną.</i>
-<br><b>Polinesočiuosius riebalus:</b><i>Saulėgrąžų, rapsų, sezamų, linų sėmenų, moliūgų sėklų,
+<br><b>Polinesočiuosius riebalus: </b><i>Saulėgrąžų, rapsų, sezamų, linų sėmenų, moliūgų sėklų,
 nakvišų aliejus, žuvų taukus, saulėgrąžas, sėmenis, sezamų sėklas, visus riešutus (išskyrus
 kokosų, migdolų ir lazdyno), pistacijas, soją ir jos produktus, margariną, majonezą, picų
 padažus, „tepamus riebalų mišinius", „grietinės ir augalinių riebalų mišinius", „sūrio
 produktus“. GALIMA VARTOTI alyvuogių, avokadų, kokosų, migdolų, lazdyno riešutų aliejus,
 kakavos sviestą, pieno sviestą, lašinius.</i>
-<br><b>Stipriai pakitusius baltymus ir riebalus:</b><i>Savo sultis atidavusią kaitintą mėsą, kietai
+<br><b>Stipriai pakitusius baltymus ir riebalus: </b><i>Savo sultis atidavusią kaitintą mėsą, kietai
 virtus arba keptus kiaušinius, mėsos ir žuvies konservus, brandintus ir fermentuotus sūrius,
 papildomai termiškai apdorotą varškę, pakartotinai pašildytą maistą. GALIMA VARTOTI iki 2
 min. kaitintus kiaušinius, iki 3 min. kaitintą žuvį mažais gabaliukais, iki 5 min. kaitintą
@@ -543,47 +412,14 @@ gabaliukais, nekaitintus baltus sūrius, papildomai nekaitintą varškę.</i>
 <br>• Grūdėta varškė su žaliaisiais konservuotais žirneliais
 <br>• Žali arba troškinti kalafioro griežinėliai grietinės padaže su žolelėmis
 <br>• Šaltibarščiai
-<br>• Graikiškos salotos
-		</div>
-	</div>
-</div>
-	""")
-
-
-def pav2():
-	return Div(text="""
-<div class="box">
-	<a class="button" href="#popup2">MAŽIAUSIAI 2 DIENOS IKI TYRIMŲ DIENOS</a>
-</div>
-
-<div id="popup2" class="overlay">
-	<div class="popup" id="showpopup">
-		<h2>MAŽIAUSIAI 2 DIENOS IKI TYRIMŲ DIENOS</h2>
-		<a class="close" href="#showpopup">&times;</a>
-		<div class="content">
-Nuo ryto nustojamos vartoti šios medžiagos:
-<br><b>Kava, arbata, kakava, šokoladas, energiniai gėrimai, rūkalai, alkoholis, gazuoti
+<br>• Graikiškos salotos<br>
+<br><b>MAŽIAUSIAI 2 DIENOS IKI TYRIMŲ DIENOS:</b>
+<br>Nuo ryto nustojamos vartoti šios medžiagos: <b>Kava, arbata, kakava, šokoladas, energiniai gėrimai, rūkalai, alkoholis, gazuoti
 gėrimai, maisto papildai ir vaistai </b>(IŠSKIRTINIAIS ATVEJAIS, kai vaistų nutraukimas tokiam ilgam periodui gali sukelti pavojų gyvybei,<b> vaistų
-nevartoti bent 1 dieną prieš tyrimą)</b>.<i>GALIMA VARTOTI žolelių arbatas, rooibos arbatą</i>.
-<br>Iki tyrimo neužsiimama intensyvia arba ilgalaike fizine veikla.
-		</div>
-	</div>
-</div>
-	""")
-
-
-def pav3():
-	return Div(text="""
-<div class="box">
-	<a class="button" href="#popup3">TYRIMŲ DIENOS IŠVAKARĖSE</a>
-</div>
-
-<div id="popup3" class="overlay">
-	<div class="popup" id="showpopup">
-		<h2>TYRIMŲ DIENOS IŠVAKARĖSE</h2>
-		<a class="close" href="#showpopup">&times;</a>
-		<div class="content">
-Jei kitą dieną matavimus atliks sutartu metu atvykęs asmuo, nuo pietų pradedami rinkti 3
+nevartoti bent 1 dieną prieš tyrimą)</b>. <i>GALIMA VARTOTI žolelių arbatas, rooibos arbatą</i>. Iki tyrimo neužsiimama intensyvia arba ilgalaike fizine veikla.
+<br>
+<br><b>TYRIMŲ DIENOS IŠVAKARĖSE:</b>
+<br>Jei kitą dieną matavimus atliks sutartu metu atvykęs asmuo, nuo pietų pradedami rinkti 3
 šlapimo mėginiai:
 <br><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Apiepiet – prieš pietus arba bent 2 val. po valgio.</i>
 <br><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vakare – prieš pat miegą, bent 2 val. po valgio.</i>
@@ -592,24 +428,9 @@ Jei kitą dieną matavimus atliks sutartu metu atvykęs asmuo, nuo pietų praded
 tūris turi būti 60 ml. Mėginius reikia pažymėti, kad jie nebūtų supainioti.
 <br><b>Jei kitą dieną matavimai bus atliekami 3 kartus, šlapimo mėginiai imami ir tiriami
 tyrimų dieną.</b>
-		</div>
-	</div>
-</div>
-	""")
-
-
-def pav4():
-	return Div(text="""
-<div class="box">
-	<a class="button" href="#popup4">TYRIMŲ DIENĄ</a>
-</div>
-
-<div id="popup4" class="overlay">
-	<div class="popup" id="showpopup">
-		<h2>TYRIMŲ DIENĄ</h2>
-		<a class="close" href="#showpopup"">&times;</a>
-		<div class="content">
-Tyrimų dieną galima valgyti, bet vis dar laikantis ankstesnių mitybos nurodymų. Iki tyrimo
+<br>
+<br><b>TYRIMŲ DIENĄ:</b>
+<br>Tyrimų dieną galima valgyti, bet vis dar laikantis ankstesnių mitybos nurodymų. Iki tyrimo
 reikia būti bent 2 val. nevalgius ir bent 30 min. iki tyrimo nieko nekramtyti, tačiau galima
 atsigerti negazuoto nešalto vandens.
 <br>Jei tyrimą atlieka sutartu laiku atvykęs asmuo, tyrimo metu ištiriami visi 3 šlapimo
@@ -620,13 +441,36 @@ matuojami po šlapimo mėginio paėmimo, leidus jam atvėsti iki kambario temper
 duomenys surašomi į<b>„Organizmo būklės tyrimo formos“</b> skiltį<i>„Tyrimo protokolas“</i>.
 <br><b>Atlikus tyrimą ir nustačius organizmo būklę pradedama maitintis pagal būklę
 atitinkančias rekomendacijas.</b>
-		</div>
-	</div>
-</div>
-	""")
+<br>
+<br><b>ORGANIZMO BŪKLĖS TYRIMO EIGA:</b>
+<br>Organizmo būklės nustatymo tikslumui lemiamos įtakos turi tikslūs organizmo parametrų išmatavimai.
+Šiuos parametrus stipriai veikia tiriamojo psichologinė būklė tyrimo metu, taip pat matavimų eilės tvarka.
+Svarbu, kad organizmo būklės tyrimas būtų vykdomas griežtai pagal nurodytą seką.
+Taip pat rekomenduotina kelias dienas iki tyrimo pasipraktikuoti jį atlikti, kad tyrimo dieną viskas vyktų sklandžiai.
+Tyrimo trukmė apie 45 minutės. Pamatuoti duomenys rašomi į <b>„Organizmo būklės tyrimo formos“ </b>skiltį<b><i> „Tyrimo protokolas“</i></b>.
+<br><b>PRIEMONĖS</b>:
+<br>•pH metras arba daugiaspalėvės rūgštingumo matavimo juostelės (tikslumas bent 0,5, minimalios skalės ribos nuo 4,5 iki 8)
+<br>•Areometras (kuo mažesnis, minimalios skalės ribos nuo 1,000 g/ml iki 1,030 g/ml) ir pritaikytas matavimo cilindras jam.
+<br>•Chronometras
+<br>•Skaitmeninis kraujospūdžio matuoklis (su manžete ant žasto)
+<br>•Kūno termometras
+<br>•Kūno svarstyklės
+<br>•Indeliai šlapimo mėginiams
+<br>•Įrankis brėžimui neužapvalintu galu (įtrauktas tušinukas, bambukinė lazdelė ir pan.)
+<br>•Popierinis rankšluostis
+<br>•Valgomasis šaukštas
+<br>•Minkštas metras
+<br><br><b>TYRIMO EIGA:</b>
+<br><b>1.</b> 2 valandos iki tyrimo <b><i>nevalgyti</b></i>, jei norisi, <b><i>galima gerti negazuoto vandens</b></i>.
+<br><b>2.</b> 30 minučių iki tyrimo <b><i>nieko negerti ir nekramtyti</b></i>.
+""", width=1300)
 
 
-def aprsrugs():
+def slapimo():
+	return Div(text="""<b>3. Šlapimo parametrų matavimas:</b>""", width=300)
+
+
+def aprslarugs():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup5"><br>Rūgštingumas<br>(rodmuo ekrane arba pagal spalvos skalę)</a>
@@ -738,7 +582,7 @@ slasvpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slasvvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprstank():
+def aprslatank():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup7"><br>Tankis<br>(rodmuo, g/ml)</a>
@@ -766,7 +610,7 @@ slatankpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slatankvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprsputo():
+def aprslaputo():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup8"><br>Putojimas<br>(skaičius pagal skalę)</a>
@@ -818,7 +662,16 @@ slaputpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slaputvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprserugst():
+def prikseil():
+	return Div(text="""<b > 4.</b><i>Tiriamojo paprašoma prikaupti seilių ir įspjauti į valgomąjį šaukštą. Seilių turi būti
+maždaug mažojo piršto galinio narelio dydžio lašas.</i>""", width=750)
+
+
+def seiliu():
+	return Div(text="""<b>5. Seilių parametrų matavimas:</b>""", width=300)
+
+
+def aprseilrugst():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup9"><br>Rūgštingumas<br>(rodmuo ekrane arba skaičius pagal skalę)</a>
@@ -854,7 +707,7 @@ serpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 servakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprseklamp():
+def aprseilklamp():
 	return Div(text="""
 <div class="box">
 	<a class="button" href="#popup10"><br>Klampumas<br>(skaičius pagal skalę)</a>
@@ -906,6 +759,14 @@ sekpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 sekvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
+def tiriam():
+	return Div(text="""<b>6.</b><i>Tiriamojo paprašoma atsisėsti ant sofos arba lovos per vidurį.</i>""", width=780)
+
+
+def kraujot():
+	return Div(text="""<b>7. Kraujotakos parametrų matavimas:</b>""", width=300)
+
+
 def aprpulsed():
 	return Div(text="""
 <div class="box">
@@ -941,6 +802,10 @@ pajuntate po to, kaip chronometras parodo 0:15. Tuomet į juodraštį užsirašo
 psrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pspietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 psvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+
+
+def refleksu():
+	return Div(text="""<b>8. Refleksų tyrimas:</b>""", width=300)
 
 
 def aprkunotemp():
@@ -1345,6 +1210,14 @@ supietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 suvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
+def tiriam1():
+	return Div(text="""<i>Tiriamojo paprašoma atsigulti ant sofos ar lovos ant kurios sėdi. Gulamasi
+ištiestomis kojomis, galvą dedant taip, kad prie sofos ar lovos krašto būtų tiriamojo kairė
+pusė. Paliekamas toks tarpas nuo sofos ar lovos krašto, kad tiriamojo kairė ranka laisvai
+gulėtų šalia delnu į viršų. Paprašoma atsipalaiduoti, nekalbėti ir nusiraminti. Taip
+tiriamasis turi pagulėti daugiau nei 1 minutę.</i>""", width=750)
+
+
 def aprsarglinref():
 	return Div(text="""
 <div class="box">
@@ -1398,6 +1271,15 @@ slpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
+def tiriam2():
+	return Div(text="""<b>9.</b><i>Tiriamajam pranešama, kad jis jau gali užsidengti pilvą ir paprašoma atsipalaiduoti,
+nekalbėti ir nusiraminti. Taip tiriamasis turi pagulėti daugiau nei 1 minutę.</i></b>""", width=750)
+
+
+def kvepparmat10():
+	return Div(text="""<b>10. Kvėpavimo parametrų matavimas:</b>""", width=300)
+
+
 def aprkvepdaz():
 	return Div(text="""
 <div class="box">
@@ -1438,6 +1320,14 @@ skaičių „8”, ir kvėpavimo dažnis bus KD = 2×8 = 16.</i>/div>
 kdrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 kdpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 kdvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+
+
+def tiriam3():
+	return Div(text="""<b>11.</b><i>Tiriamajam ant kairės rankos žasto uždedama kraujospūdžio matavimo manžetė.</i>""", width=750)
+
+
+def kraujparmat():
+	return Div(text="""<b>12. Kraujotakos parametrų matavimas:</b>""", width=300)
 
 
 def aprpulgul():
@@ -1527,6 +1417,23 @@ dkgpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 dkgvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
+def ortatest():
+	return Div(text="""<b>Ortostatinis testas.</b> Tiriamajam atsistojus, kraujospūdžio matuoklio žarnelė neturi
+būti tempiama, todėl matuoklį reikia <i>padėti ant paaukštinimo, pritvirtinti prie manžetės
+arba duoti laikyti tiriamajam laisvoje rankoje</i>.
+<br>• Tiriamajam pranešama, kad paprašius reikės RAMIAI atsistoti šalia ir atsisėsti
+TIK LEIDUS.
+<br>• Įjungiamas kraujospūdžio matuoklis ir jo pompa paimama dešinės rankos
+mažyliu, bevardžiu ir didžiuoju pirštais, taip pat į dešinę ranką paimamas
+chronometras ir laikomas taip, kad smiliumi arba nykščiu būtų galima lengvai
+nuspausti paleidimo mygtuką.
+<br>• Kaire ranka užčiuopiamas tiriamojo pulsas kairėje rankoje taip, kaip nurodyta 8
+punkte. Riešą reikia apminti patogiai, kad pirštai testo metu nenuslystų, ir tam,
+kad būtų galima testo metu lengvai koreguoti jų padėtį.
+<br>•<i>Tiriamojo paprašoma atsistoti</i>. Jo kairė ranka laikoma sulenkta stačiu kampu.
+Tiriamajam besistojant, Jūs turite likti sėdėti.""", width=750)
+
+
 def aprpulsatsi15():
 	return Div(text="""
 <div class="box">
@@ -1548,6 +1455,14 @@ pat įsimenamas arba garsiai pasakomas asistentui:
 	</div>
 </div>
 	""", width=250)
+
+
+def atsist():
+	return Div(text="""<br>Atsistojus<br>(dūžių skaičius per pirmas 15 s,×4)""", width=300)
+
+
+def po15():
+	return Div(text="""<br>Po 15 s.<br>(dūžių skaičius tarp 15-tos ir 45-tos sekundės,×2)""", width=300)
 
 
 parytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
@@ -1590,6 +1505,18 @@ kraujospūdis (mažesnis rodmuo ties užrašu „DIA“) įrašomas eilutėje 5.
 	""", width=250)
 
 
+def siskraujatsi():
+	return Div(text="""<br>Sistolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „SYS“ po 45 s)""", width=300)
+
+
+def diaskraujatsi():
+	return Div(text="""<br>Diastolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „DIA“)""", width=300)
+
+
+def pulsatsi45():
+	return Div(text="""<br>Pulsas atsistojus po 45 s<br>(rodmuo ekrane ties „PULS“)""", width=300)
+
+
 skarytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 skapietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 skavakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
@@ -1601,6 +1528,14 @@ dkavakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 pa45rytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pa45pietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 pa45vakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
+
+
+def tiriam4():
+	return Div(text="""<b>13.</b><i> Nuimama manžetė nuo tiriamojo žasto.</i>""", width=300)
+
+
+def kvepparmat14():
+	return Div(text="""<b>14. Kvėpavimo parametrų matavimas:</b>""", width=300)
 
 
 def aprkvepsu():
@@ -1633,6 +1568,10 @@ ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
+def kataanab():
+	return Div(text="""<b>KATABOLIZMAS|ANABOLIZMAS</b>""", width=300)
+
+
 def rekokatego():
 	return Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
 		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
@@ -1646,70 +1585,15 @@ def rekotipai():
 		„-“ papildomų rekomendacijų nėra.</i>""", width=570)
 
 
-def rekomendac():
-	return Div(text="""
-<div>
-<table>
-	<tr>
-		<th scope="col"><b>Grupė</b></th>
-		<th scope="col"><b>Produktai</b></th>
-	</tr>
-	<tr>
-		<td>Geriamasis vanduo</td>
-		<td>šaltinio vanduo, šulinio vanduo, mineraliniai vandenys "Neptūnas", "Aqua Panna",
-		"Evian", "Vittel", geriamasis vanduo, "Vichy".</td>
-	</tr>
-	<tr>
-		<td>Organinės rūgštys</td>
-		<td>actas, citrinos rūgštis, pieno rūgštis, rūgštūs pieno produktai (grietinė, rūgpienis, kefyras, jogurtas,
-		raugintos pasukos, maskarponė), mariruona mėsa, raugintos arba marinuotos daržovės, pomidorų pasta, pomidorų padažas,
-		majonezas, kiti padažai, vynas, vaisiai, pomidorai</td>
-	</tr>
-	<tr>
-		<td>Hidrokarbonatai</td>
-		<td>soda, gazuoti gėrimai</td>
-	</tr>
-	<tr>
-		<td>Natris, chloras, fluoras</td>
-		<td>valgomoji druska, soda, sūdyti produktai (vytinta mėsa, rūkinta mėsa, sūdyti lašiniai, geltoni sūriai,),
-		mineraliniai vandenys "Vytautas", "Birutė", "Akvilė", "Rasa", "Borjomi", "Darida"</td>
-	</tr>
-	<tr>
-		<td>Sulfatai</td>
-		<td>mineralinis vanduo "Tichė"</td>
-	</tr>
-	<tr>
-		<td>Krakmolo šaltiniai</td>
-		<td>Bulviniai, grūdai, kruopos, dribsniai, miltų gaminiai, ankštiniai</td>
-	</tr>
-	<tr>
-		<td>Augaliniai inertinai (ląsteliena)</td>
-		<td>daržovės (vaisinės, šakninės, lapinės, stiebinės), kokosų drožlės, kokosai</td>
-	</tr>
-	<tr>
-		<td>Neaugaliniai inertinai</td>
-		<td>Jungiamasis audinys (oda, sąnariai, kremzlės, sausgyslės, kraujagyslės) tikras sultinys, drebučiai,
-		želatina, nariuotakojų kiautai</td>
-	</tr>
-	<tr>
-		<td>Polinesotieji riebalai</td>
-		<td>Augaliniai aliejai – saulėgrąžų, rapsų, sezamų, linų sėmenų, nakvišų, moliūgų sėklų, sojų; sėklos – saulėgrąžų,
-		aguonų, sezamų, linų sėmenys ir pan.; riešutai – žemės, graikiniai, kedrų, anakardžių, kepintos pistacijos;
-		riebios žuvys – lašiša, skumbrė, ungurys, menkė, žuvų taukai ir pan.; gaminiai iš aliejaus – majonezas, margarinas,
-		„grietinės ir augalinių riebalų mišiniai“, „tepami riebalų mišiniai“, „sūrio produktai“, picų padažai; konservai aliejuje</td>
-	</tr>
-	<tr>
-		<td>Mononesotieji riebalai</td>
-		<td>riebi mėsa (lašiniai, šoninė, paslėpsniai, karka, paukščių uodegos ir pan.), alyvuogių aliejus, migdolų aliejus,
-		avokadų aliejus,  lazdyno riešutų aliejus, alyvuogės, avokadai, migdolai, lazdyno riešutai</td>
-	</tr>
-</table>
-</div>
-	""", width=500)
-
-
-rekomendmyg = Button(label="Rekomendacijos", button_type="success")
-spacer_1 = Spacer(width=150)
+rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
+spacer_0 = Spacer(width=150, height=20)
+spacer_1 = Spacer(width=150, height=89)
+spacer_2 = Spacer(width=150, height=89)
+spacer_3 = Spacer(width=150, height=89)
+spacer_4 = Spacer(width=150, height=89)
+spacer_5 = Spacer(width=150, height=89)
+spacer_6 = Spacer(width=150, height=89)
+spacer_7 = Spacer(width=150, height=89)
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
 p2 = grafikai.make_graf(grafikai.plist[1], grafikai.pavadin[1], grafikai.countkg, grafikai.factorskg)
@@ -1718,8 +1602,6 @@ p4 = grafikai.make_graf(grafikai.plist[3], grafikai.pavadin[3], grafikai.countma
 p5 = grafikai.make_graf(grafikai.plist[4], grafikai.pavadin[4], grafikai.countetp, grafikai.factorsetp)
 p6 = grafikai.make_graf(grafikai.plist[5], grafikai.pavadin[5], grafikai.countktp, grafikai.factorsktp)
 p7 = grafikai.make_graf(grafikai.plist[6], grafikai.pavadin[6], grafikai.countralac, grafikai.factorsralac)
-
-prodomas = [p1, p2, p3, p4, p5, p6, p7]
 
 
 def make_lin(pav, *src):
@@ -2990,28 +2872,95 @@ def respialac_update(attr, old, new):
 		# 	buklnustat(respialacr, respialacp, respialacv, dictpav) GERAI
 
 
+# Geriamasis vanduo
+
+gervandfm = StringFormatter(font_style="bold")
+gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
+gerbandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=570, height=75, row_headers=None)
+
+# Organinės rūgštys
+
+orgrugfm = StringFormatter(font_style="bold")
+orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
+orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=570, height=125, row_headers=None)
+
+# Hidrokarbonatai
+
+hidrokarbofm = StringFormatter(font_style="bold")
+hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
+hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=570, height=50, row_headers=None)
+
+# Natris, chloras, fluoras
+
+natchlofluofm = StringFormatter(font_style="bold")
+natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
+natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=570, height=75, row_headers=None)
+
+# Sulfatai
+
+sulfatfm = StringFormatter(font_style="bold")
+sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
+sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=570, height=50, row_headers=None)
+
+# Krakmolo šaltiniai
+
+krakmolfm = StringFormatter(font_style="bold")
+krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
+krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=570, height=50, row_headers=None)
+
+# Augaliniai inertinai (ląsteliena)
+
+augalinertfm = StringFormatter(font_style="bold")
+augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
+augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=570, height=50, row_headers=None)
+
+# Neaugaliniai inertinai
+
+neaugalinertfm = StringFormatter(font_style="bold")
+neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
+neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=570, height=75, row_headers=None)
+
+# Polinesotieji riebalai
+
+poliriebfm = StringFormatter(font_style="bold")
+poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
+poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=570, height=175, row_headers=None)
+
+
+# Mononesotieji riebalai
+
+monoriebfm = StringFormatter(font_style="bold")
+monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
+monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=570, height=100, row_headers=None)
+
+# Sotieji riebalai
+
+sotriebfm = StringFormatter(font_style="bold")
+sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
+sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=570, height=75, row_headers=None)
+
+# Stipriai pakitę baltymai ir riebalai datatable
+
+spbaltirriebfm = StringFormatter(font_style="bold")
+spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
+spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=570, height=200, row_headers=None)
+
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
 	w.on_change("value", respialac_update)
 
 # visi elementai sujungiami į norimą layout
-lay1 = layout(
-	[protok()],
-	[invard, inpavard, lytis, inamz],
-	[tikslus()],
-	[pav1()],
-	[pav2()],
-	[pav3()],
-	[pav4()],
-	[eiga()],
+lay1 = row(protok(), invard, inpavard, lytis, inamz)
+lay2 = column(tikslus(), pagrapras())
+lay3 = layout(
 	[slapimo()],
-	[aprsrugs(), slarugrytas, slarugpietus, slarugvakaras],
+	[aprslarugs(), slarugrytas, slarugpietus, slarugvakaras],
 	[aprslasvies(), slasvrytas, slasvpietus, slasvvakaras],
-	[aprstank(), slatankrytas, slatankpietus, slatankvakaras],
-	[aprsputo(), slaputrytas, slaputpietus, slaputvakaras],
+	[aprslatank(), slatankrytas, slatankpietus, slatankvakaras],
+	[aprslaputo(), slaputrytas, slaputpietus, slaputvakaras],
 	[prikseil()],
 	[seiliu()],
-	[aprserugst(), serrytas, serpietus, servakaras],
-	[aprseklamp(), sekrytas, sekpietus, sekvakaras],
+	[aprseilrugst(), serrytas, serpietus, servakaras],
+	[aprseilklamp(), sekrytas, sekpietus, sekvakaras],
 	[tiriam()],
 	[kraujot()],
 	[aprpulsed(), psrytas, pspietus, psvakaras],
@@ -3044,10 +2993,25 @@ lay1 = layout(
 	[kvepparmat14()],
 	[aprkvepsu(), ksirytas, ksipietus, ksivakaras])
 
-lay2 = column(prodomas)
-lay3 = row(spacer_1, rekomendmyg)
-lay4 = column(lay2, lay3, rekokatego(), rekotipai(), rekomendac())
-lay5 = row(lay1, lay4)
+grid = gridplot([spacer_1, p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
+lay4 = row(spacer_0, rekomendmyg)
+lay5 = column(grid, lay4, rekokatego(), rekotipai())
+lay6 = row(lay3, lay5)
+
+dt1 = column(
+	gerbandtable,
+	orgrugtable,
+	hidrokarbotable,
+	natchlofluotable,
+	sulfattable,
+	krakmoltable,
+	neaugalinerttable,
+	poliriebtable,
+	monoriebtable,
+	sotriebtable,
+	spbaltirriebtable
+)
+lay7 = column(lay1, lay2, lay6, dt1)
 
 # add the layout to curdoc
-curdoc().add_root(lay5)
+curdoc().add_root(lay7)
