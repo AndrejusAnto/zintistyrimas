@@ -348,3 +348,66 @@ spbaltirrieb = [
 spbrreik = ["-"] * len(spbaltirrieb)
 spbrdata = dict(grupe=spbaltirrieb, reiksme=spbrreik)
 spbaltirriebsource = ColumnDataSource(spbrdata)
+
+# Kiaušiniai datatable
+
+kiausiniai = ["paukščių kiaušiniai, kiaušinių tryniai, kiaušinių baltymai"]
+kiausreik = ["-"] * len(kiausiniai)
+kiausdata = dict(grupe=kiausiniai, reiksme=kiausreik)
+kiaussource = ColumnDataSource(kiausdata)
+
+
+# Organai datatable
+
+organai = ["kepenys, širdys, skrandžiai, inkstai, liežuviai, smegenys, kaulų čiulpai, kraujas, akys"]
+organreik = ["-"] * len(organai)
+organdata = dict(grupe=organai, reiksme=organreik)
+organsource = ColumnDataSource(organdata)
+
+# Pieno baltymai datatable
+
+pienbalt = [
+	"pienas, balti sūriai (mocarela, saldaus pieno sūris, varškė, feta, brinza),",
+	"rūgpienis, kefyras, jogurtas (be papildomų skonių), raugintos pasukos"]
+pbreik = ["-"] * len(pienbalt)
+pbdata = dict(grupe=pienbalt, reiksme=pbreik)
+pienbaltsource = ColumnDataSource(pbdata)
+
+# Moliuskai ir vėžiagyviai datatable
+
+moliuvez = ["sraigės, austrės, midijos, kalmarai, aštuonkojai, vėžiai, krabai, krevetės ir pan."]
+mvreik = ["-"] * len(moliuvez)
+mvdata = dict(grupe=moliuvez, reiksme=mvreik)
+moliuvezsource = ColumnDataSource(mvdata)
+
+# Balta mėsa datatable
+
+baltamesa = [
+	"vištiena, triušiena, putpeliena, kalakutiena, žąsiena, kiauliena (dalys),",
+	"silkė, karpis, lydeka, upėtakis ir pan."]
+bmreik = ["-"] * len(baltamesa)
+bmdata = dict(grupe=baltamesa, reiksme=bmreik)
+baltamesasource = ColumnDataSource(bmdata)
+
+# Raudona mėsa datatable
+
+raudomesa = [
+	"jautiena, aviena, ožkiena, žvėriena, antiena, laukiniai paukščiai,",
+	"tunas, lašiša, skumbrė, kiauliena (dalys) ir pan."]
+rmreik = ["-"] * len(raudomesa)
+rmdata = dict(grupe=raudomesa, reiksme=rmreik)
+raudomesasource = ColumnDataSource(rmdata)
+
+# Grybai datatable
+
+grybai = ["pievagrybiai, voveraitės, baravykai ir kiti valgomi grybai"]
+grybaireik = ["-"] * len(grybai)
+grybaidata = dict(grupe=grybai, reiksme=grybaireik)
+grybaisource = ColumnDataSource(grybaidata)
+
+# Augaliniai baltymai datatable
+
+augalbalt = ["lazdyno riešutai, migdolai, žalieji žirneliai, žirniai, avinžirniai, lęšiai, sojos produktai"]
+abreik = ["-"] * len(augalbalt)
+abdata = dict(grupe=augalbalt, reiksme=abreik)
+augalbaltsource = ColumnDataSource(abdata)

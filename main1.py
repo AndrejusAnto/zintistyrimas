@@ -1585,6 +1585,10 @@ def rekotipai():
 		„-“ papildomų rekomendacijų nėra.</i>""", width=570)
 
 
+def maistproduk():
+	return Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
+
+
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
 spacer_0 = Spacer(width=150, height=20)
 spacer_1 = Spacer(width=150, height=89)
@@ -2872,81 +2876,132 @@ def respialac_update(attr, old, new):
 		# 	buklnustat(respialacr, respialacp, respialacv, dictpav) GERAI
 
 
+for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
+	w.on_change("value", respialac_update)
+
 # Geriamasis vanduo
 
 gervandfm = StringFormatter(font_style="bold")
 gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
-gerbandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=570, height=75, row_headers=None)
+gerbandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
 
 # Organinės rūgštys
 
 orgrugfm = StringFormatter(font_style="bold")
 orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
-orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=570, height=125, row_headers=None)
+orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=600, height=125, row_headers=None)
 
 # Hidrokarbonatai
 
 hidrokarbofm = StringFormatter(font_style="bold")
 hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
-hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=570, height=50, row_headers=None)
+hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=600, height=50, row_headers=None)
 
 # Natris, chloras, fluoras
 
 natchlofluofm = StringFormatter(font_style="bold")
 natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
-natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=570, height=75, row_headers=None)
+natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=600, height=75, row_headers=None)
 
 # Sulfatai
 
 sulfatfm = StringFormatter(font_style="bold")
 sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
-sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=570, height=50, row_headers=None)
+sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=600, height=50, row_headers=None)
 
 # Krakmolo šaltiniai
 
 krakmolfm = StringFormatter(font_style="bold")
 krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
-krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=570, height=50, row_headers=None)
+krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=600, height=50, row_headers=None)
 
 # Augaliniai inertinai (ląsteliena)
 
 augalinertfm = StringFormatter(font_style="bold")
 augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
-augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=570, height=50, row_headers=None)
+augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=600, height=50, row_headers=None)
 
 # Neaugaliniai inertinai
 
 neaugalinertfm = StringFormatter(font_style="bold")
 neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
-neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=570, height=75, row_headers=None)
+neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=600, height=75, row_headers=None)
 
 # Polinesotieji riebalai
 
 poliriebfm = StringFormatter(font_style="bold")
 poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
-poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=570, height=175, row_headers=None)
+poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=600, height=175, row_headers=None)
 
 
 # Mononesotieji riebalai
 
 monoriebfm = StringFormatter(font_style="bold")
 monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
-monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=570, height=100, row_headers=None)
+monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=600, height=100, row_headers=None)
 
 # Sotieji riebalai
 
 sotriebfm = StringFormatter(font_style="bold")
 sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
-sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=570, height=75, row_headers=None)
+sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=600, height=75, row_headers=None)
 
-# Stipriai pakitę baltymai ir riebalai datatable
+# Stipriai pakitę baltymai ir riebalai
 
 spbaltirriebfm = StringFormatter(font_style="bold")
 spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
-spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=570, height=200, row_headers=None)
+spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=600, height=200, row_headers=None)
 
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
-	w.on_change("value", respialac_update)
+
+# Kiaušiniai
+
+kiausiniaifm = StringFormatter(font_style="bold")
+kiausiniaicol = [TableColumn(field="grupe", title="Kiaušiniai:", formatter=kiausiniaifm)]
+kiausiniaitable = DataTable(source=CDS.kiaussource, columns=kiausiniaicol, width=600, height=50, row_headers=None)
+
+# Organai
+
+organaifm = StringFormatter(font_style="bold")
+organaicol = [TableColumn(field="grupe", title="Organai:", formatter=organaifm)]
+organaitable = DataTable(source=CDS.organsource, columns=organaicol, width=600, height=50, row_headers=None)
+
+
+# Pieno baltymai datatable
+
+pienbaltfm = StringFormatter(font_style="bold")
+pienbaltcol = [TableColumn(field="grupe", title="Pieno baltymai:", formatter=pienbaltfm)]
+pienbalttable = DataTable(source=CDS.pienbaltsource, columns=pienbaltcol, width=600, height=75, row_headers=None)
+
+# Moliuskai ir vėžiagyviai
+
+moliuvezfm = StringFormatter(font_style="bold")
+moliuvezcol = [TableColumn(field="grupe", title="Moliuskai ir vėžiagyviai:", formatter=moliuvezfm)]
+moliuveztable = DataTable(source=CDS.moliuvezsource, columns=moliuvezcol, width=600, height=50, row_headers=None)
+
+# Balta mėsa
+
+baltamesafm = StringFormatter(font_style="bold")
+baltamesacol = [TableColumn(field="grupe", title="Balta mėsa:", formatter=baltamesafm)]
+baltamesatable = DataTable(source=CDS.baltamesasource, columns=baltamesacol, width=600, height=75, row_headers=None)
+
+# Raudona mėsa
+
+raudomesafm = StringFormatter(font_style="bold")
+raudomesacol = [TableColumn(field="grupe", title="Raudona mėsa:", formatter=raudomesafm)]
+raudomesatable = DataTable(source=CDS.raudomesasource, columns=raudomesacol, width=600, height=75, row_headers=None)
+
+# Grybai
+
+grybaifm = StringFormatter(font_style="bold")
+grybaicol = [TableColumn(field="grupe", title="Grybai:", formatter=grybaifm)]
+grybaitable = DataTable(source=CDS.grybaisource, columns=grybaicol, width=600, height=50, row_headers=None)
+
+# Augaliniai baltymai
+
+augalbaltfm = StringFormatter(font_style="bold")
+augalbaltcol = [TableColumn(field="grupe", title="Augaliniai baltymai:", formatter=augalbaltfm)]
+augalbalttable = DataTable(source=CDS.augalbaltsource, columns=augalbaltcol, width=600, height=50, row_headers=None)
+
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok(), invard, inpavard, lytis, inamz)
@@ -3009,9 +3064,18 @@ dt1 = column(
 	poliriebtable,
 	monoriebtable,
 	sotriebtable,
-	spbaltirriebtable
+	spbaltirriebtable,
+	kiausiniaitable,
+	organaitable,
+	pienbalttable,
+	moliuveztable,
+	baltamesatable,
+	raudomesatable,
+	grybaitable,
+	augalbalttable
 )
-lay7 = column(lay1, lay2, lay6, dt1)
+lay7 = column(maistproduk(), dt1)
+lay8 = column(lay1, lay2, lay6, lay7)
 
 # add the layout to curdoc
-curdoc().add_root(lay7)
+curdoc().add_root(lay8)
