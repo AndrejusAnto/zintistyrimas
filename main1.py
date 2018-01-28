@@ -1,6 +1,6 @@
 
 # -*- coding: utf-8 -*-
-from bokeh.io import curdoc
+from bokeh.io import curdoc, save
 from bokeh.layouts import column, row, layout, gridplot
 from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
@@ -3054,6 +3054,7 @@ lay5 = column(grid, lay4, rekokatego(), rekotipai())
 lay6 = row(lay3, lay5)
 
 dt1 = column(
+	maistproduk(),
 	gerbandtable,
 	orgrugtable,
 	hidrokarbotable,
@@ -3074,8 +3075,8 @@ dt1 = column(
 	grybaitable,
 	augalbalttable
 )
-lay7 = column(maistproduk(), dt1)
-lay8 = column(lay1, lay2, lay6, lay7)
+
+lay8 = column(lay1, lay2, lay6, dt1)
 
 # add the layout to curdoc
 curdoc().add_root(lay8)
