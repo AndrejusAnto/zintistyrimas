@@ -235,6 +235,7 @@ srcp4p1ralacr = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ralacp = ColumnDataSource(data=dict(x=[], y=[]))
 srcp4p1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
 
+# Maisto produktų prioritetai
 # Geriamasis vanduo datatable
 
 vanduo = [
@@ -411,3 +412,139 @@ augalbalt = ["lazdyno riešutai, migdolai, žalieji žirneliai, žirniai, avinž
 abreik = ["-"] * len(augalbalt)
 abdata = dict(grupe=augalbalt, reiksme=abreik)
 augalbaltsource = ColumnDataSource(abdata)
+
+# Kitų medžiagų vartojimo prioritetai
+# Pakeistų savybių vanduo datatable
+
+paksavyvanduo = [
+	"jonizuotas vanduo, „gyvas“ vanduo, „negyvvas“ vanduo, distiliuotas vanduo, osmosinių filtrų vanduo,",
+	"pakaitinių jonų vandens minkštinimo filtrų vanduo"]
+psvreik = ["-"] * len(paksavyvanduo)
+psvdata = dict(grupe=paksavyvanduo, reiksme=psvreik)
+paksavyvanduosource = ColumnDataSource(psvdata)
+
+# Slopikliai datatable
+
+slopikai = ["alkoholis, raminamieji vaistai, migdomieji vaistai, raminamosios vaistažolės"]
+slopikreik = ["-"] * len(slopikai)
+slopikdata = dict(grupe=slopikai, reiksme=slopikreik)
+slopikaisource = ColumnDataSource(slopikdata)
+
+# Stimuliatoriai datatable
+
+stimuliat = [
+	"kava, juodoji arbata, žalioji arbata, geltonoji arbata, baltoji arbata, pu-erh arbata, kakava, šokoladas,",
+	"kola, energiniai gėrimai "]
+stimureik = ["-"] * len(stimuliat)
+stimukdata = dict(grupe=stimuliat, reiksme=stimureik)
+stimuliatsource = ColumnDataSource(stimukdata)
+
+# Rūkalai datatable
+
+rukalai = ["cigaretės, kaljanas, kanapės"]
+rukalreik = ["-"] * len(rukalai)
+rukaldata = dict(grupe=rukalai, reiksme=rukalreik)
+rukalaisource = ColumnDataSource(rukaldata)
+
+# Kiti elgsenos prioritetai
+# Didelio intensyvumo trumpos trukmės fizinė veikla datatable
+
+didintesyv = [
+	"kvazi-izometriniai jėgos pratimai, po 1 apie 90 s trukmės priėjimą ne dažniau nei 2 kartus per savaitę",
+	"(plačiau svetainėje www.zintis.lt)"]
+direik = ["-"] * len(didintesyv)
+didata = dict(grupe=didintesyv, reiksme=direik)
+didintesyvsource = ColumnDataSource(didata)
+
+# Mažo intensyvumo ilgos trukmės fizinė veikla datatable
+
+mazointesyv = ["aerobika, ilgų distancijų bėgimas ir kita „aerobinė“, „kardio“ ar „ištvermės“ treniruotė"]
+mireik = ["-"] * len(mazointesyv)
+midata = dict(grupe=mazointesyv, reiksme=mireik)
+mazointesyvsource = ColumnDataSource(midata)
+
+# Kvėpavimo balansavmas datatable
+
+kvepasulaik = ["savo kvėpavimo stebėjimas"]
+ksreik = ["-"] * len(kvepasulaik)
+ksdata = dict(grupe=kvepasulaik, reiksme=ksreik)
+kvepasulaiksource = ColumnDataSource(ksdata)
+
+# Hipoventiliacija datatable
+
+hipoventil = ["kvėpavimo sulaikymas arba labai lėtas kvėpavimas"]
+hipovreik = ["-"] * len(hipoventil)
+hipovdata = dict(grupe=hipoventil, reiksme=hipovreik)
+hipoventilsource = ColumnDataSource(hipovdata)
+
+# Grūdinimasis datatable
+
+grudinimas = ["maudymasis lediniame vandenyje, apsiliejimas šaltu vandeniu po pirties, kontrastinis dušas ir pan."]
+grudinreik = ["-"] * len(grudinimas)
+grudindata = dict(grupe=grudinimas, reiksme=grudinreik)
+grudinimassource = ColumnDataSource(grudindata)
+
+# Kaitinimasis datatable
+
+kaitinimas = ["kaitinimasis pirtyje, maudymasis po labai karštu vandeniu, deginimasis saulės atokaitoje ir pan."]
+kaitireik = ["-"] * len(kaitinimas)
+kaitidata = dict(grupe=kaitinimas, reiksme=kaitireik)
+kaitinimassource = ColumnDataSource(kaitidata)
+
+# Galūnių laikymas šiltai datatable
+
+galuniulsil = ["kojinių ir šliurių dėvėjimas namie, pirštinių dėvėjimas lauke šaltu metų laiku ir pan."]
+glsilreik = ["-"] * len(galuniulsil)
+glsildata = dict(grupe=galuniulsil, reiksme=glsilreik)
+galuniulsilsource = ColumnDataSource(glsildata)
+
+# Galūnių laikymas šaltai datatable
+
+galuniulsal = ["kaikščiojimas basomis namie ir pirštinių nedėvėjimas vėsiu metų laiku"]
+glsalreik = ["-"] * len(galuniulsal)
+glsaldata = dict(grupe=galuniulsal, reiksme=glsalreik)
+galuniulsalsource = ColumnDataSource(glsaldata)
+
+# Buvimas šiltesnėje aplinkoje datatable
+
+buvsilapl = ["kambarių temperatūros virš 20ºC, šiltesnė apranga lauke"]
+bsilareik = ["-"] * len(buvsilapl)
+bsiladata = dict(grupe=buvsilapl, reiksme=bsilareik)
+buvsilaplsource = ColumnDataSource(bsiladata)
+
+# Buvimas šaltesnėje aplinkoje datatable
+
+buvsalapl = ["kambarių temperatūros žemiau 20ºC, plonesnė apranga lauke"]
+bsalareik = ["-"] * len(buvsalapl)
+bsaladata = dict(grupe=buvsalapl, reiksme=bsalareik)
+buvsalaplsource = ColumnDataSource(bsaladata)
+
+# Atidėta ejakuliacija (vyrams) datatable
+
+atidejakul = ["specialių pratimų pagalba iki lytinio akto pabaigos kelis kartus atidėti ejakuliaciją"]
+aereik = ["-"] * len(atidejakul)
+aedata = dict(grupe=atidejakul, reiksme=aereik)
+atidejakulsource = ColumnDataSource(aedata)
+
+# Pakartotinis orgazmas (moterims) datatable
+
+pakartotorg = ["jei įmanoma, vieno lytinio akto metu bandyti patirti kelis orgazmus"]
+poreik = ["-"] * len(pakartotorg)
+podata = dict(grupe=pakartotorg, reiksme=poreik)
+pakartotorgsource = ColumnDataSource(podata)
+
+# Limfotakos aktyvavimas datatable
+
+limfoaktyv = ["šokinėjimas ant batuto, įvairūs lankstymosi per juosmenį pratimai"]
+lareik = ["-"] * len(limfoaktyv)
+ladata = dict(grupe=limfoaktyv, reiksme=lareik)
+limfoaktyvsource = ColumnDataSource(ladata)
+
+# Subalansuotas miegas datatable
+
+subalanmieg = [
+	"Reguliarus miegas tamsoje, jei įmanoma, trukmė turi būti 1,5 val. kartotinis,",
+	"keltis šviesoje (tamsiuoju metų laiku uždegti lempą)"]
+smreik = ["-"] * len(subalanmieg)
+smdata = dict(grupe=subalanmieg, reiksme=smreik)
+subalanmiegsource = ColumnDataSource(smdata)
