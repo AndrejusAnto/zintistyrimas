@@ -1,6 +1,7 @@
 
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc, export_png
+from bokeh.events import ButtonClick
 from bokeh.layouts import column, row, layout, gridplot
 from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
@@ -369,7 +370,7 @@ inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
 
 def tikslus():
 	return Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
-	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=750)
+	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=1300)
 
 
 def pagrapras():
@@ -1597,6 +1598,283 @@ def kitielgsen():
 	return Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
 
 
+# Maisto produktų prioritetai
+
+gervandfm = StringFormatter()
+gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
+gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
+
+# def gervand(formatter):
+# 	# Geriamasis vanduo
+# 	gervandfm = formatter
+# 	gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
+# 	gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
+# 	return gervandtable
+
+
+# Organinės rūgštys
+
+orgrugfm = StringFormatter(font_style="bold")
+orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
+orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=600, height=125, row_headers=None)
+
+# Hidrokarbonatai
+
+hidrokarbofm = StringFormatter(font_style="bold")
+hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
+hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=600, height=50, row_headers=None)
+
+# Natris, chloras, fluoras
+
+natchlofluofm = StringFormatter(font_style="bold")
+natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
+natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=600, height=75, row_headers=None)
+
+# Sulfatai
+
+sulfatfm = StringFormatter(font_style="bold")
+sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
+sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=600, height=50, row_headers=None)
+
+# Krakmolo šaltiniai
+
+krakmolfm = StringFormatter(font_style="bold")
+krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
+krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=600, height=50, row_headers=None)
+
+# Augaliniai inertinai (ląsteliena)
+
+augalinertfm = StringFormatter(font_style="bold")
+augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
+augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=600, height=50, row_headers=None)
+
+# Neaugaliniai inertinai
+
+neaugalinertfm = StringFormatter(font_style="bold")
+neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
+neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=600, height=75, row_headers=None)
+
+# Polinesotieji riebalai
+
+poliriebfm = StringFormatter(font_style="bold")
+poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
+poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=600, height=175, row_headers=None)
+
+
+# Mononesotieji riebalai
+
+monoriebfm = StringFormatter(font_style="bold")
+monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
+monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=600, height=100, row_headers=None)
+
+# Sotieji riebalai
+
+sotriebfm = StringFormatter(font_style="bold")
+sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
+sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=600, height=75, row_headers=None)
+
+# Stipriai pakitę baltymai ir riebalai
+
+spbaltirriebfm = StringFormatter(font_style="bold")
+spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
+spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=600, height=200, row_headers=None)
+
+
+# Kiaušiniai
+
+kiausiniaifm = StringFormatter(font_style="bold")
+kiausiniaicol = [TableColumn(field="grupe", title="Kiaušiniai:", formatter=kiausiniaifm)]
+kiausiniaitable = DataTable(source=CDS.kiaussource, columns=kiausiniaicol, width=600, height=50, row_headers=None)
+
+# Organai
+
+organaifm = StringFormatter(font_style="bold")
+organaicol = [TableColumn(field="grupe", title="Organai:", formatter=organaifm)]
+organaitable = DataTable(source=CDS.organsource, columns=organaicol, width=600, height=50, row_headers=None)
+
+
+# Pieno baltymai datatable
+
+pienbaltfm = StringFormatter(font_style="bold")
+pienbaltcol = [TableColumn(field="grupe", title="Pieno baltymai:", formatter=pienbaltfm)]
+pienbalttable = DataTable(source=CDS.pienbaltsource, columns=pienbaltcol, width=600, height=75, row_headers=None)
+
+# Moliuskai ir vėžiagyviai
+
+moliuvezfm = StringFormatter(font_style="bold")
+moliuvezcol = [TableColumn(field="grupe", title="Moliuskai ir vėžiagyviai:", formatter=moliuvezfm)]
+moliuveztable = DataTable(source=CDS.moliuvezsource, columns=moliuvezcol, width=600, height=50, row_headers=None)
+
+# Balta mėsa
+
+baltamesafm = StringFormatter(font_style="bold")
+baltamesacol = [TableColumn(field="grupe", title="Balta mėsa:", formatter=baltamesafm)]
+baltamesatable = DataTable(source=CDS.baltamesasource, columns=baltamesacol, width=600, height=75, row_headers=None)
+
+# Raudona mėsa
+
+raudomesafm = StringFormatter(font_style="bold")
+raudomesacol = [TableColumn(field="grupe", title="Raudona mėsa:", formatter=raudomesafm)]
+raudomesatable = DataTable(source=CDS.raudomesasource, columns=raudomesacol, width=600, height=75, row_headers=None)
+
+# Grybai
+
+grybaifm = StringFormatter(font_style="bold")
+grybaicol = [TableColumn(field="grupe", title="Grybai:", formatter=grybaifm)]
+grybaitable = DataTable(source=CDS.grybaisource, columns=grybaicol, width=600, height=50, row_headers=None)
+
+# Augaliniai baltymai
+
+augalbaltfm = StringFormatter(font_style="bold")
+augalbaltcol = [TableColumn(field="grupe", title="Augaliniai baltymai:", formatter=augalbaltfm)]
+augalbalttable = DataTable(source=CDS.augalbaltsource, columns=augalbaltcol, width=600, height=50, row_headers=None)
+
+# Kitų medžiagų vartojimo prioritetai
+# Pakeistų savybių vanduo
+
+paksavyvanduofm = StringFormatter(font_style="bold")
+paksavyvanduocol = [TableColumn(field="grupe", title="Pakeistų savybių vanduo:", formatter=paksavyvanduofm)]
+paksavyvanduotable = DataTable(source=CDS.paksavyvanduosource, columns=paksavyvanduocol, width=600, height=75, row_headers=None)
+
+# Slopikliai
+
+slopikaifm = StringFormatter(font_style="bold")
+slopikaicol = [TableColumn(field="grupe", title="Slopikliai:", formatter=slopikaifm)]
+slopikaitable = DataTable(source=CDS.slopikaisource, columns=slopikaicol, width=600, height=50, row_headers=None)
+
+# Stimuliatoriai
+
+stimuliatfm = StringFormatter(font_style="bold")
+stimuliatcol = [TableColumn(field="grupe", title="Stimuliatoriai:", formatter=stimuliatfm)]
+stimuliattable = DataTable(source=CDS.stimuliatsource, columns=stimuliatcol, width=600, height=75, row_headers=None)
+
+# Rūkalai
+
+rukalaifm = StringFormatter(font_style="bold")
+rukalaicol = [TableColumn(field="grupe", title="Rūkalai:", formatter=rukalaifm)]
+rukalaitable = DataTable(source=CDS.rukalaisource, columns=rukalaicol, width=600, height=50, row_headers=None)
+
+# Kiti elgsenos prioritetai
+# Didelio intensyvumo trumpos trukmės fizinė veikla
+
+didintesyvfm = StringFormatter(font_style="bold")
+didintesyvcol = [TableColumn(field="grupe", title="Didelio intensyvumo trumpos trukmės fizinė veikla:", formatter=didintesyvfm)]
+didintesyvtable = DataTable(source=CDS.didintesyvsource, columns=didintesyvcol, width=600, height=75, row_headers=None)
+
+# Mažo intensyvumo ilgos trukmės fizinė veikla
+
+mazointesyvfm = StringFormatter(font_style="bold")
+mazointesyvcol = [TableColumn(field="grupe", title="Mažo intensyvumo ilgos trukmės fizinė veikla:", formatter=mazointesyvfm)]
+mazointesyvtable = DataTable(source=CDS.mazointesyvsource, columns=mazointesyvcol, width=600, height=50, row_headers=None)
+
+# Kvėpavimo balansavimas
+
+kvepasulaikfm = StringFormatter(font_style="bold")
+kvepasulaikcol = [TableColumn(field="grupe", title="Kvėpavimo balansavmas:", formatter=kvepasulaikfm)]
+kvepasulaiktable = DataTable(source=CDS.kvepasulaiksource, columns=kvepasulaikcol, width=600, height=50, row_headers=None)
+
+# Hipoventiliacija
+
+hipoventilfm = StringFormatter(font_style="bold")
+hipoventilcol = [TableColumn(field="grupe", title="Hipoventiliacija:", formatter=hipoventilfm)]
+hipoventiltable = DataTable(source=CDS.hipoventilsource, columns=hipoventilcol, width=600, height=50, row_headers=None)
+
+# Grūdinimasis
+
+grudinimasfm = StringFormatter(font_style="bold")
+grudinimascol = [TableColumn(field="grupe", title="Grūdinimasis:", formatter=grudinimasfm)]
+grudinimastable = DataTable(source=CDS.grudinimassource, columns=grudinimascol, width=600, height=50, row_headers=None)
+
+# Kaitinimasis
+
+kaitinimasfm = StringFormatter(font_style="bold")
+kaitinimascol = [TableColumn(field="grupe", title="Kaitinimasis:", formatter=kaitinimasfm)]
+kaitinimastable = DataTable(source=CDS.kaitinimassource, columns=kaitinimascol, width=600, height=50, row_headers=None)
+
+# Galūnių laikymas šiltai
+
+galuniulsilfm = StringFormatter(font_style="bold")
+galuniulsilcol = [TableColumn(field="grupe", title="Galūnių laikymas šiltai:", formatter=galuniulsilfm)]
+galuniulsiltable = DataTable(source=CDS.galuniulsilsource, columns=galuniulsilcol, width=600, height=50, row_headers=None)
+
+# Galūnių laikymas šaltai
+
+galuniulsalfm = StringFormatter(font_style="bold")
+galuniulsalcol = [TableColumn(field="grupe", title="Galūnių laikymas šaltai:", formatter=galuniulsalfm)]
+galuniulsaltable = DataTable(source=CDS.galuniulsalsource, columns=galuniulsalcol, width=600, height=50, row_headers=None)
+
+# Buvimas šiltesnėje aplinkoje
+
+buvsilaplfm = StringFormatter(font_style="bold")
+buvsilaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsilaplfm)]
+buvsilapltable = DataTable(source=CDS.buvsilaplsource, columns=buvsilaplcol, width=600, height=50, row_headers=None)
+
+# Buvimas šaltesnėje aplinkoje
+
+buvsalaplfm = StringFormatter(font_style="bold")
+buvsalaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsalaplfm)]
+buvsalapltable = DataTable(source=CDS.buvsalaplsource, columns=buvsalaplcol, width=600, height=50, row_headers=None)
+
+# Atidėta ejakuliacija (vyrams)
+
+atidejakulfm = StringFormatter(font_style="bold")
+atidejakulcol = [TableColumn(field="grupe", title="Atidėta ejakuliacija (vyrams):", formatter=atidejakulfm)]
+atidejakultable = DataTable(source=CDS.atidejakulsource, columns=atidejakulcol, width=600, height=50, row_headers=None)
+
+# Pakartotinis orgazmas (moterims)
+
+pakartotorgfm = StringFormatter(font_style="bold")
+pakartotorgcol = [TableColumn(field="grupe", title="Pakartotinis orgazmas (moterims):", formatter=pakartotorgfm)]
+pakartotorgtable = DataTable(source=CDS.pakartotorgsource, columns=pakartotorgcol, width=600, height=50, row_headers=None)
+
+# Limfotakos aktyvavimas
+
+limfoaktyvfm = StringFormatter(font_style="bold")
+limfoaktyvcol = [TableColumn(field="grupe", title="Limfotakos aktyvavimas:", formatter=limfoaktyvfm)]
+limfoaktyvtable = DataTable(source=CDS.limfoaktyvsource, columns=limfoaktyvcol, width=600, height=50, row_headers=None)
+
+# Subalansuotas miegas
+
+subalanmiegfm = StringFormatter(font_style="bold", text_color="blue")
+subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
+subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
+
+
+# def submais():
+# 	if spalva("N") == "T":
+# 		subalanmiegfm = StringFormatter(font_style="bold", text_color="red")
+
+# 	else:
+# 		subalanmiegfm = StringFormatter(font_style="bold", text_color="blue")
+# 	subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
+# 	subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
+# 	print(subalanmiegtable)
+# 	return subalanmiegtable
+
+
+# # def tables(bal):
+# # 	if bal == 5:
+
+# # 	else:
+# # 		subalanmiegfm.text_color = "blue"
+
+# # def callback(event):
+# # 	print("bla")
+# # 	submais("T")
+
+
+# rekomendmyg.on_click(submais)
+
+
+# def t_update(attr, new, old):
+# 	new_data = {'grupe': [], 'y': [yreiksme, yreiksme]}
+# 	sourcedata.update(new_data)
+# 	tables()
+
+
+# rekomendmyg.on_click(lambda: tables(6))
+
+
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
 spacer_0 = Spacer(width=150, height=20)
 spacer_1 = Spacer(width=150, height=89)
@@ -1766,6 +2044,7 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 
 
 def buklnustat(val1, val2, val3, param):
+	katanaboltn = {"Katabolizmas": {}, "Anabolizmas": {}}
 	for api, skaic in param.items():
 		if skaic is not None:
 			buklkr = len([val1[i] for i in val1 if val1[i] < -1])
@@ -1891,8 +2170,11 @@ def buklnustat(val1, val2, val3, param):
 	else:
 		galutineant = "T"
 
-	print("Katabolizmo", api, galutineknt, val1, val2, val3)
-	print("Anabolizmo", api, galutineant, val1, val2, val3)
+	katanaboltn["Katabolizmas"] = {api: galutineknt}
+	katanaboltn["Anabolizmas"] = {api: galutineant}
+
+	print (katanaboltn)
+	return katanaboltn
 
 
 # Simpatinis|parasimpatinis
@@ -2065,15 +2347,33 @@ def simparasim_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		# if "rytas" in str(key):
-		# 	simparasimr[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	simparasimp[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	simparasimv[key] = karareiksme
+		if "rytas" in str(key):
+			simparasimr[key] = karareiksme
+		elif "pietūs" in str(key):
+			simparasimp[key] = karareiksme
+		elif "vakaras" in str(key):
+			simparasimv[key] = karareiksme
 
-		# if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
-		# 	buklnustat(simparasimr, simparasimp, simparasimv, dictpav) GERAI
+		if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
+			ktareiksme = buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
+
+	for k, v in ktareiksme.items():
+		if k == "Anabolizmas":
+			for k1, v1 in v.items():
+				if k1 == "simparasim":
+					a, b = CDS.vanduo
+					if v1 == "T":
+						gervandfm.text_color = "red"
+						gervandfm.font_style = "bold"
+						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+						CDS.gervandsource.data = new_data
+						print(new_data)
+					else:
+						gervandfm.text_color = "blue"
+						gervandfm.font_style = "bold"
+						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+						CDS.gervandsource.data = new_data
+						print(new_data)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
@@ -2889,249 +3189,6 @@ def respialac_update(attr, old, new):
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
 	w.on_change("value", respialac_update)
 
-# Maisto produktų prioritetai
-# Geriamasis vanduo
-
-gervandfm = StringFormatter(font_style="bold")
-gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
-gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
-
-# Organinės rūgštys
-
-orgrugfm = StringFormatter(font_style="bold")
-orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
-orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=600, height=125, row_headers=None)
-
-# Hidrokarbonatai
-
-hidrokarbofm = StringFormatter(font_style="bold")
-hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
-hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=600, height=50, row_headers=None)
-
-# Natris, chloras, fluoras
-
-natchlofluofm = StringFormatter(font_style="bold")
-natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
-natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=600, height=75, row_headers=None)
-
-# Sulfatai
-
-sulfatfm = StringFormatter(font_style="bold")
-sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
-sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=600, height=50, row_headers=None)
-
-# Krakmolo šaltiniai
-
-krakmolfm = StringFormatter(font_style="bold")
-krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
-krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=600, height=50, row_headers=None)
-
-# Augaliniai inertinai (ląsteliena)
-
-augalinertfm = StringFormatter(font_style="bold")
-augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
-augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=600, height=50, row_headers=None)
-
-# Neaugaliniai inertinai
-
-neaugalinertfm = StringFormatter(font_style="bold")
-neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
-neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=600, height=75, row_headers=None)
-
-# Polinesotieji riebalai
-
-poliriebfm = StringFormatter(font_style="bold")
-poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
-poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=600, height=175, row_headers=None)
-
-
-# Mononesotieji riebalai
-
-monoriebfm = StringFormatter(font_style="bold")
-monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
-monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=600, height=100, row_headers=None)
-
-# Sotieji riebalai
-
-sotriebfm = StringFormatter(font_style="bold")
-sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
-sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=600, height=75, row_headers=None)
-
-# Stipriai pakitę baltymai ir riebalai
-
-spbaltirriebfm = StringFormatter(font_style="bold")
-spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
-spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=600, height=200, row_headers=None)
-
-
-# Kiaušiniai
-
-kiausiniaifm = StringFormatter(font_style="bold")
-kiausiniaicol = [TableColumn(field="grupe", title="Kiaušiniai:", formatter=kiausiniaifm)]
-kiausiniaitable = DataTable(source=CDS.kiaussource, columns=kiausiniaicol, width=600, height=50, row_headers=None)
-
-# Organai
-
-organaifm = StringFormatter(font_style="bold")
-organaicol = [TableColumn(field="grupe", title="Organai:", formatter=organaifm)]
-organaitable = DataTable(source=CDS.organsource, columns=organaicol, width=600, height=50, row_headers=None)
-
-
-# Pieno baltymai datatable
-
-pienbaltfm = StringFormatter(font_style="bold")
-pienbaltcol = [TableColumn(field="grupe", title="Pieno baltymai:", formatter=pienbaltfm)]
-pienbalttable = DataTable(source=CDS.pienbaltsource, columns=pienbaltcol, width=600, height=75, row_headers=None)
-
-# Moliuskai ir vėžiagyviai
-
-moliuvezfm = StringFormatter(font_style="bold")
-moliuvezcol = [TableColumn(field="grupe", title="Moliuskai ir vėžiagyviai:", formatter=moliuvezfm)]
-moliuveztable = DataTable(source=CDS.moliuvezsource, columns=moliuvezcol, width=600, height=50, row_headers=None)
-
-# Balta mėsa
-
-baltamesafm = StringFormatter(font_style="bold")
-baltamesacol = [TableColumn(field="grupe", title="Balta mėsa:", formatter=baltamesafm)]
-baltamesatable = DataTable(source=CDS.baltamesasource, columns=baltamesacol, width=600, height=75, row_headers=None)
-
-# Raudona mėsa
-
-raudomesafm = StringFormatter(font_style="bold")
-raudomesacol = [TableColumn(field="grupe", title="Raudona mėsa:", formatter=raudomesafm)]
-raudomesatable = DataTable(source=CDS.raudomesasource, columns=raudomesacol, width=600, height=75, row_headers=None)
-
-# Grybai
-
-grybaifm = StringFormatter(font_style="bold")
-grybaicol = [TableColumn(field="grupe", title="Grybai:", formatter=grybaifm)]
-grybaitable = DataTable(source=CDS.grybaisource, columns=grybaicol, width=600, height=50, row_headers=None)
-
-# Augaliniai baltymai
-
-augalbaltfm = StringFormatter(font_style="bold")
-augalbaltcol = [TableColumn(field="grupe", title="Augaliniai baltymai:", formatter=augalbaltfm)]
-augalbalttable = DataTable(source=CDS.augalbaltsource, columns=augalbaltcol, width=600, height=50, row_headers=None)
-
-# Kitų medžiagų vartojimo prioritetai
-# Pakeistų savybių vanduo
-
-paksavyvanduofm = StringFormatter(font_style="bold")
-paksavyvanduocol = [TableColumn(field="grupe", title="Pakeistų savybių vanduo:", formatter=paksavyvanduofm)]
-paksavyvanduotable = DataTable(source=CDS.paksavyvanduosource, columns=paksavyvanduocol, width=600, height=75, row_headers=None)
-
-# Slopikliai
-
-slopikaifm = StringFormatter(font_style="bold")
-slopikaicol = [TableColumn(field="grupe", title="Slopikliai:", formatter=slopikaifm)]
-slopikaitable = DataTable(source=CDS.slopikaisource, columns=slopikaicol, width=600, height=50, row_headers=None)
-
-# Stimuliatoriai
-
-stimuliatfm = StringFormatter(font_style="bold")
-stimuliatcol = [TableColumn(field="grupe", title="Stimuliatoriai:", formatter=stimuliatfm)]
-stimuliattable = DataTable(source=CDS.stimuliatsource, columns=stimuliatcol, width=600, height=75, row_headers=None)
-
-# Rūkalai
-
-rukalaifm = StringFormatter(font_style="bold")
-rukalaicol = [TableColumn(field="grupe", title="Rūkalai:", formatter=rukalaifm)]
-rukalaitable = DataTable(source=CDS.rukalaisource, columns=rukalaicol, width=600, height=50, row_headers=None)
-
-# Kiti elgsenos prioritetai
-# Didelio intensyvumo trumpos trukmės fizinė veikla
-
-didintesyvfm = StringFormatter(font_style="bold")
-didintesyvcol = [TableColumn(field="grupe", title="Didelio intensyvumo trumpos trukmės fizinė veikla:", formatter=didintesyvfm)]
-didintesyvtable = DataTable(source=CDS.didintesyvsource, columns=didintesyvcol, width=600, height=75, row_headers=None)
-
-# Mažo intensyvumo ilgos trukmės fizinė veikla
-
-mazointesyvfm = StringFormatter(font_style="bold")
-mazointesyvcol = [TableColumn(field="grupe", title="Mažo intensyvumo ilgos trukmės fizinė veikla:", formatter=mazointesyvfm)]
-mazointesyvtable = DataTable(source=CDS.mazointesyvsource, columns=mazointesyvcol, width=600, height=50, row_headers=None)
-
-# Kvėpavimo balansavimas
-
-kvepasulaikfm = StringFormatter(font_style="bold")
-kvepasulaikcol = [TableColumn(field="grupe", title="Kvėpavimo balansavmas:", formatter=kvepasulaikfm)]
-kvepasulaiktable = DataTable(source=CDS.kvepasulaiksource, columns=kvepasulaikcol, width=600, height=50, row_headers=None)
-
-# Hipoventiliacija
-
-hipoventilfm = StringFormatter(font_style="bold")
-hipoventilcol = [TableColumn(field="grupe", title="Hipoventiliacija:", formatter=hipoventilfm)]
-hipoventiltable = DataTable(source=CDS.hipoventilsource, columns=hipoventilcol, width=600, height=50, row_headers=None)
-
-# Grūdinimasis
-
-grudinimasfm = StringFormatter(font_style="bold")
-grudinimascol = [TableColumn(field="grupe", title="Grūdinimasis:", formatter=grudinimasfm)]
-grudinimastable = DataTable(source=CDS.grudinimassource, columns=grudinimascol, width=600, height=50, row_headers=None)
-
-# Kaitinimasis
-
-kaitinimasfm = StringFormatter(font_style="bold")
-kaitinimascol = [TableColumn(field="grupe", title="Kaitinimasis:", formatter=kaitinimasfm)]
-kaitinimastable = DataTable(source=CDS.kaitinimassource, columns=kaitinimascol, width=600, height=50, row_headers=None)
-
-# Galūnių laikymas šiltai
-
-galuniulsilfm = StringFormatter(font_style="bold")
-galuniulsilcol = [TableColumn(field="grupe", title="Galūnių laikymas šiltai:", formatter=galuniulsilfm)]
-galuniulsiltable = DataTable(source=CDS.galuniulsilsource, columns=galuniulsilcol, width=600, height=50, row_headers=None)
-
-# Galūnių laikymas šaltai
-
-galuniulsalfm = StringFormatter(font_style="bold")
-galuniulsalcol = [TableColumn(field="grupe", title="Galūnių laikymas šaltai:", formatter=galuniulsalfm)]
-galuniulsaltable = DataTable(source=CDS.galuniulsalsource, columns=galuniulsalcol, width=600, height=50, row_headers=None)
-
-# Buvimas šiltesnėje aplinkoje
-
-buvsilaplfm = StringFormatter(font_style="bold")
-buvsilaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsilaplfm)]
-buvsilapltable = DataTable(source=CDS.buvsilaplsource, columns=buvsilaplcol, width=600, height=50, row_headers=None)
-
-# Buvimas šaltesnėje aplinkoje
-
-buvsalaplfm = StringFormatter(font_style="bold")
-buvsalaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsalaplfm)]
-buvsalapltable = DataTable(source=CDS.buvsalaplsource, columns=buvsalaplcol, width=600, height=50, row_headers=None)
-
-# Atidėta ejakuliacija (vyrams)
-
-atidejakulfm = StringFormatter(font_style="bold")
-atidejakulcol = [TableColumn(field="grupe", title="Atidėta ejakuliacija (vyrams):", formatter=atidejakulfm)]
-atidejakultable = DataTable(source=CDS.atidejakulsource, columns=atidejakulcol, width=600, height=50, row_headers=None)
-
-# Pakartotinis orgazmas (moterims)
-
-pakartotorgfm = StringFormatter(font_style="bold")
-pakartotorgcol = [TableColumn(field="grupe", title="Pakartotinis orgazmas (moterims):", formatter=pakartotorgfm)]
-pakartotorgtable = DataTable(source=CDS.pakartotorgsource, columns=pakartotorgcol, width=600, height=50, row_headers=None)
-
-# Limfotakos aktyvavimas
-
-limfoaktyvfm = StringFormatter(font_style="bold")
-limfoaktyvcol = [TableColumn(field="grupe", title="Limfotakos aktyvavimas:", formatter=limfoaktyvfm)]
-limfoaktyvtable = DataTable(source=CDS.limfoaktyvsource, columns=limfoaktyvcol, width=600, height=50, row_headers=None)
-
-# Subalansuotas miegas
-
-subalanmiegfm = StringFormatter(font_style="bold")
-subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
-subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
-
-# rekomendmyg = Button(label="Rekomendacijos", button_type="fail", height=20)
-
-
-def data_update():
-	for k in [gervandfm, subalanmiegfm]:
-		if k == gervandfm:
-			gervandfm = StringFormatter(font_style="bold", text_color="blue")
-
-rekomendmyg.on_click(data_update)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok(), invard, inpavard, lytis, inamz)
@@ -3232,6 +3289,7 @@ lay7 = row(dt1, spacer_8, dt2)
 
 lay8 = column(lay1, lay2, lay6, lay7)
 
-# add the layout to curdoc
 # export_png(dt1, filename="plot.png")
+
+# add the layout to curdoc
 curdoc().add_root(lay8)

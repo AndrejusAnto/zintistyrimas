@@ -241,9 +241,7 @@ srcp4p1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
 vanduo = [
 	'šaltinio vanduo, šulinio vanduo, mineraliniai vandenys "Neptūnas", "Aqua Panna", "Evian", "Vittel"',
 	'geriamasis vanduo "Vichy"']
-gvreik = ["-"] * len(vanduo)
-gvdata = dict(grupe=vanduo, reiksme=gvreik)
-gervandsource = ColumnDataSource(gvdata)
+gervandsource = ColumnDataSource(data=dict(grupe=[], reiksmes=[]))
 
 # Organinės rūgštys datatable
 
