@@ -241,7 +241,9 @@ srcp4p1ralacv = ColumnDataSource(data=dict(x=[], y=[]))
 vanduo = [
 	'šaltinio vanduo, šulinio vanduo, mineraliniai vandenys "Neptūnas", "Aqua Panna", "Evian", "Vittel"',
 	'geriamasis vanduo "Vichy"']
-gervandsource = ColumnDataSource(data=dict(grupe=[], reiksmes=[]))
+vreik = ["-"] * len(vanduo)
+vdata = dict(grupe=vanduo, reiksme=vreik)
+gervandsource = ColumnDataSource(vdata)
 
 # Organinės rūgštys datatable
 
@@ -250,24 +252,22 @@ orgrug = [
 	"rūgštūs pieno produktai (grietinė, rūgpienis, kefyras, jogurtas, raugintos pasukos, maskarponė)",
 	"mariruona mėsa, raugintos arba marinuotos daržovės, pomidorų pasta, pomidorų padažas, majonezas",
 	"kiti padažai, vynas, vaisiai, pomidorai"]
-
-ogreik = ["-"] * len(orgrug)
-ordata = dict(grupe=orgrug, reiksme=ogreik)
+orreik = ["-"] * len(orgrug)
+ordata = dict(grupe=orgrug, reiksme=orreik)
 orgrugsource = ColumnDataSource(ordata)
 
 # Hidrokarbonatai datatable
 
 hidrokarbo = ["soda, gazuoti gėrimai"]
-hkreik = ["-"] * len(hidrokarbo)
-hkdata = dict(grupe=hidrokarbo, reiksme=hkreik)
-hidrokarbosource = ColumnDataSource(hkdata)
+hreik = ["-"] * len(hidrokarbo)
+hdata = dict(grupe=hidrokarbo, reiksme=hreik)
+hidrokarbosource = ColumnDataSource(hdata)
 
 # Natris, chloras, fluoras datatable
 
 natchlofluo = [
 	"valgomoji druska, soda, sūdyti produktai (vytinta mėsa, rūkinta mėsa, sūdyti lašiniai, geltoni sūriai)",
 	'mineraliniai vandenys „Vytautas“, „Birutė“, „Akvilė“, „Rasa“, „Borjomi“, „Darida"']
-
 ncfreik = ["-"] * len(natchlofluo)
 ncfdata = dict(grupe=natchlofluo, reiksme=ncfreik)
 natchlofluosource = ColumnDataSource(ncfdata)

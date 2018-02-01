@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc, export_png
-from bokeh.events import ButtonClick
 from bokeh.layouts import column, row, layout, gridplot
 from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
 import jinja2
+from statistics import mean
 import math
 import logging
 import pandas as pd
@@ -1580,10 +1580,10 @@ def rekokatego():
 
 def rekotipai():
 	return Div(text="""<i>Prioritetų žymėjimas:
-		„T“ rekomenduojama vartoti daugiau,
-		„N“ vartoti nerekomenduojama,
-		„S“ vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-		„-“ papildomų rekomendacijų nėra.</i>""", width=570)
+		Žalia spalva - rekomenduojama vartoti daugiau,
+		Raudona spalva - vartoti nerekomenduojama,
+		Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
 
 
 def maistproduk():
@@ -1600,16 +1600,9 @@ def kitielgsen():
 
 # Maisto produktų prioritetai
 
-gervandfm = StringFormatter()
+gervandfm = StringFormatter(font_style="bold")
 gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
 gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
-
-# def gervand(formatter):
-# 	# Geriamasis vanduo
-# 	gervandfm = formatter
-# 	gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
-# 	gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
-# 	return gervandtable
 
 
 # Organinės rūgštys
@@ -1644,13 +1637,13 @@ krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=600
 
 # Augaliniai inertinai (ląsteliena)
 
-augalinertfm = StringFormatter(font_style="bold")
+augalinertfm = StringFormatter(font_style="bold", text_color="green")
 augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
 augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=600, height=50, row_headers=None)
 
 # Neaugaliniai inertinai
 
-neaugalinertfm = StringFormatter(font_style="bold")
+neaugalinertfm = StringFormatter(font_style="bold", text_color="green")
 neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
 neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=600, height=75, row_headers=None)
 
@@ -1659,7 +1652,6 @@ neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugaliner
 poliriebfm = StringFormatter(font_style="bold")
 poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
 poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=600, height=175, row_headers=None)
-
 
 # Mononesotieji riebalai
 
@@ -1835,44 +1827,9 @@ limfoaktyvtable = DataTable(source=CDS.limfoaktyvsource, columns=limfoaktyvcol, 
 
 # Subalansuotas miegas
 
-subalanmiegfm = StringFormatter(font_style="bold", text_color="blue")
+subalanmiegfm = StringFormatter(font_style="bold")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
 subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
-
-
-# def submais():
-# 	if spalva("N") == "T":
-# 		subalanmiegfm = StringFormatter(font_style="bold", text_color="red")
-
-# 	else:
-# 		subalanmiegfm = StringFormatter(font_style="bold", text_color="blue")
-# 	subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
-# 	subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
-# 	print(subalanmiegtable)
-# 	return subalanmiegtable
-
-
-# # def tables(bal):
-# # 	if bal == 5:
-
-# # 	else:
-# # 		subalanmiegfm.text_color = "blue"
-
-# # def callback(event):
-# # 	print("bla")
-# # 	submais("T")
-
-
-# rekomendmyg.on_click(submais)
-
-
-# def t_update(attr, new, old):
-# 	new_data = {'grupe': [], 'y': [yreiksme, yreiksme]}
-# 	sourcedata.update(new_data)
-# 	tables()
-
-
-# rekomendmyg.on_click(lambda: tables(6))
 
 
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
@@ -2019,19 +1976,20 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
 
-# nurodomos skirtingos spalvos
+# nustatmomos grafiko linijų (katabolizmo ir anabolizmo reikšmių) skirtingos spalvos
 	if len(lin) == 1:
 		if ktarap > 0:
 			lin[0].glyph.line_color = "blue"
 		else:
 			lin[0].glyph.line_color = "red"
 	else:
-		if ktarap > 0:
-			lin[0].glyph.line_color = "blue"
-			lin[1].glyph.line_color = "red"
-		else:
-			lin[0].glyph.line_color = "red"
-			lin[1].glyph.line_color = "blue"
+		if ktarap:
+			if ktarap > 0:
+				lin[0].glyph.line_color = "blue"
+				lin[1].glyph.line_color = "red"
+			else:
+				lin[0].glyph.line_color = "red"
+				lin[1].glyph.line_color = "blue"
 
 # apribojama reikšmė iki 4 arba -4
 	if ktarap > 4:
@@ -2044,7 +2002,7 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 
 
 def buklnustat(val1, val2, val3, param):
-	katanaboltn = {"Katabolizmas": {}, "Anabolizmas": {}}
+	katanaboltn = {}
 	for api, skaic in param.items():
 		if skaic is not None:
 			buklkr = len([val1[i] for i in val1 if val1[i] < -1])
@@ -2170,8 +2128,7 @@ def buklnustat(val1, val2, val3, param):
 	else:
 		galutineant = "T"
 
-	katanaboltn["Katabolizmas"] = {api: galutineknt}
-	katanaboltn["Anabolizmas"] = {api: galutineant}
+	katanaboltn[api] = {"Katabolizmas": galutineknt, "Anabolizmas": galutineant}
 
 	print (katanaboltn)
 	return katanaboltn
@@ -2354,26 +2311,27 @@ def simparasim_update(attr, old, new):
 		elif "vakaras" in str(key):
 			simparasimv[key] = karareiksme
 
-		if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
-			ktareiksme = buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
+		# if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
+		# 	ktareiksme = buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
 
-	for k, v in ktareiksme.items():
-		if k == "Anabolizmas":
-			for k1, v1 in v.items():
-				if k1 == "simparasim":
-					a, b = CDS.vanduo
-					if v1 == "T":
-						gervandfm.text_color = "red"
-						gervandfm.font_style = "bold"
-						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-						CDS.gervandsource.data = new_data
-						print(new_data)
-					else:
-						gervandfm.text_color = "blue"
-						gervandfm.font_style = "bold"
-						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-						CDS.gervandsource.data = new_data
-						print(new_data)
+	# if ktareiksme:
+	# 	for k, v in ktareiksme.items():
+	# 		if k == "Anabolizmas":
+	# 			for k1, v1 in v.items():
+	# 				if k1 == "simparasim":
+	# 					a, b = CDS.vanduo
+	# 					if v1 == "T":
+	# 						gervandfm.text_color = "red"
+	# 						gervandfm.font_style = "bold"
+	# 						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+	# 						CDS.gervandsource.data = new_data
+	# 						print(new_data)
+	# 					else:
+	# 						gervandfm.text_color = "blue"
+	# 						gervandfm.font_style = "bold"
+	# 						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+	# 						CDS.gervandsource.data = new_data
+	# 						print(new_data)
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
@@ -2744,15 +2702,30 @@ def alkaacid_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		# if "rytas" in str(key):
-		# 	alkaacidr[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	alkaacidp[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	alkaacidv[key] = karareiksme
+		if "rytas" in str(key):
+			alkaacidr[key] = karareiksme
+		elif "pietūs" in str(key):
+			alkaacidp[key] = karareiksme
+		elif "vakaras" in str(key):
+			alkaacidv[key] = karareiksme
 
-		# if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
-		# 	buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav) GERAi
+		if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
+			ktareiksme = buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav)
+
+	if ktareiksme:
+		for k, v in ktareiksme.items():
+			if "alkaacid" in str(k):
+				a, b, c, d = CDS.orgrug
+				if (v["Katabolizmas"] == "T") or (v["Anabolizmas"] == "T"):
+					orgrugfm.text_color = "red"
+					orgrugfm.font_style = "bold"
+					new_data = {'grupe': [a, b, c, d], 'reiksmes': [v["Katabolizmas"]] * len(CDS.orgrug)}
+					CDS.orgrugsource.data = new_data
+				else:
+					orgrugfm.text_color = None
+					orgrugfm.font_style = "bold"
+					new_data = {'grupe': [a, b, c, d], 'reiksmes': [v["Katabolizmas"]] * len(CDS.orgrug)}
+					CDS.orgrugsource.data = new_data
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
@@ -2859,57 +2832,105 @@ def elektroltp_update(attr, old, new):
 				new_data2 = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 				sourcedata2.update(new_data2)
 
-		# if "rytas" in str(key):
-		# 	if key == "pm1-pm4rytas":
-		# 		key1 = "pm1-pm4rytas1"
-		# 		elektroltpr[key] = karareiksme
-		# 		elektroltpr[key1] = -karareiksme
-		# 	elif key == "s-drytas":
-		# 		if karareiksme < 0:
-		# 			key1 = "s-drytas1"
-		# 			elektroltpr[key] = karareiksme
-		# 			elektroltpr[key1] = -karareiksme
-		# 		else:
-		# 			key1 = "s-drytas1"
-		# 			elektroltpr[key] = 0
-		# 			elektroltpr[key1] = karareiksme
-		# 	else:
-		# 		elektroltpr[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	if key == "pm1-pm4pietūs":
-		# 		key1 = "pm1-pm4pietūs1"
-		# 		elektroltpp[key] = karareiksme
-		# 		elektroltpp[key1] = -karareiksme
-		# 	elif key == "s-dpietūs":
-		# 		if karareiksme < 0:
-		# 			key1 = "s-dpietūs1"
-		# 			elektroltpp[key] = karareiksme
-		# 			elektroltpp[key1] = -karareiksme
-		# 		else:
-		# 			key1 = "s-dpietūs1"
-		# 			elektroltpp[key] = 0
-		# 			elektroltpp[key1] = karareiksme
-		# 	else:
-		# 		elektroltpp[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	if key == "pm1-pm4vakaras":
-		# 		key1 = "pm1-pm4vakaras1"
-		# 		elektroltpv[key] = karareiksme
-		# 		elektroltpv[key1] = -karareiksme
-		# 	elif key == "s-dvakaras":
-		# 		if karareiksme < 0:
-		# 			key1 = "s-dvakaras1"
-		# 			elektroltpv[key] = karareiksme
-		# 			elektroltpv[key1] = -karareiksme
-		# 		else:
-		# 			key1 = "s-dvakaras1"
-		# 			elektroltpv[key] = 0
-		# 			elektroltpv[key1] = karareiksme
-		# 	else:
-		# 		elektroltpv[key] = karareiksme
+		if "rytas" in str(key):
+			if key == "pm1-pm4rytas":
+				key1 = "pm1-pm4rytas1"
+				elektroltpr[key] = karareiksme
+				elektroltpr[key1] = -karareiksme
+			elif key == "s-drytas":
+				if karareiksme < 0:
+					key1 = "s-drytas1"
+					elektroltpr[key] = karareiksme
+					elektroltpr[key1] = -karareiksme
+				else:
+					key1 = "s-drytas1"
+					elektroltpr[key] = 0
+					elektroltpr[key1] = karareiksme
+			else:
+				elektroltpr[key] = karareiksme
+		elif "pietūs" in str(key):
+			if key == "pm1-pm4pietūs":
+				key1 = "pm1-pm4pietūs1"
+				elektroltpp[key] = karareiksme
+				elektroltpp[key1] = -karareiksme
+			elif key == "s-dpietūs":
+				if karareiksme < 0:
+					key1 = "s-dpietūs1"
+					elektroltpp[key] = karareiksme
+					elektroltpp[key1] = -karareiksme
+				else:
+					key1 = "s-dpietūs1"
+					elektroltpp[key] = 0
+					elektroltpp[key1] = karareiksme
+			else:
+				elektroltpp[key] = karareiksme
+		elif "vakaras" in str(key):
+			if key == "pm1-pm4vakaras":
+				key1 = "pm1-pm4vakaras1"
+				elektroltpv[key] = karareiksme
+				elektroltpv[key1] = -karareiksme
+			elif key == "s-dvakaras":
+				if karareiksme < 0:
+					key1 = "s-dvakaras1"
+					elektroltpv[key] = karareiksme
+					elektroltpv[key1] = -karareiksme
+				else:
+					key1 = "s-dvakaras1"
+					elektroltpv[key] = 0
+					elektroltpv[key1] = karareiksme
+			else:
+				elektroltpv[key] = karareiksme
 
-		# if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 7:
-		# 	buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav) GERAI
+		if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 7:
+			ktareiksme = buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
+
+	if ktareiksme:
+		for k, v in ktareiksme.items():
+			if "elektroltp" in str(k):
+				a, b = CDS.natchlofluo
+				a1 = CDS.sulfat
+				if v["Katabolizmas"] == v["Anabolizmas"] == "T":
+					natchlofluofm.text_color = None
+					natchlofluofm.font_style = "bold"
+					new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+					CDS.natchlofluosource.data = new_data
+
+					sulfatfm.text_color = "green"
+					sulfatfm.font_style = "bold"
+					new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+					CDS.sulfatsource.data = new_data
+				else:
+					if v["Katabolizmas"] == "T":
+						natchlofluofm.text_color = "green"
+						natchlofluofm.font_style = "bold"
+						new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+						CDS.natchlofluosource.data = new_data
+					else:
+						if v["Anabolizmas"] == "T":
+							natchlofluofm.text_color = "red"
+							natchlofluofm.font_style = "bold"
+							new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+							CDS.natchlofluosource.data = new_data
+
+							sulfatfm.text_color = "green"
+							sulfatfm.font_style = "bold"
+							new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+							CDS.sulfatsource.data = new_data
+						else:
+							natchlofluofm.text_color = None
+							natchlofluofm.font_style = "bold"
+							new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+							CDS.natchlofluosource.data = new_data
+
+							sulfatfm.text_color = None
+							sulfatfm.font_style = "bold"
+							new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
+							CDS.sulfatsource.data = new_data
+
+# "T“ Žalia spalva - rekomenduojama vartoti daugiau,
+# „N“ Raudona spalva - vartoti nerekomenduojama,
+# „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+# „-“ Jokios spalvos - papildomų rekomendacijų nėra
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
@@ -3175,20 +3196,76 @@ def respialac_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		# if "rytas" in str(key):
-		# 	respialacr[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	respialacp[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	respialacv[key] = karareiksme
+		if "rytas" in str(key):
+			respialacr[key] = karareiksme
+		elif "pietūs" in str(key):
+			respialacp[key] = karareiksme
+		elif "vakaras" in str(key):
+			respialacv[key] = karareiksme
 
-		# if len(respialacr) == len(respialacp) == len(respialacv) == 7:
-		# 	buklnustat(respialacr, respialacp, respialacv, dictpav) GERAI
+		if len(respialacr) == len(respialacp) == len(respialacv) == 7:
+			ktareiksme = buklnustat(respialacr, respialacp, respialacv, dictpav)
+
+	if ktareiksme:
+		for k, v in ktareiksme.items():
+			if "respialac" in str(k):
+				a = CDS.hidrokarbo
+				if v["Anabolizmas"] == "T":
+					hidrokarbofm.text_color = "red"
+					hidrokarbofm.font_style = "bold"
+					new_data = {'grupe': [a], 'reiksmes': [v["Anabolizmas"]] * len(CDS.hidrokarbo)}
+					CDS.hidrokarbosource.data = new_data
+				else:
+					hidrokarbofm.text_color = None
+					hidrokarbofm.font_style = "bold"
+					new_data = {'grupe': [a], 'reiksmes': [v["Anabolizmas"]] * len(CDS.hidrokarbo)}
+					CDS.hidrokarbosource.data = new_data
 
 
 for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
 	w.on_change("value", respialac_update)
 
+
+hidracind = {
+	"hidrindrytas": [slarugrytas, serrytas, slatankrytas],
+	"hidrindpietūs": [slarugpietus, serpietus, slatankpietus],
+	"hidrindvakaras": [slarugvakaras, servakaras, slatankvakaras]}
+
+
+def hidrac_indekas(attr, old, new):
+	avrl = []
+	for key, v in hidracind.items():
+		v1, v2, v3 = verte(v)
+		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
+		avrl.append(hdi)
+	logging.info(mean(avrl))
+
+	if avrl:
+		if mean(avrl) <= 8.5:
+			v1 = "T"
+			a, b = CDS.vanduo
+			gervandfm.text_color = "green"
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+		elif mean(avrl) >= 12.0:
+			v1 = "N"
+			a, b = CDS.vanduo
+			gervandfm.text_color = "red"
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+		else:
+			v1 = "-"
+			a, b = CDS.vanduo
+			gervandfm.text_color = None
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+
+
+for w in list(itertools.chain.from_iterable([b for b in [i for i in hidracind.values()]])):
+	w.on_change("value", hidrac_indekas)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok(), invard, inpavard, lytis, inamz)
@@ -3248,6 +3325,7 @@ dt1 = column(
 	natchlofluotable,
 	sulfattable,
 	krakmoltable,
+	augalinerttable,
 	neaugalinerttable,
 	poliriebtable,
 	monoriebtable,
