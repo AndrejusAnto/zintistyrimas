@@ -1582,7 +1582,7 @@ def rekotipai():
 	return Div(text="""<i>Prioritetų žymėjimas:
 		Žalia spalva - rekomenduojama vartoti daugiau,
 		Raudona spalva - vartoti nerekomenduojama,
-		Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+		Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
 		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
 
 
@@ -3220,13 +3220,198 @@ def pagr_update(attr, old, new):
 		krakmolfm.text_color = "red"
 		krakmolfm.font_style = "bold"
 		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
-		CDS.sulfatsource.data = new_data
+		CDS.krakmolsource.data = new_data
 	else:
-		krakmolfm.text_color = "yellow"
+		krakmolfm.text_color = "#CCCC00"
 		krakmolfm.font_style = "bold"
 		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
-		CDS.sulfatsource.data = new_data
+		CDS.krakmolsource.data = new_data
 
+	# Polinesotieji riebalai
+	if datnk == "T":
+		poliriebfm.text_color = "red"
+		poliriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.polirieb], 'reiksmes': reik * len(CDS.polirieb)}
+		CDS.poliriebsource.data = new_data
+	else:
+		poliriebfm.text_color = "#CCCC00"
+		poliriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.polirieb], 'reiksmes': reik * len(CDS.polirieb)}
+		CDS.poliriebsource.data = new_data
+
+	# Mononesotieji riebalai
+	if (kgtnk == "T") or (datnk == "T"):
+		monoriebfm.text_color = "green"
+		monoriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.monorieb], 'reiksmes': reik * len(CDS.monorieb)}
+		CDS.monoriebsource.data = new_data
+	else:
+		monoriebfm.text_color = None
+		monoriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.monorieb], 'reiksmes': reik * len(CDS.monorieb)}
+		CDS.monoriebsource.data = new_data
+
+	# Sotieji riebalai
+	if kgtnk == "T":
+		sotriebfm.text_color = "red"
+		sotriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
+		CDS.sotriebsource.data = new_data
+	else:
+		if kgtna == "T":
+			sotriebfm.text_color = "green"
+			sotriebfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
+			CDS.sotriebsource.data = new_data
+		else:
+			sotriebfm.text_color = None
+			sotriebfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
+			CDS.sotriebsource.data = new_data
+
+	# Stipriai pakitę baltymai ir riebalai
+	if (sptnk == "T") or (sptna == "T") or (kgtnk == "T") or (datnk == "T"):
+		spbaltirriebfm.text_color = "red"
+		spbaltirriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.spbaltirrieb], 'reiksmes': reik * len(CDS.spbaltirrieb)}
+		CDS.spbaltirriebsource.data = new_data
+	else:
+		spbaltirriebfm.text_color = None
+		spbaltirriebfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.spbaltirrieb], 'reiksmes': reik * len(CDS.spbaltirrieb)}
+		CDS.spbaltirriebsource.data = new_data
+
+	# Kiaušiniai
+	if (kgtnk == "T") or (datnk == "T"):
+		kiausiniaifm.text_color = "green"
+		kiausiniaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.kiausiniai], 'reiksmes': reik * len(CDS.kiausiniai)}
+		CDS.kiaussource.data = new_data
+	else:
+		kiausiniaifm.text_color = None
+		kiausiniaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.kiausiniai], 'reiksmes': reik * len(CDS.kiausiniai)}
+		CDS.kiaussource.data = new_data
+
+	# Organai
+	if kgtnk == "T":
+		organaifm.text_color = "red"
+		organaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
+		CDS.organsource.data = new_data
+	else:
+		if kgtna == "T":
+			organaifm.text_color = "green"
+			organaifm.font_style = "bold"
+			new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
+			CDS.organsource.data = new_data
+		else:
+			organaifm.text_color = None
+			organaifm.font_style = "bold"
+			new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
+			CDS.organsource.data = new_data
+
+	# Pieno baltymai
+	if (sptnk == "T") or (sptna == "T"):
+		pienbaltfm.text_color = "red"
+		pienbaltfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
+		CDS.pienbaltsource.data = new_data
+	else:
+		if kgtnk == "T":
+			pienbaltfm.text_color = "green"
+			pienbaltfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
+			CDS.pienbaltsource.data = new_data
+		else:
+			pienbaltfm.text_color = None
+			pienbaltfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
+			CDS.pienbaltsource.data = new_data
+
+	# Moliuskai ir vėžiagyviai
+	if kgtnk == "T":
+		moliuvezfm.text_color = "red"
+		moliuvezfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
+		CDS.moliuvezsource.data = new_data
+	else:
+		if kgtna == "T":
+			moliuvezfm.text_color = "green"
+			moliuvezfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
+			CDS.moliuvezsource.data = new_data
+		else:
+			moliuvezfm.text_color = None
+			moliuvezfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
+			CDS.moliuvezsource.data = new_data
+
+	# Balta mėsa
+	if kgtnk == "T":
+		baltamesafm.text_color = "green"
+		baltamesafm.font_style = "bold"
+		new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
+		CDS.baltamesasource.data = new_data
+	else:
+		if kgtna == "T":
+			baltamesafm.text_color = "#CCCC00"
+			baltamesafm.font_style = "bold"
+			new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
+			CDS.baltamesasource.data = new_data
+		else:
+			baltamesafm.text_color = None
+			baltamesafm.font_style = "bold"
+			new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
+			CDS.baltamesasource.data = new_data
+
+	# Raudona mėsa
+	if kgtnk == "T":
+		raudomesafm.text_color = "red"
+		raudomesafm.font_style = "bold"
+		new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
+		CDS.raudomesasource.data = new_data
+	else:
+		if kgtna == "T":
+			raudomesafm.text_color = "green"
+			raudomesafm.font_style = "bold"
+			new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
+			CDS.raudomesasource.data = new_data
+		else:
+			raudomesafm.text_color = None
+			raudomesafm.font_style = "bold"
+			new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
+			CDS.raudomesasource.data = new_data
+
+	# Grybai
+	if (sptnk == "T") or (sptnk == "T") or (kgtnk == "T"):
+		grybaifm.text_color = "red"
+		grybaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.grybai], 'reiksmes': reik * len(CDS.grybai)}
+		CDS.grybaisource.data = new_data
+	else:
+		grybaifm.text_color = "green"
+		grybaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.grybai], 'reiksmes': reik * len(CDS.grybai)}
+		CDS.grybaisource.data = new_data
+
+	# Augaliniai baltymai
+	if (sptnk == "T") or (sptna == "T"):
+		augalbaltfm.text_color = "red"
+		augalbaltfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
+		CDS.augalbaltsource.data = new_data
+	else:
+		if kgtnk == "T":
+			augalbaltfm.text_color = "green"
+			augalbaltfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
+			CDS.augalbaltsource.data = new_data
+		else:
+			augalbaltfm.text_color = "#CCCC00"
+			augalbaltfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
+			CDS.augalbaltsource.data = new_data
 
 # "T“ Žalia spalva - rekomenduojama vartoti daugiau,
 # „N“ Raudona spalva - vartoti nerekomenduojama,
