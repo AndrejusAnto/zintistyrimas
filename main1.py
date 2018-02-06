@@ -1963,33 +1963,41 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 			pagrindas = 16
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+			else:
+				ktarap = 0
 		else:
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
-
+			else:
+				ktarap = 0
 	else:
 		if NormaKT == 16 and NormaAP == 8:
 			pagrindas = 16
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+			else:
+				ktarap = 0
 		else:
 			if (alfa * skirtum + beta) > 0:
 				ktarap = (zenklas * math.log(alfa * skirtum + beta, pagrindas))
+			else:
+				ktarap = 0
+
 
 # nustatmomos grafiko linijų (katabolizmo ir anabolizmo reikšmių) skirtingos spalvos
-	if len(lin) == 1:
-		if ktarap > 0:
+	if ktarap > 0:
+		if len(lin) == 1:
 			lin[0].glyph.line_color = "blue"
 		else:
-			lin[0].glyph.line_color = "red"
+			lin[0].glyph.line_color = "blue"
+			lin[1].glyph.line_color = "red"
+
 	else:
-		if ktarap:
-			if ktarap > 0:
-				lin[0].glyph.line_color = "blue"
-				lin[1].glyph.line_color = "red"
-			else:
-				lin[0].glyph.line_color = "red"
-				lin[1].glyph.line_color = "blue"
+		if len(lin) == 1:
+			lin[0].glyph.line_color = "red"
+		else:
+			lin[0].glyph.line_color = "red"
+			lin[1].glyph.line_color = "blue"
 
 # apribojama reikšmė iki 4 arba -4
 	if ktarap > 4:
@@ -2003,6 +2011,7 @@ def formule_kt_ar_ap(skirtum, lin, ind, lentel, k, *arg):
 
 def buklnustat(val1, val2, val3, param):
 	katanaboltn = {}
+
 	for api, skaic in param.items():
 		if skaic is not None:
 			buklkr = len([val1[i] for i in val1 if val1[i] < -1])
@@ -2113,24 +2122,24 @@ def buklnustat(val1, val2, val3, param):
 			else:
 				bkpvreiksme = "N"
 
-	bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
-	bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
-	bendrasan = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "N"])
-	bendrasat = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "T"])
+		bendraskn = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "N"])
+		bendraskt = len([i for i in [bksrreiksme, bkspreiksme, bksvreiksme] if i == "T"])
+		bendrasan = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "N"])
+		bendrasat = len([i for i in [bkprreiksme, bkppreiksme, bkpvreiksme] if i == "T"])
 
-	if bendraskn > bendraskt:
-		galutineknt = "N"
-	else:
-		galutineknt = "T"
+		if bendraskn > bendraskt:
+			galutineknt = "N"
+		else:
+			galutineknt = "T"
 
-	if bendrasan > bendrasat:
-		galutineant = "N"
-	else:
-		galutineant = "T"
+		if bendrasan > bendrasat:
+			galutineant = "N"
+		else:
+			galutineant = "T"
 
-	katanaboltn[api] = {"Katabolizmas": galutineknt, "Anabolizmas": galutineant}
+		katanaboltn[api] = {"Katabolizmas": galutineknt, "Anabolizmas": galutineant}
 
-	print (katanaboltn)
+	print(katanaboltn)
 	return katanaboltn
 
 
@@ -2194,12 +2203,275 @@ parametsp = {
 	"sklpietūs": [[sekpietus], "sklp", CDS.srcsklp.data, make_lin(p1, CDS.srcsklp), parametrupavsp.index("S-kl")],
 	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
 
+# Ketogeninis|gliukogeninis
 
-def simparasim_update(attr, old, new):
+ketogliuko = {
+	"Norma KT": [15, 1001, 1002, 6, 5, 1, -0.28],
+	"Norma AP": [1000, 1001, 1002, 8, 0, -1, -0.18],
+	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2]}
+
+parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
+lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
+lentelekg = lentelekg[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametkg = {
+	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", CDS.srckdkgr.data, make_lin(p2, CDS.srckdkgr), parametrupavkg.index("KD")],
+	"kdpietūs": [[kdpietus, slatankpietus, serpietus], "kdp", CDS.srckdkgp.data, make_lin(p2, CDS.srckdkgp), parametrupavkg.index("KD")],
+	"kdvakaras": [[kdvakaras, slatankvakaras, servakaras], "kdv", CDS.srckdkgv.data, make_lin(p2, CDS.srckdkgv), parametrupavkg.index("KD")],
+
+	"tksirytas": [[ksirytas, slatankrytas, serrytas], "tksir", CDS.srctksikgr.data, make_lin(p2, CDS.srctksikgr), parametrupavkg.index("t(ksi)")],
+	"tksipietūs": [[ksipietus, slatankpietus, serpietus], "tksip", CDS.srctksikgp.data, make_lin(p2, CDS.srctksikgp), parametrupavkg.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras, slatankvakaras, servakaras], "tksiv", CDS.srctksikgv.data, make_lin(p2, CDS.srctksikgv), parametrupavkg.index("t(ksi)")],
+
+	"p4rytas": [[pa45rytas, slatankrytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
+	"p4pietūs": [[pa45pietus, slatankpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
+	"p4vakaras": [[pa45vakaras, slatankvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphikgr.data, make_lin(p2, CDS.srckphikgr), parametrupavkg.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphikgp.data, make_lin(p2, CDS.srckphikgp), parametrupavkg.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphikgv.data, make_lin(p2, CDS.srckphikgv), parametrupavkg.index("KpHi")],
+
+	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", CDS.srcd2p4r.data, make_lin(p2, CDS.srcd2p4r,), parametrupavkg.index("D2-P4")],
+	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", CDS.srcd2p4p.data, make_lin(p2, CDS.srcd2p4p), parametrupavkg.index("D2-P4")],
+	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", CDS.srcd2p4v.data, make_lin(p2, CDS.srcd2p4v), parametrupavkg.index("D2-P4")],
+
+	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvkgr.data, make_lin(p2, CDS.srcusvkgr), parametrupavkg.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvkgp.data, make_lin(p2, CDS.srcusvkgp), parametrupavkg.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvkgv.data, make_lin(p2, CDS.srcusvkgv), parametrupavkg.index("U-šv")],
+
+	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputkgr.data, CDS.srcuputkg1r.data], make_lin(p2, CDS.srcuputkgr, CDS.srcuputkg1r), parametrupavkg.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputkgp.data, CDS.srcuputkg1p.data], make_lin(p2, CDS.srcuputkgp, CDS.srcuputkg1p), parametrupavkg.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputkgv.data, CDS.srcuputkg1v.data], make_lin(p2, CDS.srcuputkgv, CDS.srcuputkg1v), parametrupavkg.index("U-put")]}
+
+# Disaerobinis|anaerobinis
+
+disaeanae = {
+	"Norma KT": [18, 6.1, 6.8, 1, 1, 0.75],
+	"Norma AP": [14, 6.3, 6.6, 2, -1, -0.5],
+	"Pagrindas": [1.5, 2, 2, 1.5, 1.3, 1.1]}
+
+parametrupavda = ["d(tank)", "U-pHK", "S-pHK", "Derm", "U-šv", "U-put"]
+lenteleda = pd.DataFrame(disaeanae, index=parametrupavda)
+lenteleda = lenteleda[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametda = {
+	"dtankrytas": [[slatankrytas], "dtankr", CDS.srcdtankr.data, make_lin(p3, CDS.srcdtankr), parametrupavda.index("d(tank)")],
+	"dtankpietūs": [[slatankpietus], "dtankp", CDS.srcdtankp.data, make_lin(p3, CDS.srcdtankp), parametrupavda.index("d(tank)")],
+	"dtankvakaras": [[slatankvakaras], "dtankv", CDS.srcdtankv.data, make_lin(p3, CDS.srcdtankv), parametrupavda.index("d(tank)")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkdar.data, make_lin(p3, CDS.srcuphkdar), parametrupavda.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkdap.data, make_lin(p3, CDS.srcuphkdap), parametrupavda.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkdav.data, make_lin(p3, CDS.srcuphkdav), parametrupavda.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkdar.data, make_lin(p3, CDS.srcsphkdar), parametrupavda.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkdap.data, make_lin(p3, CDS.srcsphkdap), parametrupavda.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkdav.data, make_lin(p3, CDS.srcsphkdav), parametrupavda.index("S-pHK")],
+
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermdar.data, make_lin(p3, CDS.srcdermdar), parametrupavda.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermdap.data, make_lin(p3, CDS.srcdermdap), parametrupavda.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermdav.data, make_lin(p3, CDS.srcdermdav), parametrupavda.index("Derm")],
+
+	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvdar.data, make_lin(p3, CDS.srcusvdar), parametrupavda.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvdap.data, make_lin(p3, CDS.srcusvdap), parametrupavda.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvdav.data, make_lin(p3, CDS.srcusvdav), parametrupavda.index("U-šv")],
+
+	"uputrytas": [[slaputrytas], "uputr", CDS.srcuputdar.data, make_lin(p3, CDS.srcuputdar), parametrupavda.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", CDS.srcuputdap.data, make_lin(p3, CDS.srcuputdap), parametrupavda.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", CDS.srcuputdav.data, make_lin(p3, CDS.srcuputdav), parametrupavda.index("U-put")]}
+
+# Metabolinė alkalozė|acidozė
+
+alkaacid = {
+	"Norma KT": [13, 65, 5, 6.3, 6.6, 67, 0],
+	"Norma AP": [19, 40, 10, 5.9, 6.8, 75, 10],
+	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
+
+parametrupavalac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4–P1"]
+lentelealac = pd.DataFrame(alkaacid, index=parametrupavalac)
+lentelealac = lentelealac[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametalac = {
+	"kdrytas": [[kdrytas], "kdr", CDS.srckdalacr.data, make_lin(p4, CDS.srckdalacr), parametrupavalac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", CDS.srckdalacp.data, make_lin(p4, CDS.srckdalacp), parametrupavalac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdalacv.data, make_lin(p4, CDS.srckdalacv), parametrupavalac.index("KD")],
+
+	"tksirytas": [[ksirytas], "tksir", CDS.srctksialacr.data, make_lin(p4, CDS.srctksialacr), parametrupavalac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", CDS.srctksialacp.data, make_lin(p4, CDS.srctksialacp), parametrupavalac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksialacv.data, make_lin(p4, CDS.srctksialacv), parametrupavalac.index("t(ksi)")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphialacr.data, make_lin(p4, CDS.srckphialacr), parametrupavalac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphialacp.data, make_lin(p4, CDS.srckphialacp), parametrupavalac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphialacv.data, make_lin(p4, CDS.srckphialacv), parametrupavalac.index("KpHi")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkalacr.data, make_lin(p4, CDS.srcuphkalacr), parametrupavalac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkalacp.data, make_lin(p4, CDS.srcuphkalacp), parametrupavalac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkalacv.data, make_lin(p4, CDS.srcuphkalacv), parametrupavalac.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkalacr.data, make_lin(p4, CDS.srcsphkalacr), parametrupavalac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkalacp.data, make_lin(p4, CDS.srcsphkalacp), parametrupavalac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkalacv.data, make_lin(p4, CDS.srcsphkalacv), parametrupavalac.index("S-pHK")],
+
+	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1alacr.data, make_lin(p4, CDS.srcp1alacr), parametrupavalac.index("P1")],
+	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1alacp.data, make_lin(p4, CDS.srcp1alacp), parametrupavalac.index("P1")],
+	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1alacv.data, make_lin(p4, CDS.srcp1alacv), parametrupavalac.index("P1")],
+
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1alacr.data, make_lin(p4, CDS.srcp4p1alacr), parametrupavalac.index("P4–P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1alacp.data, make_lin(p4, CDS.srcp4p1alacp), parametrupavalac.index("P4–P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1alacv.data, make_lin(p4, CDS.srcp4p1alacv), parametrupavalac.index("P4–P1")]}
+
+# Elektrolitų trūkumas|perteklius
+
+elektroltp = {
+	"Norma KT": [16, 16, 10, 180, -8],
+	"Norma AP": [8, 22, 10, 220, 2],
+	"Pagrindas": [2, 2, 1.2, 1.001, 1.4]}
+
+parametrupavetp = ["Pm1-S21", "Pm1+S21", "Pm1-Pm4", "Sm+Dm", "S-D"]
+lenteleetp = pd.DataFrame(elektroltp, index=parametrupavetp)
+lenteleetp = lenteleetp[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametetp = {
+	"pm1-s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1-s21r", CDS.srcpm1ms21r.data, make_lin(p5, CDS.srcpm1ms21r), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1-s21p", CDS.srcpm1ms21p.data, make_lin(p5, CDS.srcpm1ms21p), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1-s21v", CDS.srcpm1ms21v.data, make_lin(p5, CDS.srcpm1ms21v), parametrupavetp.index("Pm1-S21")],
+
+	"pm1+s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1+s21r", CDS.srcpm1ps21r.data, make_lin(p5, CDS.srcpm1ps21r), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1+s21p", CDS.srcpm1ps21p.data, make_lin(p5, CDS.srcpm1ps21p), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1+s21v", CDS.srcpm1ps21v.data, make_lin(p5, CDS.srcpm1ps21v), parametrupavetp.index("Pm1+S21")],
+
+	"pm1-pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1-pm4r", [CDS.srcpm1mpm4r.data, CDS.src1pm1mpm4r.data], make_lin(p5, CDS.srcpm1mpm4r, CDS.src1pm1mpm4r), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1-pm4p", [CDS.srcpm1mpm4p.data, CDS.src1pm1mpm4p.data], make_lin(p5, CDS.srcpm1mpm4p, CDS.src1pm1mpm4p), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1-pm4v", [CDS.srcpm1mpm4v.data, CDS.src1pm1mpm4v.data], make_lin(p5, CDS.srcpm1mpm4v, CDS.src1pm1mpm4v), parametrupavetp.index("Pm1-Pm4")],
+
+	"smdmrytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "smdmr", CDS.srcsmdmr.data, make_lin(p5, CDS.srcsmdmr), parametrupavetp.index("Sm+Dm")],
+	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", CDS.srcsmdmp.data, make_lin(p5, CDS.srcsmdmp), parametrupavetp.index("Sm+Dm")],
+	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", CDS.srcsmdmv.data, make_lin(p5, CDS.srcsmdmv), parametrupavetp.index("Sm+Dm")],
+
+	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", [CDS.srcsmdr.data, CDS.srcsmd1r.data], make_lin(p5, CDS.srcsmdr, CDS.srcsmd1r), parametrupavetp.index("S-D")],
+	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", [CDS.srcsmdp.data, CDS.srcsmd1p.data], make_lin(p5, CDS.srcsmdp, CDS.srcsmd1p), parametrupavetp.index("S-D")],
+	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", [CDS.srcsmdv.data, CDS.srcsmd1v.data], make_lin(p5, CDS.srcsmdv, CDS.srcsmd1v), parametrupavetp.index("S-D")]}
+
+# Kalio trūkumo alkalozė|pertekliaus acidozė
+
+kaliotalpac = {
+	"Norma KT": [13, 65, 5, 5.9, 6.6, 1, 1, 0],
+	"Norma AP": [19, 40, 10, 6.3, 6.8, -1, 2, 10],
+	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.001, 1.2, 2]}
+
+parametrupavktalpac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "Vyzd", "Derm", "P4-P1"]
+lentelektalpac = pd.DataFrame(kaliotalpac, index=parametrupavktalpac)
+lentelektalpac = lentelektalpac[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametktalpac = {
+	"kdrytas": [[kdrytas], "kdr", CDS.srckdktalpacr.data, make_lin(p6, CDS.srckdktalpacr), parametrupavktalpac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", CDS.srckdktalpacp.data, make_lin(p6, CDS.srckdktalpacp), parametrupavktalpac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdktalpacv.data, make_lin(p6, CDS.srckdktalpacv), parametrupavktalpac.index("KD")],
+
+	"tksirytas": [[ksirytas], "tksir", CDS.srctksiktalpacr.data, make_lin(p6, CDS.srctksiktalpacr), parametrupavktalpac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiktalpacp.data, make_lin(p6, CDS.srctksiktalpacp), parametrupavktalpac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiktalpacv.data, make_lin(p6, CDS.srctksiktalpacv), parametrupavktalpac.index("t(ksi)")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiktalpacr.data, make_lin(p6, CDS.srckphiktalpacr), parametrupavktalpac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiktalpacp.data, make_lin(p6, CDS.srckphiktalpacp), parametrupavktalpac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiktalpacv.data, make_lin(p6, CDS.srckphiktalpacv), parametrupavktalpac.index("KpHi")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkktalpacr.data, make_lin(p6, CDS.srcuphkktalpacr), parametrupavktalpac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkktalpacp.data, make_lin(p6, CDS.srcuphkktalpacp), parametrupavktalpac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkktalpacv.data, make_lin(p6, CDS.srcuphkktalpacv), parametrupavktalpac.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkktalpacr.data, make_lin(p6, CDS.srcsphkktalpacr), parametrupavktalpac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkktalpacp.data, make_lin(p6, CDS.srcsphkktalpacp), parametrupavktalpac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkktalpacv.data, make_lin(p6, CDS.srcsphkktalpacv), parametrupavktalpac.index("S-pHK")],
+
+	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdktalpacr.data, make_lin(p6, CDS.srcvyzdktalpacr), parametrupavktalpac.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdktalpacp.data, make_lin(p6, CDS.srcvyzdktalpacp), parametrupavktalpac.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdktalpacv.data, make_lin(p6, CDS.srcvyzdktalpacv), parametrupavktalpac.index("Vyzd")],
+
+	"dermrytas": [[drrytas], "dermr", CDS.srcdermktalpacr.data, make_lin(p6, CDS.srcdermktalpacr), parametrupavktalpac.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", CDS.srcdermktalpacp.data, make_lin(p6, CDS.srcdermktalpacp), parametrupavktalpac.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermktalpacv.data, make_lin(p6, CDS.srcdermktalpacv), parametrupavktalpac.index("Derm")],
+
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ktalpacr.data, make_lin(p6, CDS.srcp4p1ktalpacr), parametrupavktalpac.index("P4-P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ktalpacp.data, make_lin(p6, CDS.srcp4p1ktalpacp), parametrupavktalpac.index("P4-P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ktalpacv.data, make_lin(p6, CDS.srcp4p1ktalpacv), parametrupavktalpac.index("P4-P1")]}
+
+# Respiracinė alkalozė|acidozė
+
+respialac = {
+	"Norma KT": [13, 65, 5, 6.3, 6.8, 67, 0],
+	"Norma AP": [19, 40, 10, 5.9, 6.6, 75, 10],
+	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
+
+parametrupavralac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4-P1"]
+lenteleralac = pd.DataFrame(respialac, index=parametrupavralac)
+lenteleralac = lenteleralac[["Norma KT", "Norma AP", "Pagrindas"]]
+
+parametralac = {
+	"kdrytas": [[kdrytas], "kdr", CDS.srckdralacr.data, make_lin(p7, CDS.srckdralacr), parametrupavralac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", CDS.srckdralacp.data, make_lin(p7, CDS.srckdralacp), parametrupavralac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdralacv.data, make_lin(p7, CDS.srckdralacv), parametrupavralac.index("KD")],
+
+	"tksirytas": [[ksirytas], "tksir", CDS.srctksiralacr.data, make_lin(p7, CDS.srctksiralacr), parametrupavralac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiralacp.data, make_lin(p7, CDS.srctksiralacp), parametrupavralac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiralacv.data, make_lin(p7, CDS.srctksiralacv), parametrupavralac.index("t(ksi)")],
+
+	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiralacr.data, make_lin(p7, CDS.srckphiralacr), parametrupavralac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiralacp.data, make_lin(p7, CDS.srckphiralacp), parametrupavralac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiralacv.data, make_lin(p7, CDS.srckphiralacv), parametrupavralac.index("KpHi")],
+
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkralacr.data, make_lin(p7, CDS.srcuphkralacr), parametrupavralac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkralacp.data, make_lin(p7, CDS.srcuphkralacp), parametrupavralac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkralacv.data, make_lin(p7, CDS.srcuphkralacv), parametrupavralac.index("U-pHK")],
+
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkralacr.data, make_lin(p7, CDS.srcsphkralacr), parametrupavralac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkralacp.data, make_lin(p7, CDS.srcsphkralacp), parametrupavralac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkralacv.data, make_lin(p7, CDS.srcsphkralacv), parametrupavralac.index("S-pHK")],
+
+	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1ralacr.data, make_lin(p7, CDS.srcp1ralacr), parametrupavralac.index("P1")],
+	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1ralacp.data, make_lin(p7, CDS.srcp1ralacp), parametrupavralac.index("P1")],
+	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1ralacv.data, make_lin(p7, CDS.srcp1ralacv), parametrupavralac.index("P1")],
+
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ralacr.data, make_lin(p7, CDS.srcp4p1ralacr), parametrupavralac.index("P4-P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ralacp.data, make_lin(p7, CDS.srcp4p1ralacp), parametrupavralac.index("P4-P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ralacv.data, make_lin(p7, CDS.srcp4p1ralacv), parametrupavralac.index("P4-P1")]}
+
+
+def pagr_update(attr, old, new):
 	simparasimr = {}
 	simparasimp = {}
 	simparasimv = {}
-	dictpav = {"simparasim": 5}
+	dictpav1 = {"simparasim": 5}
+
+	ketogliukor = {}
+	ketogliukop = {}
+	ketogliukov = {}
+	dictpav2 = {"ketogliuko": 4}
+
+	disaeanaer = {}
+	disaeanaep = {}
+	disaeanaev = {}
+	dictpav3 = {"disaeanae": 3}
+
+	alkaacidr = {}
+	alkaacidp = {}
+	alkaacidv = {}
+	dictpav4 = {"alkaacid": None}
+
+	elektroltpr = {}
+	elektroltpp = {}
+	elektroltpv = {}
+	dictpav5 = {"elektroltp": 3}
+
+	kaliotalpacr = {}
+	kaliotalpacp = {}
+	kaliotalpacv = {}
+	dictpav6 = {"kaliotalpac": None}
+
+	respialacr = {}
+	respialacp = {}
+	respialacv = {}
+	dictpav7 = {"respialac": None}
+
 	for key in parametsp.keys():
 		if "ps1" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
@@ -2311,79 +2583,9 @@ def simparasim_update(attr, old, new):
 		elif "vakaras" in str(key):
 			simparasimv[key] = karareiksme
 
-		# if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
-		# 	ktareiksme = buklnustat(simparasimr, simparasimp, simparasimv, dictpav)
+		if len(simparasimr) == len(simparasimp) == len(simparasimv) == 12:
+			spktareiksme = buklnustat(simparasimr, simparasimp, simparasimv, dictpav1)
 
-	# if ktareiksme:
-	# 	for k, v in ktareiksme.items():
-	# 		if k == "Anabolizmas":
-	# 			for k1, v1 in v.items():
-	# 				if k1 == "simparasim":
-	# 					a, b = CDS.vanduo
-	# 					if v1 == "T":
-	# 						gervandfm.text_color = "red"
-	# 						gervandfm.font_style = "bold"
-	# 						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-	# 						CDS.gervandsource.data = new_data
-	# 						print(new_data)
-	# 					else:
-	# 						gervandfm.text_color = "blue"
-	# 						gervandfm.font_style = "bold"
-	# 						new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-	# 						CDS.gervandsource.data = new_data
-	# 						print(new_data)
-
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametsp.values()]])):
-	w.on_change("value", simparasim_update)
-
-
-# Ketogeninis|gliukogeninis
-
-ketogliuko = {
-	"Norma KT": [15, 1001, 1002, 6, 5, 1, -0.28],
-	"Norma AP": [1000, 1001, 1002, 8, 0, -1, -0.18],
-	"Pagrindas": [2, 1.2, 2.5, 2, 2, 1.1, 1.2]}
-
-parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
-lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
-lentelekg = lentelekg[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametkg = {
-	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", CDS.srckdkgr.data, make_lin(p2, CDS.srckdkgr), parametrupavkg.index("KD")],
-	"kdpietūs": [[kdpietus, slatankpietus, serpietus], "kdp", CDS.srckdkgp.data, make_lin(p2, CDS.srckdkgp), parametrupavkg.index("KD")],
-	"kdvakaras": [[kdvakaras, slatankvakaras, servakaras], "kdv", CDS.srckdkgv.data, make_lin(p2, CDS.srckdkgv), parametrupavkg.index("KD")],
-
-	"tksirytas": [[ksirytas, slatankrytas, serrytas], "tksir", CDS.srctksikgr.data, make_lin(p2, CDS.srctksikgr), parametrupavkg.index("t(ksi)")],
-	"tksipietūs": [[ksipietus, slatankpietus, serpietus], "tksip", CDS.srctksikgp.data, make_lin(p2, CDS.srctksikgp), parametrupavkg.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras, slatankvakaras, servakaras], "tksiv", CDS.srctksikgv.data, make_lin(p2, CDS.srctksikgv), parametrupavkg.index("t(ksi)")],
-
-	"p4rytas": [[pa45rytas, slatankrytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
-	"p4pietūs": [[pa45pietus, slatankpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
-	"p4vakaras": [[pa45vakaras, slatankvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
-
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphikgr.data, make_lin(p2, CDS.srckphikgr), parametrupavkg.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphikgp.data, make_lin(p2, CDS.srckphikgp), parametrupavkg.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphikgv.data, make_lin(p2, CDS.srckphikgv), parametrupavkg.index("KpHi")],
-
-	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", CDS.srcd2p4r.data, make_lin(p2, CDS.srcd2p4r,), parametrupavkg.index("D2-P4")],
-	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", CDS.srcd2p4p.data, make_lin(p2, CDS.srcd2p4p), parametrupavkg.index("D2-P4")],
-	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", CDS.srcd2p4v.data, make_lin(p2, CDS.srcd2p4v), parametrupavkg.index("D2-P4")],
-
-	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvkgr.data, make_lin(p2, CDS.srcusvkgr), parametrupavkg.index("U-šv")],
-	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvkgp.data, make_lin(p2, CDS.srcusvkgp), parametrupavkg.index("U-šv")],
-	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvkgv.data, make_lin(p2, CDS.srcusvkgv), parametrupavkg.index("U-šv")],
-
-	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputkgr.data, CDS.srcuputkg1r.data], make_lin(p2, CDS.srcuputkgr, CDS.srcuputkg1r), parametrupavkg.index("U-put")],
-	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputkgp.data, CDS.srcuputkg1p.data], make_lin(p2, CDS.srcuputkgp, CDS.srcuputkg1p), parametrupavkg.index("U-put")],
-	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputkgv.data, CDS.srcuputkg1v.data], make_lin(p2, CDS.srcuputkgv, CDS.srcuputkg1v), parametrupavkg.index("U-put")]}
-
-
-def ketogliuko_update(attr, old, new):
-	ketogliukor = {}
-	ketogliukop = {}
-	ketogliukov = {}
-	dictpav = {"ketogliuko": 4}
 	for key in parametkg.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametkg[key]
@@ -2457,77 +2659,31 @@ def ketogliuko_update(attr, old, new):
 			new_data2 = {'x': [0, -karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata2.update(new_data2)
 
-		# if "rytas" in str(key):
-		# 	if key == "uputrytas":
-		# 		key1 = "uputrytas1"
-		# 		ketogliukor[key] = karareiksme
-		# 		ketogliukor[key1] = -karareiksme
-		# 	else:
-		# 		ketogliukor[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	if key == "uputpietūs":
-		# 		key1 = "uputpietūs1"
-		# 		ketogliukop[key] = karareiksme
-		# 		ketogliukop[key1] = -karareiksme
-		# 	else:
-		# 		ketogliukop[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	if key == "uputvakaras":
-		# 		key1 = "uputvakaras1"
-		# 		ketogliukov[key] = karareiksme
-		# 		ketogliukov[key1] = -karareiksme
-		# 	else:
-		# 		ketogliukov[key] = karareiksme
+		if "rytas" in str(key):
+			if key == "uputrytas":
+				key1 = "uputrytas1"
+				ketogliukor[key] = karareiksme
+				ketogliukor[key1] = -karareiksme
+			else:
+				ketogliukor[key] = karareiksme
+		elif "pietūs" in str(key):
+			if key == "uputpietūs":
+				key1 = "uputpietūs1"
+				ketogliukop[key] = karareiksme
+				ketogliukop[key1] = -karareiksme
+			else:
+				ketogliukop[key] = karareiksme
+		elif "vakaras" in str(key):
+			if key == "uputvakaras":
+				key1 = "uputvakaras1"
+				ketogliukov[key] = karareiksme
+				ketogliukov[key1] = -karareiksme
+			else:
+				ketogliukov[key] = karareiksme
 
-		# if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 8:
-		# 	buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav) GERAI
+		if len(ketogliukor) == len(ketogliukop) == len(ketogliukov) == 8:
+			kgktareiksme = buklnustat(ketogliukor, ketogliukop, ketogliukov, dictpav2)
 
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametkg.values()]])):
-	w.on_change("value", ketogliuko_update)
-
-# Disaerobinis|anaerobinis
-
-disaeanae = {
-	"Norma KT": [18, 6.1, 6.8, 1, 1, 0.75],
-	"Norma AP": [14, 6.3, 6.6, 2, -1, -0.5],
-	"Pagrindas": [1.5, 2, 2, 1.5, 1.3, 1.1]}
-
-parametrupavda = ["d(tank)", "U-pHK", "S-pHK", "Derm", "U-šv", "U-put"]
-lenteleda = pd.DataFrame(disaeanae, index=parametrupavda)
-lenteleda = lenteleda[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametda = {
-	"dtankrytas": [[slatankrytas], "dtankr", CDS.srcdtankr.data, make_lin(p3, CDS.srcdtankr), parametrupavda.index("d(tank)")],
-	"dtankpietūs": [[slatankpietus], "dtankp", CDS.srcdtankp.data, make_lin(p3, CDS.srcdtankp), parametrupavda.index("d(tank)")],
-	"dtankvakaras": [[slatankvakaras], "dtankv", CDS.srcdtankv.data, make_lin(p3, CDS.srcdtankv), parametrupavda.index("d(tank)")],
-
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkdar.data, make_lin(p3, CDS.srcuphkdar), parametrupavda.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkdap.data, make_lin(p3, CDS.srcuphkdap), parametrupavda.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkdav.data, make_lin(p3, CDS.srcuphkdav), parametrupavda.index("U-pHK")],
-
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkdar.data, make_lin(p3, CDS.srcsphkdar), parametrupavda.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkdap.data, make_lin(p3, CDS.srcsphkdap), parametrupavda.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkdav.data, make_lin(p3, CDS.srcsphkdav), parametrupavda.index("S-pHK")],
-
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermdar.data, make_lin(p3, CDS.srcdermdar), parametrupavda.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermdap.data, make_lin(p3, CDS.srcdermdap), parametrupavda.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermdav.data, make_lin(p3, CDS.srcdermdav), parametrupavda.index("Derm")],
-
-	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvdar.data, make_lin(p3, CDS.srcusvdar), parametrupavda.index("U-šv")],
-	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvdap.data, make_lin(p3, CDS.srcusvdap), parametrupavda.index("U-šv")],
-	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvdav.data, make_lin(p3, CDS.srcusvdav), parametrupavda.index("U-šv")],
-
-	"uputrytas": [[slaputrytas], "uputr", CDS.srcuputdar.data, make_lin(p3, CDS.srcuputdar), parametrupavda.index("U-put")],
-	"uputpietūs": [[slaputpietus], "uputp", CDS.srcuputdap.data, make_lin(p3, CDS.srcuputdap), parametrupavda.index("U-put")],
-	"uputvakaras": [[slaputvakaras], "uputv", CDS.srcuputdav.data, make_lin(p3, CDS.srcuputdav), parametrupavda.index("U-put")]}
-
-
-def disaeanae_update(attr, old, new):
-	disaeanaer = {}
-	disaeanaep = {}
-	disaeanaev = {}
-	dictpav = {"disaeanae": 3}
 	for key in parametda.keys():
 		if "dtank" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametda[key]
@@ -2579,66 +2735,16 @@ def disaeanae_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		# if "rytas" in str(key):
-		# 	disaeanaer[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	disaeanaep[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	disaeanaev[key] = karareiksme
+		if "rytas" in str(key):
+			disaeanaer[key] = karareiksme
+		elif "pietūs" in str(key):
+			disaeanaep[key] = karareiksme
+		elif "vakaras" in str(key):
+			disaeanaev[key] = karareiksme
 
-		# if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
-		# 	buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav) GERAI
+		if len(disaeanaer) == len(disaeanaep) == len(disaeanaev) == 6:
+			daktareiksme = buklnustat(disaeanaer, disaeanaep, disaeanaev, dictpav3)
 
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametda.values()]])):
-	w.on_change("value", disaeanae_update)
-
-# Metabolinė alkalozė|acidozė
-
-alkaacid = {
-	"Norma KT": [13, 65, 5, 6.3, 6.6, 67, 0],
-	"Norma AP": [19, 40, 10, 5.9, 6.8, 75, 10],
-	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
-
-parametrupavalac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4–P1"]
-lentelealac = pd.DataFrame(alkaacid, index=parametrupavalac)
-lentelealac = lentelealac[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametalac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdalacr.data, make_lin(p4, CDS.srckdalacr), parametrupavalac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdalacp.data, make_lin(p4, CDS.srckdalacp), parametrupavalac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdalacv.data, make_lin(p4, CDS.srckdalacv), parametrupavalac.index("KD")],
-
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksialacr.data, make_lin(p4, CDS.srctksialacr), parametrupavalac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksialacp.data, make_lin(p4, CDS.srctksialacp), parametrupavalac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksialacv.data, make_lin(p4, CDS.srctksialacv), parametrupavalac.index("t(ksi)")],
-
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphialacr.data, make_lin(p4, CDS.srckphialacr), parametrupavalac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphialacp.data, make_lin(p4, CDS.srckphialacp), parametrupavalac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphialacv.data, make_lin(p4, CDS.srckphialacv), parametrupavalac.index("KpHi")],
-
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkalacr.data, make_lin(p4, CDS.srcuphkalacr), parametrupavalac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkalacp.data, make_lin(p4, CDS.srcuphkalacp), parametrupavalac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkalacv.data, make_lin(p4, CDS.srcuphkalacv), parametrupavalac.index("U-pHK")],
-
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkalacr.data, make_lin(p4, CDS.srcsphkalacr), parametrupavalac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkalacp.data, make_lin(p4, CDS.srcsphkalacp), parametrupavalac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkalacv.data, make_lin(p4, CDS.srcsphkalacv), parametrupavalac.index("S-pHK")],
-
-	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1alacr.data, make_lin(p4, CDS.srcp1alacr), parametrupavalac.index("P1")],
-	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1alacp.data, make_lin(p4, CDS.srcp1alacp), parametrupavalac.index("P1")],
-	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1alacv.data, make_lin(p4, CDS.srcp1alacv), parametrupavalac.index("P1")],
-
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1alacr.data, make_lin(p4, CDS.srcp4p1alacr), parametrupavalac.index("P4–P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1alacp.data, make_lin(p4, CDS.srcp4p1alacp), parametrupavalac.index("P4–P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1alacv.data, make_lin(p4, CDS.srcp4p1alacv), parametrupavalac.index("P4–P1")]}
-
-
-def alkaacid_update(attr, old, new):
-	alkaacidr = {}
-	alkaacidp = {}
-	alkaacidv = {}
-	dictpav = {"alkaacid": None}
 	for key in parametalac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametalac[key]
@@ -2708,67 +2814,9 @@ def alkaacid_update(attr, old, new):
 			alkaacidp[key] = karareiksme
 		elif "vakaras" in str(key):
 			alkaacidv[key] = karareiksme
-
 		if len(alkaacidr) == len(alkaacidp) == len(alkaacidv) == 7:
-			ktareiksme = buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav)
+			maaktareiksme = buklnustat(alkaacidr, alkaacidp, alkaacidv, dictpav4)
 
-	if ktareiksme:
-		for k, v in ktareiksme.items():
-			if "alkaacid" in str(k):
-				a, b, c, d = CDS.orgrug
-				if (v["Katabolizmas"] == "T") or (v["Anabolizmas"] == "T"):
-					orgrugfm.text_color = "red"
-					orgrugfm.font_style = "bold"
-					new_data = {'grupe': [a, b, c, d], 'reiksmes': [v["Katabolizmas"]] * len(CDS.orgrug)}
-					CDS.orgrugsource.data = new_data
-				else:
-					orgrugfm.text_color = None
-					orgrugfm.font_style = "bold"
-					new_data = {'grupe': [a, b, c, d], 'reiksmes': [v["Katabolizmas"]] * len(CDS.orgrug)}
-					CDS.orgrugsource.data = new_data
-
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametalac.values()]])):
-	w.on_change("value", alkaacid_update)
-
-# Elektrolitų trūkumas|perteklius
-
-elektroltp = {
-	"Norma KT": [16, 16, 10, 180, -8],
-	"Norma AP": [8, 22, 10, 220, 2],
-	"Pagrindas": [2, 2, 1.2, 1.001, 1.4]}
-
-parametrupavetp = ["Pm1-S21", "Pm1+S21", "Pm1-Pm4", "Sm+Dm", "S-D"]
-lenteleetp = pd.DataFrame(elektroltp, index=parametrupavetp)
-lenteleetp = lenteleetp[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametetp = {
-	"pm1-s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1-s21r", CDS.srcpm1ms21r.data, make_lin(p5, CDS.srcpm1ms21r), parametrupavetp.index("Pm1-S21")],
-	"pm1-s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1-s21p", CDS.srcpm1ms21p.data, make_lin(p5, CDS.srcpm1ms21p), parametrupavetp.index("Pm1-S21")],
-	"pm1-s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1-s21v", CDS.srcpm1ms21v.data, make_lin(p5, CDS.srcpm1ms21v), parametrupavetp.index("Pm1-S21")],
-
-	"pm1+s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1+s21r", CDS.srcpm1ps21r.data, make_lin(p5, CDS.srcpm1ps21r), parametrupavetp.index("Pm1+S21")],
-	"pm1+s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1+s21p", CDS.srcpm1ps21p.data, make_lin(p5, CDS.srcpm1ps21p), parametrupavetp.index("Pm1+S21")],
-	"pm1+s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1+s21v", CDS.srcpm1ps21v.data, make_lin(p5, CDS.srcpm1ps21v), parametrupavetp.index("Pm1+S21")],
-
-	"pm1-pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1-pm4r", [CDS.srcpm1mpm4r.data, CDS.src1pm1mpm4r.data], make_lin(p5, CDS.srcpm1mpm4r, CDS.src1pm1mpm4r), parametrupavetp.index("Pm1-Pm4")],
-	"pm1-pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1-pm4p", [CDS.srcpm1mpm4p.data, CDS.src1pm1mpm4p.data], make_lin(p5, CDS.srcpm1mpm4p, CDS.src1pm1mpm4p), parametrupavetp.index("Pm1-Pm4")],
-	"pm1-pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1-pm4v", [CDS.srcpm1mpm4v.data, CDS.src1pm1mpm4v.data], make_lin(p5, CDS.srcpm1mpm4v, CDS.src1pm1mpm4v), parametrupavetp.index("Pm1-Pm4")],
-
-	"smdmrytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "smdmr", CDS.srcsmdmr.data, make_lin(p5, CDS.srcsmdmr), parametrupavetp.index("Sm+Dm")],
-	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", CDS.srcsmdmp.data, make_lin(p5, CDS.srcsmdmp), parametrupavetp.index("Sm+Dm")],
-	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", CDS.srcsmdmv.data, make_lin(p5, CDS.srcsmdmv), parametrupavetp.index("Sm+Dm")],
-
-	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", [CDS.srcsmdr.data, CDS.srcsmd1r.data], make_lin(p5, CDS.srcsmdr, CDS.srcsmd1r), parametrupavetp.index("S-D")],
-	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", [CDS.srcsmdp.data, CDS.srcsmd1p.data], make_lin(p5, CDS.srcsmdp, CDS.srcsmd1p), parametrupavetp.index("S-D")],
-	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", [CDS.srcsmdv.data, CDS.srcsmd1v.data], make_lin(p5, CDS.srcsmdv, CDS.srcsmd1v), parametrupavetp.index("S-D")]}
-
-
-def elektroltp_update(attr, old, new):
-	elektroltpr = {}
-	elektroltpp = {}
-	elektroltpv = {}
-	dictpav = {"elektroltp": 3}
 	for key in parametetp.keys():
 		if "pm1-s21" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametetp[key]
@@ -2882,110 +2930,8 @@ def elektroltp_update(attr, old, new):
 				elektroltpv[key] = karareiksme
 
 		if len(elektroltpr) == len(elektroltpp) == len(elektroltpv) == 7:
-			ktareiksme = buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav)
+			etpktareiksme = buklnustat(elektroltpr, elektroltpp, elektroltpv, dictpav5)
 
-	if ktareiksme:
-		for k, v in ktareiksme.items():
-			if "elektroltp" in str(k):
-				a, b = CDS.natchlofluo
-				a1 = CDS.sulfat
-				if v["Katabolizmas"] == v["Anabolizmas"] == "T":
-					natchlofluofm.text_color = None
-					natchlofluofm.font_style = "bold"
-					new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-					CDS.natchlofluosource.data = new_data
-
-					sulfatfm.text_color = "green"
-					sulfatfm.font_style = "bold"
-					new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-					CDS.sulfatsource.data = new_data
-				else:
-					if v["Katabolizmas"] == "T":
-						natchlofluofm.text_color = "green"
-						natchlofluofm.font_style = "bold"
-						new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-						CDS.natchlofluosource.data = new_data
-					else:
-						if v["Anabolizmas"] == "T":
-							natchlofluofm.text_color = "red"
-							natchlofluofm.font_style = "bold"
-							new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-							CDS.natchlofluosource.data = new_data
-
-							sulfatfm.text_color = "green"
-							sulfatfm.font_style = "bold"
-							new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-							CDS.sulfatsource.data = new_data
-						else:
-							natchlofluofm.text_color = None
-							natchlofluofm.font_style = "bold"
-							new_data = {'grupe': [a, b], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-							CDS.natchlofluosource.data = new_data
-
-							sulfatfm.text_color = None
-							sulfatfm.font_style = "bold"
-							new_data = {'grupe': [a1], 'reiksmes': [v["Katabolizmas"]] * len(CDS.natchlofluo)}
-							CDS.sulfatsource.data = new_data
-
-# "T“ Žalia spalva - rekomenduojama vartoti daugiau,
-# „N“ Raudona spalva - vartoti nerekomenduojama,
-# „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-# „-“ Jokios spalvos - papildomų rekomendacijų nėra
-
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametetp.values()]])):
-	w.on_change("value", elektroltp_update)
-
-# Kalio trūkumo alkalozė|pertekliaus acidozė
-
-kaliotalpac = {
-	"Norma KT": [13, 65, 5, 5.9, 6.6, 1, 1, 0],
-	"Norma AP": [19, 40, 10, 6.3, 6.8, -1, 2, 10],
-	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.001, 1.2, 2]}
-
-parametrupavktalpac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "Vyzd", "Derm", "P4-P1"]
-lentelektalpac = pd.DataFrame(kaliotalpac, index=parametrupavktalpac)
-lentelektalpac = lentelektalpac[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametktalpac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdktalpacr.data, make_lin(p6, CDS.srckdktalpacr), parametrupavktalpac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdktalpacp.data, make_lin(p6, CDS.srckdktalpacp), parametrupavktalpac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdktalpacv.data, make_lin(p6, CDS.srckdktalpacv), parametrupavktalpac.index("KD")],
-
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksiktalpacr.data, make_lin(p6, CDS.srctksiktalpacr), parametrupavktalpac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiktalpacp.data, make_lin(p6, CDS.srctksiktalpacp), parametrupavktalpac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiktalpacv.data, make_lin(p6, CDS.srctksiktalpacv), parametrupavktalpac.index("t(ksi)")],
-
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiktalpacr.data, make_lin(p6, CDS.srckphiktalpacr), parametrupavktalpac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiktalpacp.data, make_lin(p6, CDS.srckphiktalpacp), parametrupavktalpac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiktalpacv.data, make_lin(p6, CDS.srckphiktalpacv), parametrupavktalpac.index("KpHi")],
-
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkktalpacr.data, make_lin(p6, CDS.srcuphkktalpacr), parametrupavktalpac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkktalpacp.data, make_lin(p6, CDS.srcuphkktalpacp), parametrupavktalpac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkktalpacv.data, make_lin(p6, CDS.srcuphkktalpacv), parametrupavktalpac.index("U-pHK")],
-
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkktalpacr.data, make_lin(p6, CDS.srcsphkktalpacr), parametrupavktalpac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkktalpacp.data, make_lin(p6, CDS.srcsphkktalpacp), parametrupavktalpac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkktalpacv.data, make_lin(p6, CDS.srcsphkktalpacv), parametrupavktalpac.index("S-pHK")],
-
-	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdktalpacr.data, make_lin(p6, CDS.srcvyzdktalpacr), parametrupavktalpac.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdktalpacp.data, make_lin(p6, CDS.srcvyzdktalpacp), parametrupavktalpac.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdktalpacv.data, make_lin(p6, CDS.srcvyzdktalpacv), parametrupavktalpac.index("Vyzd")],
-
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermktalpacr.data, make_lin(p6, CDS.srcdermktalpacr), parametrupavktalpac.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermktalpacp.data, make_lin(p6, CDS.srcdermktalpacp), parametrupavktalpac.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermktalpacv.data, make_lin(p6, CDS.srcdermktalpacv), parametrupavktalpac.index("Derm")],
-
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ktalpacr.data, make_lin(p6, CDS.srcp4p1ktalpacr), parametrupavktalpac.index("P4-P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ktalpacp.data, make_lin(p6, CDS.srcp4p1ktalpacp), parametrupavktalpac.index("P4-P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ktalpacv.data, make_lin(p6, CDS.srcp4p1ktalpacv), parametrupavktalpac.index("P4-P1")]}
-
-
-def kaliotalpac_update(attr, old, new):
-	kaliotalpacr = {}
-	kaliotalpacp = {}
-	kaliotalpacv = {}
-	dictpav = {"kaliotalpac": None}
 	for key in parametktalpac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametktalpac[key]
@@ -3069,66 +3015,16 @@ def kaliotalpac_update(attr, old, new):
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
 
-		# if "rytas" in str(key):
-		# 	kaliotalpacr[key] = karareiksme
-		# elif "pietūs" in str(key):
-		# 	kaliotalpacp[key] = karareiksme
-		# elif "vakaras" in str(key):
-		# 	kaliotalpacv[key] = karareiksme
+		if "rytas" in str(key):
+			kaliotalpacr[key] = karareiksme
+		elif "pietūs" in str(key):
+			kaliotalpacp[key] = karareiksme
+		elif "vakaras" in str(key):
+			kaliotalpacv[key] = karareiksme
 
-		# if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
-		# 	buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav) GERAI
+	if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
+		ktktareiksme = buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav6)
 
-
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametktalpac.values()]])):
-	w.on_change("value", kaliotalpac_update)
-
-# Respiracinė alkalozė|acidozė
-
-respialac = {
-	"Norma KT": [13, 65, 5, 6.3, 6.8, 67, 0],
-	"Norma AP": [19, 40, 10, 5.9, 6.6, 75, 10],
-	"Pagrindas": [1.2, 1.01, 1.5, 2, 2, 1.5, 2]}
-
-parametrupavralac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4-P1"]
-lenteleralac = pd.DataFrame(respialac, index=parametrupavralac)
-lenteleralac = lenteleralac[["Norma KT", "Norma AP", "Pagrindas"]]
-
-parametralac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdralacr.data, make_lin(p7, CDS.srckdralacr), parametrupavralac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdralacp.data, make_lin(p7, CDS.srckdralacp), parametrupavralac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdralacv.data, make_lin(p7, CDS.srckdralacv), parametrupavralac.index("KD")],
-
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksiralacr.data, make_lin(p7, CDS.srctksiralacr), parametrupavralac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiralacp.data, make_lin(p7, CDS.srctksiralacp), parametrupavralac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiralacv.data, make_lin(p7, CDS.srctksiralacv), parametrupavralac.index("t(ksi)")],
-
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiralacr.data, make_lin(p7, CDS.srckphiralacr), parametrupavralac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiralacp.data, make_lin(p7, CDS.srckphiralacp), parametrupavralac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiralacv.data, make_lin(p7, CDS.srckphiralacv), parametrupavralac.index("KpHi")],
-
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkralacr.data, make_lin(p7, CDS.srcuphkralacr), parametrupavralac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkralacp.data, make_lin(p7, CDS.srcuphkralacp), parametrupavralac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkralacv.data, make_lin(p7, CDS.srcuphkralacv), parametrupavralac.index("U-pHK")],
-
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkralacr.data, make_lin(p7, CDS.srcsphkralacr), parametrupavralac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkralacp.data, make_lin(p7, CDS.srcsphkralacp), parametrupavralac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkralacv.data, make_lin(p7, CDS.srcsphkralacv), parametrupavralac.index("S-pHK")],
-
-	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1ralacr.data, make_lin(p7, CDS.srcp1ralacr), parametrupavralac.index("P1")],
-	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1ralacp.data, make_lin(p7, CDS.srcp1ralacp), parametrupavralac.index("P1")],
-	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1ralacv.data, make_lin(p7, CDS.srcp1ralacv), parametrupavralac.index("P1")],
-
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ralacr.data, make_lin(p7, CDS.srcp4p1ralacr), parametrupavralac.index("P4-P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ralacp.data, make_lin(p7, CDS.srcp4p1ralacp), parametrupavralac.index("P4-P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ralacv.data, make_lin(p7, CDS.srcp4p1ralacv), parametrupavralac.index("P4-P1")]}
-
-
-def respialac_update(attr, old, new):
-	respialacr = {}
-	respialacp = {}
-	respialacv = {}
-	dictpav = {"respialac": None}
 	for key in parametralac.keys():
 		if "kd" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
@@ -3204,27 +3100,143 @@ def respialac_update(attr, old, new):
 			respialacv[key] = karareiksme
 
 		if len(respialacr) == len(respialacp) == len(respialacv) == 7:
-			ktareiksme = buklnustat(respialacr, respialacp, respialacv, dictpav)
+			raaktareiksme = buklnustat(respialacr, respialacp, respialacv, dictpav7)
 
-	if ktareiksme:
-		for k, v in ktareiksme.items():
-			if "respialac" in str(k):
-				a = CDS.hidrokarbo
-				if v["Anabolizmas"] == "T":
-					hidrokarbofm.text_color = "red"
-					hidrokarbofm.font_style = "bold"
-					new_data = {'grupe': [a], 'reiksmes': [v["Anabolizmas"]] * len(CDS.hidrokarbo)}
-					CDS.hidrokarbosource.data = new_data
-				else:
-					hidrokarbofm.text_color = None
-					hidrokarbofm.font_style = "bold"
-					new_data = {'grupe': [a], 'reiksmes': [v["Anabolizmas"]] * len(CDS.hidrokarbo)}
-					CDS.hidrokarbosource.data = new_data
+	for d in [spktareiksme, kgktareiksme, daktareiksme, maaktareiksme, etpktareiksme, ktktareiksme, raaktareiksme]:
+		for k, v in d.items():
+			if k == "simparasim":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						sptnk = v1
+					else:
+						sptna = v1
+			elif k == "ketogliuko":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						kgtnk = v1
+					else:
+						kgtna = v1
+			elif k == "disaeanae":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						datnk = v1
+					else:
+						datna = v1
+			elif k == "alkaacid":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						maatnk = v1
+					else:
+						maatna = v1
+			elif k == "elektroltp":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						etptnk = v1
+					else:
+						etptna = v1
+			elif k == "kaliotalpac":
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						ktptnk = v1
+					else:
+						ktptna = v1
+			else:
+				for k1, v1 in v.items():
+					if k1 == "Katabolizmas":
+						raatnk = v1
+					else:
+						raatna = v1
+
+	reik = ["-"]
+	# Organinės rūgštys
+	if (maatnk == "T") or (maatna == "T"):
+		orgrugfm.text_color = "red"
+		orgrugfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.orgrug], 'reiksmes': reik * len(CDS.orgrug)}
+		CDS.orgrugsource.data = new_data
+	else:
+		orgrugfm.text_color = None
+		orgrugfm.font_style = "bold"
+		new_data = {'grupe': [* CDS.orgrug], 'reiksmes': reik * len(CDS.orgrug)}
+		CDS.orgrugsource.data = new_data
+
+	# Hidrokarbonatai
+	if raatna == "T":
+		hidrokarbofm.text_color = "red"
+		hidrokarbofm.font_style = "bold"
+		new_data = {'grupe': [*CDS.hidrokarbo], 'reiksmes': reik * len(CDS.hidrokarbo)}
+		CDS.hidrokarbosource.data = new_data
+
+	else:
+		hidrokarbofm.text_color = None
+		hidrokarbofm.font_style = "bold"
+		new_data = {'grupe': [*CDS.hidrokarbo], 'reiksmes': reik * len(CDS.hidrokarbo)}
+		CDS.hidrokarbosource.data = new_data
+
+	# Natris, chloras, fluoras
+	if (etptnk == "T") and (etptna == "T"):
+		natchlofluofm.text_color = None
+		natchlofluofm.font_style = "bold"
+		new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
+		CDS.natchlofluosource.data = new_data
+	else:
+		if etptnk == "T":
+			natchlofluofm.text_color = "green"
+			natchlofluofm.font_style = "bold"
+			new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
+			CDS.natchlofluosource.data = new_data
+		else:
+			if etptna == "T":
+				natchlofluofm.text_color = "red"
+				natchlofluofm.font_style = "bold"
+				new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
+				CDS.natchlofluosource.data = new_data
+			else:
+				natchlofluofm.text_color = None
+				natchlofluofm.font_style = "bold"
+				new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
+				CDS.natchlofluosource.data = new_data
+
+	# Sulfatai
+	if (etptnk == "T") and (etptna == "T"):
+		sulfatfm.text_color = "green"
+		sulfatfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
+		CDS.sulfatsource.data = new_data
+	else:
+		if etptna == "T":
+			sulfatfm.text_color = "green"
+			sulfatfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
+			CDS.sulfatsource.data = new_data
+		else:
+			sulfatfm.text_color = None
+			sulfatfm.font_style = "bold"
+			new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
+			CDS.sulfatsource.data = new_data
+
+	# Krakmolo šaltiniai
+	if (sptna == "T") or (kgtna == "T") or (datna == "T"):
+		krakmolfm.text_color = "red"
+		krakmolfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
+		CDS.sulfatsource.data = new_data
+	else:
+		krakmolfm.text_color = "yellow"
+		krakmolfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
+		CDS.sulfatsource.data = new_data
 
 
-for w in list(itertools.chain.from_iterable([b[0] for b in [w for w in parametralac.values()]])):
-	w.on_change("value", respialac_update)
+# "T“ Žalia spalva - rekomenduojama vartoti daugiau,
+# „N“ Raudona spalva - vartoti nerekomenduojama,
+# „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+# „-“ Jokios spalvos - papildomų rekomendacijų nėra
 
+
+for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac]:
+	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
+		w.on_change("value", pagr_update)
 
 hidracind = {
 	"hidrindrytas": [slarugrytas, serrytas, slatankrytas],
@@ -3238,7 +3250,6 @@ def hidrac_indekas(attr, old, new):
 		v1, v2, v3 = verte(v)
 		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
 		avrl.append(hdi)
-	logging.info(mean(avrl))
 
 	if avrl:
 		if mean(avrl) <= 8.5:
