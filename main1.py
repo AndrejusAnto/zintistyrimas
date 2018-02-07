@@ -3413,6 +3413,31 @@ def pagr_update(attr, old, new):
 			new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
 			CDS.augalbaltsource.data = new_data
 
+	# Pakeistų savybių vanduo
+	if (etptnk == "T") or (etptna == "T"):
+		paksavyvanduofm.text_color = "red"
+		paksavyvanduofm.font_style = "bold"
+		new_data = {'grupe': [*CDS.paksavyvanduo], 'reiksmes': reik * len(CDS.paksavyvanduo)}
+		CDS.paksavyvanduosource.data = new_data
+	else:
+		paksavyvanduofm.text_color = "#CCCC00"
+		paksavyvanduofm.font_style = "bold"
+		new_data = {'grupe': [*CDS.paksavyvanduo], 'reiksmes': reik * len(CDS.paksavyvanduo)}
+		CDS.paksavyvanduosource.data = new_data
+
+	# Slopikliai
+	if sptna == "T":
+		slopikaifm.text_color = "red"
+		slopikaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.slopikai], 'reiksmes': reik * len(CDS.slopikai)}
+		CDS.slopikaisource.data = new_data
+	else:
+		slopikaifm.text_color = "#CCCC00"
+		slopikaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.slopikai], 'reiksmes': reik * len(CDS.slopikai)}
+		CDS.slopikaisource.data = new_data
+
+
 # "T“ Žalia spalva - rekomenduojama vartoti daugiau,
 # „N“ Raudona spalva - vartoti nerekomenduojama,
 # „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
