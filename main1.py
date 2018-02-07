@@ -54,6 +54,10 @@ curdoc().template = jinja2.Template(source='''
 			min-width: 34px !important;
 			width: 34px !important;
 			}
+			.bk-root input[name$="name1"] {
+			min-width: 570px !important;
+			width: 570px !important;
+			}
 			.bk-root input[name$="rytas"] {
 			min-width: 33px !important;
 			width: 33px !important;
@@ -364,7 +368,7 @@ def protok():
 
 invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
 inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
-lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], width=130, height=20)
+lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], value="Vyras", width=130, height=20)
 inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
 
 
@@ -1568,6 +1572,8 @@ ksirytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+papildreko = TextInput(name="name1", value="", title="Kitos rekomedacijos", width=670, height=300)
+
 
 def kataanab():
 	return Div(text="""<b>KATABOLIZMAS|ANABOLIZMAS</b>""", width=300)
@@ -1761,7 +1767,7 @@ mazointesyvtable = DataTable(source=CDS.mazointesyvsource, columns=mazointesyvco
 
 # Kvėpavimo balansavimas
 
-kvepasulaikfm = StringFormatter(font_style="bold")
+kvepasulaikfm = StringFormatter(font_style="bold", text_color="#CCCC00")
 kvepasulaikcol = [TableColumn(field="grupe", title="Kvėpavimo balansavmas:", formatter=kvepasulaikfm)]
 kvepasulaiktable = DataTable(source=CDS.kvepasulaiksource, columns=kvepasulaikcol, width=600, height=50, row_headers=None)
 
@@ -1827,7 +1833,7 @@ limfoaktyvtable = DataTable(source=CDS.limfoaktyvsource, columns=limfoaktyvcol, 
 
 # Subalansuotas miegas
 
-subalanmiegfm = StringFormatter(font_style="bold")
+subalanmiegfm = StringFormatter(font_style="bold", text_color="green")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
 subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
 
@@ -2434,6 +2440,13 @@ parametralac = {
 	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ralacr.data, make_lin(p7, CDS.srcp4p1ralacr), parametrupavralac.index("P4-P1")],
 	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ralacp.data, make_lin(p7, CDS.srcp4p1ralacp), parametrupavralac.index("P4-P1")],
 	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ralacv.data, make_lin(p7, CDS.srcp4p1ralacv), parametrupavralac.index("P4-P1")]}
+
+hidracind = {
+	"hidrindrytas": [[slarugrytas, serrytas, slatankrytas]],
+	"hidrindpietūs": [[slarugpietus, serpietus, slatankpietus]],
+	"hidrindvakaras": [[slarugvakaras, servakaras, slatankvakaras]]}
+
+dictlytis = {"lytis": [[lytis]]}
 
 
 def pagr_update(attr, old, new):
@@ -3148,6 +3161,37 @@ def pagr_update(attr, old, new):
 						raatna = v1
 
 	reik = ["-"]
+	avrl = []
+	for v in hidracind.values():
+		n = v[0]
+		v1, v2, v3 = verte(n)
+		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
+		avrl.append(hdi)
+
+	# Geriamas vanduo
+	if avrl:
+		if mean(avrl) <= 8.5:
+			v1 = "T"
+			a, b = CDS.vanduo
+			gervandfm.text_color = "green"
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+		elif mean(avrl) >= 12.0:
+			v1 = "N"
+			a, b = CDS.vanduo
+			gervandfm.text_color = "red"
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+		else:
+			v1 = "-"
+			a, b = CDS.vanduo
+			gervandfm.text_color = None
+			gervandfm.font_style = "bold"
+			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
+			CDS.gervandsource.data = new_data
+
 	# Organinės rūgštys
 	if (maatnk == "T") or (maatna == "T"):
 		orgrugfm.text_color = "red"
@@ -3437,6 +3481,176 @@ def pagr_update(attr, old, new):
 		new_data = {'grupe': [*CDS.slopikai], 'reiksmes': reik * len(CDS.slopikai)}
 		CDS.slopikaisource.data = new_data
 
+	# # Stimuliatoriai
+	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and
+		(((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
+		stimuliatfm.text_color = "red"
+		stimuliatfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.stimuliat], 'reiksmes': reik * len(CDS.stimuliat)}
+		CDS.stimuliatsource.data = new_data
+	else:
+		stimuliatfm.text_color = "#CCCC00"
+		stimuliatfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.stimuliat], 'reiksmes': reik * len(CDS.stimuliat)}
+		CDS.stimuliatsource.data = new_data
+
+	# Rūkalai
+	if (sptnk == "T") or (datnk == "T") or (raatna == "T"):
+		rukalaifm.text_color = "red"
+		rukalaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.rukalai], 'reiksmes': reik * len(CDS.rukalai)}
+		CDS.rukalaisource.data = new_data
+	else:
+		rukalaifm.text_color = "#CCCC00"
+		rukalaifm.font_style = "bold"
+		new_data = {'grupe': [*CDS.rukalai], 'reiksmes': reik * len(CDS.rukalai)}
+		CDS.rukalaisource.data = new_data
+
+	# Didelio intensyvumo trumpos trukmės fizinė veikla
+	if (kgtnk == "T") or (datnk == "T"):
+		didintesyvfm.text_color = "green"
+		didintesyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.didintesyv], 'reiksmes': reik * len(CDS.didintesyv)}
+		CDS.didintesyvsource.data = new_data
+	else:
+		didintesyvfm.text_color = None
+		didintesyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.didintesyv], 'reiksmes': reik * len(CDS.didintesyv)}
+		CDS.didintesyvsource.data = new_data
+
+	# Mažo intensyvumo ilgos trukmės fizinė veikla
+	if (kgtnk == "T") or (datnk == "T"):
+		mazointesyvfm.text_color = "red"
+		mazointesyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.mazointesyv], 'reiksmes': reik * len(CDS.mazointesyv)}
+		CDS.mazointesyvsource.data = new_data
+	else:
+		mazointesyvfm.text_color = None
+		mazointesyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.mazointesyv], 'reiksmes': reik * len(CDS.mazointesyv)}
+		CDS.mazointesyvsource.data = new_data
+
+	# Hipoventiliacija
+	if raatna == "T":
+		hipoventilfm.text_color = "red"
+		hipoventilfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.hipoventil], 'reiksmes': reik * len(CDS.hipoventil)}
+		CDS.hipoventilsource.data = new_data
+	else:
+		hipoventilfm.text_color = "#CCCC00"
+		hipoventilfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.hipoventil], 'reiksmes': reik * len(CDS.hipoventil)}
+		CDS.hipoventilsource.data = new_data
+
+	# Grūdinimasis
+	if (sptnk == "T") or (kgtnk == "T") or (datnk == "T"):
+		grudinimasfm.text_color = "red"
+		grudinimasfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.grudinimas], 'reiksmes': reik * len(CDS.grudinimas)}
+		CDS.grudinimassource.data = new_data
+	else:
+		grudinimasfm.text_color = "#CCCC00"
+		grudinimasfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.grudinimas], 'reiksmes': reik * len(CDS.grudinimas)}
+		CDS.grudinimassource.data = new_data
+
+	# Kaitinimasis
+	if (sptna == "T") or (kgtna == "T") or (datna == "T"):
+		kaitinimasfm.text_color = "red"
+		kaitinimasfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.kaitinimas], 'reiksmes': reik * len(CDS.kaitinimas)}
+		CDS.kaitinimassource.data = new_data
+	else:
+		kaitinimasfm.text_color = "#CCCC00"
+		kaitinimasfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.kaitinimas], 'reiksmes': reik * len(CDS.kaitinimas)}
+		CDS.kaitinimassource.data = new_data
+
+	# Galūnių laikymas šiltai
+	if sptnk == "T":
+		galuniulsilfm.text_color = "green"
+		galuniulsilfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.galuniulsil], 'reiksmes': reik * len(CDS.galuniulsil)}
+		CDS.galuniulsilsource.data = new_data
+	else:
+		galuniulsilfm.text_color = None
+		galuniulsilfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.galuniulsil], 'reiksmes': reik * len(CDS.galuniulsil)}
+		CDS.galuniulsilsource.data = new_data
+
+	# Galūnių laikymas šaltai
+	if sptnk == "T":
+		galuniulsalfm.text_color = "red"
+		galuniulsalfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.galuniulsal], 'reiksmes': reik * len(CDS.galuniulsal)}
+		CDS.galuniulsalsource.data = new_data
+	else:
+		galuniulsalfm.text_color = None
+		galuniulsalfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.galuniulsal], 'reiksmes': reik * len(CDS.galuniulsal)}
+		CDS.galuniulsalsource.data = new_data
+
+	# Buvimas šiltesnėje aplinkoje
+	if sptnk == "T":
+		buvsilaplfm.text_color = "green"
+		buvsilaplfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.buvsilapl], 'reiksmes': reik * len(CDS.buvsilapl)}
+		CDS.buvsilaplsource.data = new_data
+	else:
+		buvsilaplfm.text_color = None
+		buvsilaplfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.buvsilapl], 'reiksmes': reik * len(CDS.buvsilapl)}
+		CDS.buvsilaplsource.data = new_data
+
+	# Buvimas šaltesnėje aplinkoje
+	if sptnk == "T":
+		buvsalaplfm.text_color = "red"
+		buvsalaplfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.buvsalapl], 'reiksmes': reik * len(CDS.buvsalapl)}
+		CDS.buvsalaplsource.data = new_data
+	else:
+		buvsalaplfm.text_color = None
+		buvsalaplfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.buvsalapl], 'reiksmes': reik * len(CDS.buvsalapl)}
+		CDS.buvsalaplsource.data = new_data
+
+	# Atidėta ejakuliacija (vyrams)
+	if (sptnk == "T") and (lytis.value == "Vyras"):
+		atidejakulfm.text_color = "green"
+		atidejakulfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.atidejakul], 'reiksmes': reik * len(CDS.atidejakul)}
+		CDS.atidejakulsource.data = new_data
+	else:
+		atidejakulfm.text_color = None
+		atidejakulfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.atidejakul], 'reiksmes': reik * len(CDS.atidejakul)}
+		CDS.atidejakulsource.data = new_data
+
+	# Pakartotinis orgazmas (moterims)
+	if (sptna == "T") and (lytis.value == "Moteris"):
+		pakartotorgfm.text_color = "green"
+		pakartotorgfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.pakartotorg], 'reiksmes': reik * len(CDS.pakartotorg)}
+		CDS.pakartotorgsource.data = new_data
+	else:
+		pakartotorgfm.text_color = None
+		pakartotorgfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.pakartotorg], 'reiksmes': reik * len(CDS.pakartotorg)}
+		CDS.pakartotorgsource.data = new_data
+
+	# Limfotakos aktyvavimas
+	if (etptna == "T") or (etptna == "T"):
+		limfoaktyvfm.text_color = "green"
+		limfoaktyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.limfoaktyv], 'reiksmes': reik * len(CDS.limfoaktyv)}
+		CDS.limfoaktyvsource.data = new_data
+	else:
+		limfoaktyvfm.text_color = None
+		limfoaktyvfm.font_style = "bold"
+		new_data = {'grupe': [*CDS.limfoaktyv], 'reiksmes': reik * len(CDS.limfoaktyv)}
+		CDS.limfoaktyvsource.data = new_data
+
+	print(lytis.value)
 
 # "T“ Žalia spalva - rekomenduojama vartoti daugiau,
 # „N“ Raudona spalva - vartoti nerekomenduojama,
@@ -3444,49 +3658,10 @@ def pagr_update(attr, old, new):
 # „-“ Jokios spalvos - papildomų rekomendacijų nėra
 
 
-for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac]:
+for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac, hidracind, dictlytis]:
 	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
 		w.on_change("value", pagr_update)
 
-hidracind = {
-	"hidrindrytas": [slarugrytas, serrytas, slatankrytas],
-	"hidrindpietūs": [slarugpietus, serpietus, slatankpietus],
-	"hidrindvakaras": [slarugvakaras, servakaras, slatankvakaras]}
-
-
-def hidrac_indekas(attr, old, new):
-	avrl = []
-	for key, v in hidracind.items():
-		v1, v2, v3 = verte(v)
-		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
-		avrl.append(hdi)
-
-	if avrl:
-		if mean(avrl) <= 8.5:
-			v1 = "T"
-			a, b = CDS.vanduo
-			gervandfm.text_color = "green"
-			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
-		elif mean(avrl) >= 12.0:
-			v1 = "N"
-			a, b = CDS.vanduo
-			gervandfm.text_color = "red"
-			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
-		else:
-			v1 = "-"
-			a, b = CDS.vanduo
-			gervandfm.text_color = None
-			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': [v1] * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
-
-
-for w in list(itertools.chain.from_iterable([b for b in [i for i in hidracind.values()]])):
-	w.on_change("value", hidrac_indekas)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok(), invard, inpavard, lytis, inamz)
@@ -3582,7 +3757,8 @@ dt2 = column(
 	atidejakultable,
 	pakartotorgtable,
 	limfoaktyvtable,
-	subalanmiegtable
+	subalanmiegtable,
+	papildreko
 )
 lay7 = row(dt1, spacer_8, dt2)
 
