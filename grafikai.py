@@ -74,9 +74,10 @@ def heigth_count(h):
 
 
 def make_graf(p, pav, count, factor):
-	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=heigth_count(count), tools="")
+	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=heigth_count(count), tools="save", toolbar_location="above")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
+	p.output_backend = "svg"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 * 2 - 2)], text=["Pietūs"], text_font_size='10pt', text_font_style="bold", angle=1.56)
 	p.text(x=[-4.7], y=[(count - count)], text=["Vakaras"], text_font_size='10pt', text_font_style="bold", angle=1.56)

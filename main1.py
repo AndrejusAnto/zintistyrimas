@@ -71,6 +71,11 @@ curdoc().template = jinja2.Template(source='''
 			width: 33px !important;
 			}
 
+			textarea {
+			font-family:"Noto Sans", sans-serif;
+			font-size: 13px;
+			}
+
 			#outer-circle {
 			background: white;
 			border-radius: 50%;
@@ -1572,8 +1577,6 @@ ksirytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-papildreko = TextInput(name="name1", value="", title="Kitos rekomedacijos", width=670, height=300)
-
 
 def kataanab():
 	return Div(text="""<b>KATABOLIZMAS|ANABOLIZMAS</b>""", width=300)
@@ -1602,6 +1605,14 @@ def kitumedz():
 
 def kitielgsen():
 	return Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
+
+
+def kitosreko():
+	return Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
+
+
+def kitosrekolentel():
+	return Div(text="""<textarea rows="9" cols="76"></textarea>""")
 
 
 # Maisto produktų prioritetai
@@ -3708,9 +3719,9 @@ lay3 = layout(
 	[kvepparmat14()],
 	[aprkvepsu(), ksirytas, ksipietus, ksivakaras])
 
-grid = gridplot([spacer_1, p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
+grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-lay5 = column(grid, lay4, rekokatego(), rekotipai())
+lay5 = column(spacer_1, grid, lay4, rekokatego(), rekotipai())
 lay6 = row(lay3, lay5)
 
 dt1 = column(
@@ -3758,7 +3769,8 @@ dt2 = column(
 	pakartotorgtable,
 	limfoaktyvtable,
 	subalanmiegtable,
-	papildreko
+	kitosreko(),
+	kitosrekolentel()
 )
 lay7 = row(dt1, spacer_8, dt2)
 
