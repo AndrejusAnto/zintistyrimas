@@ -91,6 +91,7 @@ def make_graf(p, pav, count, factor):
 		return data[tick]
 	""")
 	p.xaxis.major_tick_line_color = None
+	p.output_backend = "svg"
 
 	p.add_layout(Span(location=0, dimension='height', line_color='black', line_dash='solid', line_width=4))
 	p.add_layout(Span(location=1, dimension='height', line_color='green', line_dash='dashed', line_width=4))

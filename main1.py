@@ -1,6 +1,6 @@
 
 # -*- coding: utf-8 -*-
-from bokeh.io import curdoc, export_png
+from bokeh.io import curdoc, export_png, export_svgs
 from bokeh.layouts import column, row, layout, gridplot
 from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
@@ -367,23 +367,19 @@ curdoc().template = jinja2.Template(source='''
 
 
 # viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
-def protok():
-	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
-
+# def protok():
+# 	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
+protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
 
 invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
 inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
 lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], value="Vyras", width=130, height=20)
 inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
 
-
-def tikslus():
-	return Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
+tikslus = Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
 	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=1300)
 
-
-def pagrapras():
-	return Div(text="""<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
+pagrapras = Div(text="""<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
 Jei tai pirmasis tyrimas, pradedama keisti mityba, jei tai pakartotinis tyrimas, toliau
 maitinamasi pagal ankstesnio tyrimo metu pateiktas rekomendacijas. Mitybos keitimas
 reikalingas norint padėti:
@@ -475,13 +471,9 @@ Tyrimo trukmė apie 45 minutės. Pamatuoti duomenys rašomi į <b>„Organizmo b
 <br><b>2.</b> 30 minučių iki tyrimo <b><i>nieko negerti ir nekramtyti</b></i>.
 """, width=1300)
 
+slapimo = Div(text="""<b>3. Šlapimo parametrų matavimas:</b>""", width=300)
 
-def slapimo():
-	return Div(text="""<b>3. Šlapimo parametrų matavimas:</b>""", width=300)
-
-
-def aprslarugs():
-	return Div(text="""
+aprslarugs = Div(text="""
 <div class="box">
 	<a class="button" href="#popup5"><br>Rūgštingumas<br>(rodmuo ekrane arba pagal spalvos skalę)</a>
 </div>
@@ -507,15 +499,12 @@ U-pH 2 “.<i>Jei naudojamas tik matuoklis, šis punktas praleidžiamas</i>.
 	</div>
 </div>
 	""", width=250)
-
-
 slarugrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 slarugpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slarugvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprslasvies():
-	return Div(text="""
+aprslasvies = Div(text="""
 <div class="box">
 	<a class="button" href="#popup6"><br>Šviesumas<br>(skaičius pagal skalę)</a>
 </div>
@@ -585,15 +574,11 @@ atitinkančio stulpelio numerį:
 	</div>
 </div>
 	""", width=250)
-
-
 slasvrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 slasvpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slasvvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprslatank():
-	return Div(text="""
+aprslatank = Div(text="""
 <div class="box">
 	<a class="button" href="#popup7"><br>Tankis<br>(rodmuo, g/ml)</a>
 </div>
@@ -613,15 +598,11 @@ matavimą pakartoti.
 	</div>
 </div>
 	""", width=250)
-
-
 slatankrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 slatankpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slatankvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprslaputo():
-	return Div(text="""
+aprslaputo = Div(text="""
 <div class="box">
 	<a class="button" href="#popup8"><br>Putojimas<br>(skaičius pagal skalę)</a>
 </div>
@@ -665,24 +646,16 @@ skalę ir įrašoma eilutėje 2.5 „Putojimas, U-put“:
 	</div>
 </div>
 	""", width=250)
-
-
 slaputrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 slaputpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slaputvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def prikseil():
-	return Div(text="""<b > 4.</b><i>Tiriamojo paprašoma prikaupti seilių ir įspjauti į valgomąjį šaukštą. Seilių turi būti
+prikseil = Div(text="""<b > 4.</b><i>Tiriamojo paprašoma prikaupti seilių ir įspjauti į valgomąjį šaukštą. Seilių turi būti
 maždaug mažojo piršto galinio narelio dydžio lašas.</i>""", width=750)
 
+seiliu = Div(text="""<b>5. Seilių parametrų matavimas:</b>""", width=300)
 
-def seiliu():
-	return Div(text="""<b>5. Seilių parametrų matavimas:</b>""", width=300)
-
-
-def aprseilrugst():
-	return Div(text="""
+aprseilrugst = Div(text="""
 <div class="box">
 	<a class="button" href="#popup9"><br>Rūgštingumas<br>(rodmuo ekrane arba skaičius pagal skalę)</a>
 </div>
@@ -710,15 +683,11 @@ naudojamas tik matuoklis, šis punktas praleidžiamas</i>.
 	</div>
 </div>
 	""", width=250)
-
-
 serrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 serpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 servakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprseilklamp():
-	return Div(text="""
+aprseilklamp = Div(text="""
 <div class="box">
 	<a class="button" href="#popup10"><br>Klampumas<br>(skaičius pagal skalę)</a>
 </div>
@@ -762,23 +731,14 @@ S-kl”:
 	</div>
 </div>
 	""", width=250)
-
-
 sekrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 sekpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 sekvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+tiriam = Div(text="""<b>6.</b><i>Tiriamojo paprašoma atsisėsti ant sofos arba lovos per vidurį.</i>""", width=780)
+kraujot = Div(text="""<b>7. Kraujotakos parametrų matavimas:</b>""", width=300)
 
-def tiriam():
-	return Div(text="""<b>6.</b><i>Tiriamojo paprašoma atsisėsti ant sofos arba lovos per vidurį.</i>""", width=780)
-
-
-def kraujot():
-	return Div(text="""<b>7. Kraujotakos parametrų matavimas:</b>""", width=300)
-
-
-def aprpulsed():
-	return Div(text="""
+aprpulsed = Div(text="""
 <div class="box">
 	<a class="button" href="#popup11"><br>Pulsas sėdint<br>(dūžių skaičius per 15 s,×4)</a>
 </div>
@@ -807,19 +767,13 @@ pajuntate po to, kaip chronometras parodo 0:15. Tuomet į juodraštį užsirašo
 	</div>
 </div>
 	""", width=250)
-
-
 psrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pspietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 psvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+refleksu = Div(text="""<b>8. Refleksų tyrimas:</b>""", width=300)
 
-def refleksu():
-	return Div(text="""<b>8. Refleksų tyrimas:</b>""", width=300)
-
-
-def aprkunotemp():
-	return Div(text="""
+aprkunotemp = Div(text="""
 <div class="box">
 	<a class="button" href="#popup12"><br>Kūno temperatūra</a>
 </div>
@@ -842,15 +796,11 @@ skaičiumi po kablelio įrašomas eilutėje 4.1 „Kūno temperatūra, Temp“.
 	</div>
 </div>
 	""", width=250)
-
-
 ktrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ktpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ktvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprdermoref():
-	return Div(text="""
+aprdermoref = Div(text="""
 <div class="box">
 	<a class="button" href="#popup13"><br>Dermografinis refleksas<br>(skaičius pagal skalę)</a>
 </div>
@@ -905,15 +855,12 @@ paciento reakcija po 1 min. ir po 6 min. Vertinama pagal skalę ir įrašoma eil
 	</div>
 </div>
 	""", width=250)
-
-
 drrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 drpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 drvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def aprvasomref():
-	return Div(text="""
+aprvasomref = Div(text="""
 <div class="box">
 	<a class="button" href="#popup14"><br>Vasomotorinis refleksas<br>(skaičius pagal skalę)</a>
 </div>
@@ -974,15 +921,11 @@ skalę ir įrašoma eilutėje 4.3 „Vasomotorinis, Vaso“:
 	</div>
 </div>
 	""", width=250)
-
-
 vrrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 vrpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 vrvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprvyzdyd():
-	return Div(text="""
+aprvyzdyd = Div(text="""
 <div class="box">
 	<a class="button" href="#popup15"><br>Vyzdžio dydis<br>(skaičius pagal skalę)</a>
 </div>
@@ -1083,15 +1026,11 @@ stebima, apie kokį plotį svyruoja vyzdys. Vertinama pagal skalę ir įrašoma 
 	</div>
 </div>
 	""", width=250)
-
-
 vdrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 vdpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 vdvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprtremoref():
-	return Div(text="""
+aprtremoref = Div(text="""
 <div class="box">
 	<a class="button" href="#popup16"><br>Tremoro (drebulio) refleksas<br>(skaičius pagal skalę)</a>
 </div>
@@ -1144,15 +1083,11 @@ plaštakos, kai tiriamasis žiūri tiesiai. Vertinama pagal skalę ir įrašoma 
 	</div>
 </div>
 	""", width=250)
-
-
 trrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 trpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 trvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprsneruzgu():
-	return Div(text="""
+aprsneruzgu = Div(text="""
 <div class="box">
 	<a class="button" href="#popup17"><br>Šnervių užgulimas<br>(skaičius pagal skalę)</a>
 </div>
@@ -1213,23 +1148,18 @@ eilutę 4.6 „Šnervių užgulimas, Nos“:
 	</div>
 </div>
 	""", width=250)
-
-
 surytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 supietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 suvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 
-def tiriam1():
-	return Div(text="""<i>Tiriamojo paprašoma atsigulti ant sofos ar lovos ant kurios sėdi. Gulamasi
+tiriam1 = Div(text="""<i>Tiriamojo paprašoma atsigulti ant sofos ar lovos ant kurios sėdi. Gulamasi
 ištiestomis kojomis, galvą dedant taip, kad prie sofos ar lovos krašto būtų tiriamojo kairė
 pusė. Paliekamas toks tarpas nuo sofos ar lovos krašto, kad tiriamojo kairė ranka laisvai
 gulėtų šalia delnu į viršų. Paprašoma atsipalaiduoti, nekalbėti ir nusiraminti. Taip
 tiriamasis turi pagulėti daugiau nei 1 minutę.</i>""", width=750)
 
-
-def aprsarglinref():
-	return Div(text="""
+aprsarglinref = Div(text="""
 <div class="box">
 	<a class="button" href="#popup18"><br>Sargento linijos refleksas<br>(skaičius pagal skalę)</a>
 </div>
@@ -1274,24 +1204,16 @@ išryškėjimas. Vertinama pagal skalę ir įrašoma į eilutę 4.7 „Sargento 
 	</div>
 </div>
 	""", width=250)
-
-
 slrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 slpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 slvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def tiriam2():
-	return Div(text="""<b>9.</b><i>Tiriamajam pranešama, kad jis jau gali užsidengti pilvą ir paprašoma atsipalaiduoti,
+tiriam2 = Div(text="""<b>9.</b><i>Tiriamajam pranešama, kad jis jau gali užsidengti pilvą ir paprašoma atsipalaiduoti,
 nekalbėti ir nusiraminti. Taip tiriamasis turi pagulėti daugiau nei 1 minutę.</i></b>""", width=750)
 
+kvepparmat10 = Div(text="""<b>10. Kvėpavimo parametrų matavimas:</b>""", width=300)
 
-def kvepparmat10():
-	return Div(text="""<b>10. Kvėpavimo parametrų matavimas:</b>""", width=300)
-
-
-def aprkvepdaz():
-	return Div(text="""
+aprkvepdaz = Div(text="""
 <div class="box">
 	<a class="button" href="#popup19"><br>Kvėpavimo dažnis<br>(Įkvėpimo-iškvėpimo ciklų<br>skaičius per 30 s,×2)</a>
 </div>
@@ -1325,23 +1247,15 @@ skaičių „8”, ir kvėpavimo dažnis bus KD = 2×8 = 16.</i>/div>
 	</div>
 </div>
 	""", width=250)
-
-
 kdrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 kdpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 kdvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+tiriam3 = Div(text="""<b>11.</b><i>Tiriamajam ant kairės rankos žasto uždedama kraujospūdžio matavimo manžetė.</i>""", width=750)
 
-def tiriam3():
-	return Div(text="""<b>11.</b><i>Tiriamajam ant kairės rankos žasto uždedama kraujospūdžio matavimo manžetė.</i>""", width=750)
+kraujparmat = Div(text="""<b>12. Kraujotakos parametrų matavimas:</b>""", width=300)
 
-
-def kraujparmat():
-	return Div(text="""<b>12. Kraujotakos parametrų matavimas:</b>""", width=300)
-
-
-def aprpulgul():
-	return Div(text="""
+aprpulgul = Div(text="""
 <div class="box">
 	<a class="button" href="#popup20"><br>Pulsas gulint<br>(dūžių skaičius per 15 s,×4)</a>
 </div>
@@ -1370,15 +1284,11 @@ pajuntate po to, kaip chronometras parodo 0:15. Tuomet į juodraštį užsirašo
 	</div>
 </div>
 	""", width=250)
-
-
 pgrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pgpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 pgvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprsiskraujgul():
-	return Div(text="""
+aprsiskraujgul = Div(text="""
 <div class="box">
 	<a class="button" href="#popup21"><br>Sistolinis kraujospūdis gulint<br>(rodmuo ekrane ties „SYS“)</a>
 </div>
@@ -1395,15 +1305,11 @@ pamatuojamas kraujospūdis. Sistolinis kraujospūdis (didesnis rodmuo ties užra
 	</div>
 </div>
 	""", width=250)
-
-
 skgrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 skgpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 skgvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprdiakraujgul():
-	return Div(text="""
+aprdiakraujgul = Div(text="""
 <div class="box">
 	<a class="button" href="#popup22"><br>Diastolinis kraujospūdis gulint<br>(rodmuo ekrane ties „DIA“)</a>
 </div>
@@ -1420,15 +1326,11 @@ gulint, Dia 1 “.
 	</div>
 </div>
 	""", width=250)
-
-
 dkgrytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 dkgpietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 dkgvakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def ortatest():
-	return Div(text="""<b>Ortostatinis testas.</b> Tiriamajam atsistojus, kraujospūdžio matuoklio žarnelė neturi
+ortatest = Div(text="""<b>Ortostatinis testas.</b> Tiriamajam atsistojus, kraujospūdžio matuoklio žarnelė neturi
 būti tempiama, todėl matuoklį reikia <i>padėti ant paaukštinimo, pritvirtinti prie manžetės
 arba duoti laikyti tiriamajam laisvoje rankoje</i>.
 <br>• Tiriamajam pranešama, kad paprašius reikės RAMIAI atsistoti šalia ir atsisėsti
@@ -1443,9 +1345,7 @@ kad būtų galima testo metu lengvai koreguoti jų padėtį.
 <br>•<i>Tiriamojo paprašoma atsistoti</i>. Jo kairė ranka laikoma sulenkta stačiu kampu.
 Tiriamajam besistojant, Jūs turite likti sėdėti.""", width=750)
 
-
-def aprpulsatsi15():
-	return Div(text="""
+aprpulsatsi15 = Div(text="""
 <div class="box">
 	<a class="button" href="#popup23">• Pulsas tik ką atsistojus ir po 15 s:</a>
 </div>
@@ -1465,15 +1365,8 @@ pat įsimenamas arba garsiai pasakomas asistentui:
 	</div>
 </div>
 	""", width=250)
-
-
-def atsist():
-	return Div(text="""<br>Atsistojus<br>(dūžių skaičius per pirmas 15 s,×4)""", width=300)
-
-
-def po15():
-	return Div(text="""<br>Po 15 s.<br>(dūžių skaičius tarp 15-tos ir 45-tos sekundės,×2)""", width=300)
-
+atsist = Div(text="""<br>Atsistojus<br>(dūžių skaičius per pirmas 15 s,×4)""", width=300)
+po15 = Div(text="""<br>Po 15 s.<br>(dūžių skaičius tarp 15-tos ir 45-tos sekundės,×2)""", width=300)
 
 parytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 papietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
@@ -1483,9 +1376,7 @@ pa15rytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pa15pietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 pa15vakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def aprkraujpulsatsi45():
-	return Div(text="""
+aprkraujpulsatsi45 = Div(text="""
 <div class="box">
 	<a class="button" href="#popup24">• Kraujospūdis ir pulsas atsistojus po 45 s:</a>
 </div>
@@ -1514,18 +1405,9 @@ kraujospūdis (mažesnis rodmuo ties užrašu „DIA“) įrašomas eilutėje 5.
 </div>
 	""", width=250)
 
-
-def siskraujatsi():
-	return Div(text="""<br>Sistolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „SYS“ po 45 s)""", width=300)
-
-
-def diaskraujatsi():
-	return Div(text="""<br>Diastolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „DIA“)""", width=300)
-
-
-def pulsatsi45():
-	return Div(text="""<br>Pulsas atsistojus po 45 s<br>(rodmuo ekrane ties „PULS“)""", width=300)
-
+siskraujatsi = Div(text="""<br>Sistolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „SYS“ po 45 s)""", width=300)
+diaskraujatsi = Div(text="""<br>Diastolinis kraujospūdis atsistojus<br>(rodmuo ekrane ties „DIA“)""", width=300)
+pulsatsi45 = Div(text="""<br>Pulsas atsistojus po 45 s<br>(rodmuo ekrane ties „PULS“)""", width=300)
 
 skarytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 skapietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
@@ -1539,17 +1421,11 @@ pa45rytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 pa45pietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 pa45vakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+tiriam4 = Div(text="""<b>13.</b><i> Nuimama manžetė nuo tiriamojo žasto.</i>""", width=300)
 
-def tiriam4():
-	return Div(text="""<b>13.</b><i> Nuimama manžetė nuo tiriamojo žasto.</i>""", width=300)
+kvepparmat14 = Div(text="""<b>14. Kvėpavimo parametrų matavimas:</b>""", width=300)
 
-
-def kvepparmat14():
-	return Div(text="""<b>14. Kvėpavimo parametrų matavimas:</b>""", width=300)
-
-
-def aprkvepsu():
-	return Div(text="""
+aprkvepsu = Div(text="""
 <div class="box">
 	<a class="button" href="#popup25"><br>Kvėpavimo sulaikymas įkvėpus</a>
 </div>
@@ -1571,282 +1447,294 @@ rodomas laikas sekundėmis įrašomas eilutėje 6.2 „Kvėpavimo sulaikymas įk
 	</div>
 </div>
 	""", width=250)
-
-
 ksirytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
-
-def kataanab():
-	return Div(text="""<b>KATABOLIZMAS|ANABOLIZMAS</b>""", width=300)
-
-
-def rekokatego():
-	return Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
+rekokatego = Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
 		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
-
-
-def rekotipai():
-	return Div(text="""<i>Prioritetų žymėjimas:
+rekotipai = Div(text="""<i>Prioritetų žymėjimas:
 		Žalia spalva - rekomenduojama vartoti daugiau,
 		Raudona spalva - vartoti nerekomenduojama,
 		Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
 		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
-
-
-def maistproduk():
-	return Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
-
-
-def kitumedz():
-	return Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
-
-
-def kitielgsen():
-	return Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
-
-
-def kitosreko():
-	return Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
-
-
-def kitosrekolentel():
-	return Div(text="""<textarea rows="9" cols="76"></textarea>""")
-
+maistproduk = Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
+kitumedz = Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
+kitielgsen = Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
+kitosreko = Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
+kitosrekolentel = Div(text="""<textarea rows="9" cols="76"></textarea>""")
 
 # Maisto produktų prioritetai
-
+# Geriamasis vanduo datatable
+vandulist = CDS.vanduo()
+vanduocds = CDS.gervandsource()
 gervandfm = StringFormatter(font_style="bold")
 gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
-gervandtable = DataTable(source=CDS.gervandsource, columns=gervandcol, width=600, height=75, row_headers=None)
+gervandtable = DataTable(source=vanduocds, columns=gervandcol, width=600, height=75, row_headers=None)
 
 
 # Organinės rūgštys
-
+orgruglist = CDS.orgrug()
+orgrugcds = CDS.orgrugsource()
 orgrugfm = StringFormatter(font_style="bold")
 orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
-orgrugtable = DataTable(source=CDS.orgrugsource, columns=orgrugcol, width=600, height=125, row_headers=None)
+orgrugtable = DataTable(source=orgrugcds, columns=orgrugcol, width=600, height=125, row_headers=None)
 
 # Hidrokarbonatai
-
+hidrokarbolist = CDS.hidrokarbo()
+hidrokarbocds = CDS.hidrokarbosource()
 hidrokarbofm = StringFormatter(font_style="bold")
 hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
-hidrokarbotable = DataTable(source=CDS.hidrokarbosource, columns=hidrokarbocol, width=600, height=50, row_headers=None)
+hidrokarbotable = DataTable(source=hidrokarbocds, columns=hidrokarbocol, width=600, height=50, row_headers=None)
 
 # Natris, chloras, fluoras
-
+natchlofluolist = CDS.natchlofluo()
+natchlofluocds = CDS.natchlofluosource()
 natchlofluofm = StringFormatter(font_style="bold")
 natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
-natchlofluotable = DataTable(source=CDS.natchlofluosource, columns=natchlofluocol, width=600, height=75, row_headers=None)
+natchlofluotable = DataTable(source=natchlofluocds, columns=natchlofluocol, width=600, height=75, row_headers=None)
 
 # Sulfatai
-
+sulfatlist = CDS.sulfat()
+sulfatcds = CDS.sulfatsource()
 sulfatfm = StringFormatter(font_style="bold")
 sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
-sulfattable = DataTable(source=CDS.sulfatsource, columns=sulfatcol, width=600, height=50, row_headers=None)
+sulfattable = DataTable(source=sulfatcds, columns=sulfatcol, width=600, height=50, row_headers=None)
 
 # Krakmolo šaltiniai
-
+krakmollist = CDS.krakmol()
+krakmolcds = CDS.krakmolsource()
 krakmolfm = StringFormatter(font_style="bold")
 krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
-krakmoltable = DataTable(source=CDS.krakmolsource, columns=krakmolcol, width=600, height=50, row_headers=None)
+krakmoltable = DataTable(source=krakmolcds, columns=krakmolcol, width=600, height=50, row_headers=None)
 
 # Augaliniai inertinai (ląsteliena)
-
+augalinertlist = CDS.augalinert()
+augalinertcds = CDS.augalinertsource()
 augalinertfm = StringFormatter(font_style="bold", text_color="green")
 augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
-augalinerttable = DataTable(source=CDS.augalinertsource, columns=augalinertcol, width=600, height=50, row_headers=None)
+augalinerttable = DataTable(source=augalinertcds, columns=augalinertcol, width=600, height=50, row_headers=None)
 
 # Neaugaliniai inertinai
-
+neaugalinert = CDS.neaugalinert()
+neaugalinertcds = CDS.neaugalinertsource()
 neaugalinertfm = StringFormatter(font_style="bold", text_color="green")
 neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
-neaugalinerttable = DataTable(source=CDS.neaugalinertsource, columns=neaugalinertcol, width=600, height=75, row_headers=None)
+neaugalinerttable = DataTable(source=neaugalinertcds, columns=neaugalinertcol, width=600, height=75, row_headers=None)
 
 # Polinesotieji riebalai
-
+polirieblist = CDS.polirieb()
+poliriebcds = CDS.poliriebsource()
 poliriebfm = StringFormatter(font_style="bold")
 poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
-poliriebtable = DataTable(source=CDS.poliriebsource, columns=poliriebcol, width=600, height=175, row_headers=None)
+poliriebtable = DataTable(source=poliriebcds, columns=poliriebcol, width=600, height=175, row_headers=None)
 
 # Mononesotieji riebalai
-
+monorieblist = CDS.monorieb()
+monoriebcds = CDS.monoriebsource()
 monoriebfm = StringFormatter(font_style="bold")
 monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
-monoriebtable = DataTable(source=CDS.monoriebsource, columns=monoriebcol, width=600, height=100, row_headers=None)
+monoriebtable = DataTable(source=monoriebcds, columns=monoriebcol, width=600, height=100, row_headers=None)
 
 # Sotieji riebalai
-
+sotrieblist = CDS.sotrieb()
+sotriebcds = CDS.sotriebsource()
 sotriebfm = StringFormatter(font_style="bold")
 sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
-sotriebtable = DataTable(source=CDS.sotriebsource, columns=sotriebcol, width=600, height=75, row_headers=None)
+sotriebtable = DataTable(source=sotriebcds, columns=sotriebcol, width=600, height=75, row_headers=None)
 
 # Stipriai pakitę baltymai ir riebalai
-
+spbaltirrieblist = CDS.spbaltirrieb()
+spbaltirriebcds = CDS.spbaltirriebsource()
 spbaltirriebfm = StringFormatter(font_style="bold")
 spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
-spbaltirriebtable = DataTable(source=CDS.spbaltirriebsource, columns=spbaltirriebcol, width=600, height=200, row_headers=None)
-
+spbaltirriebtable = DataTable(source=spbaltirriebcds, columns=spbaltirriebcol, width=600, height=200, row_headers=None)
 
 # Kiaušiniai
-
+kiausiniailist = CDS.kiausiniai()
+kiausiniaicds = CDS.kiaussource()
 kiausiniaifm = StringFormatter(font_style="bold")
 kiausiniaicol = [TableColumn(field="grupe", title="Kiaušiniai:", formatter=kiausiniaifm)]
-kiausiniaitable = DataTable(source=CDS.kiaussource, columns=kiausiniaicol, width=600, height=50, row_headers=None)
+kiausiniaitable = DataTable(source=kiausiniaicds, columns=kiausiniaicol, width=600, height=50, row_headers=None)
 
 # Organai
-
+organailist = CDS.organai()
+organaicds = CDS.organsource()
 organaifm = StringFormatter(font_style="bold")
 organaicol = [TableColumn(field="grupe", title="Organai:", formatter=organaifm)]
-organaitable = DataTable(source=CDS.organsource, columns=organaicol, width=600, height=50, row_headers=None)
+organaitable = DataTable(source=organaicds, columns=organaicol, width=600, height=50, row_headers=None)
 
-
-# Pieno baltymai datatable
-
+# Pieno baltymai
+pienbaltlist = CDS.pienbalt()
+pienbaltcds = CDS.pienbaltsource()
 pienbaltfm = StringFormatter(font_style="bold")
 pienbaltcol = [TableColumn(field="grupe", title="Pieno baltymai:", formatter=pienbaltfm)]
-pienbalttable = DataTable(source=CDS.pienbaltsource, columns=pienbaltcol, width=600, height=75, row_headers=None)
+pienbalttable = DataTable(source=pienbaltcds, columns=pienbaltcol, width=600, height=75, row_headers=None)
 
 # Moliuskai ir vėžiagyviai
-
+moliuvezlist = CDS.moliuvez()
+moliuvezcds = CDS.moliuvezsource()
 moliuvezfm = StringFormatter(font_style="bold")
 moliuvezcol = [TableColumn(field="grupe", title="Moliuskai ir vėžiagyviai:", formatter=moliuvezfm)]
-moliuveztable = DataTable(source=CDS.moliuvezsource, columns=moliuvezcol, width=600, height=50, row_headers=None)
+moliuveztable = DataTable(source=moliuvezcds, columns=moliuvezcol, width=600, height=50, row_headers=None)
 
 # Balta mėsa
-
+baltamesalist = CDS.baltamesa()
+baltamesacds = CDS.baltamesasource()
 baltamesafm = StringFormatter(font_style="bold")
 baltamesacol = [TableColumn(field="grupe", title="Balta mėsa:", formatter=baltamesafm)]
-baltamesatable = DataTable(source=CDS.baltamesasource, columns=baltamesacol, width=600, height=75, row_headers=None)
+baltamesatable = DataTable(source=baltamesacds, columns=baltamesacol, width=600, height=75, row_headers=None)
 
 # Raudona mėsa
-
+raudomesalist = CDS.raudomesa()
+raudomesacds = CDS.raudomesasource()
 raudomesafm = StringFormatter(font_style="bold")
 raudomesacol = [TableColumn(field="grupe", title="Raudona mėsa:", formatter=raudomesafm)]
-raudomesatable = DataTable(source=CDS.raudomesasource, columns=raudomesacol, width=600, height=75, row_headers=None)
+raudomesatable = DataTable(source=raudomesacds, columns=raudomesacol, width=600, height=75, row_headers=None)
 
 # Grybai
-
+grybailist = CDS.grybai()
+grybaicds = CDS.grybaisource()
 grybaifm = StringFormatter(font_style="bold")
 grybaicol = [TableColumn(field="grupe", title="Grybai:", formatter=grybaifm)]
-grybaitable = DataTable(source=CDS.grybaisource, columns=grybaicol, width=600, height=50, row_headers=None)
+grybaitable = DataTable(source=grybaicds, columns=grybaicol, width=600, height=50, row_headers=None)
 
 # Augaliniai baltymai
-
+augalbaltlist = CDS.augalbalt()
+augalbaltcds = CDS.augalbaltsource()
 augalbaltfm = StringFormatter(font_style="bold")
 augalbaltcol = [TableColumn(field="grupe", title="Augaliniai baltymai:", formatter=augalbaltfm)]
-augalbalttable = DataTable(source=CDS.augalbaltsource, columns=augalbaltcol, width=600, height=50, row_headers=None)
+augalbalttable = DataTable(source=augalbaltcds, columns=augalbaltcol, width=600, height=50, row_headers=None)
 
 # Kitų medžiagų vartojimo prioritetai
-# Pakeistų savybių vanduo
 
+# Pakeistų savybių vanduo
+paksavyvanduolist = CDS.paksavyvanduo()
+paksavyvanduocds = CDS.paksavyvanduosource()
 paksavyvanduofm = StringFormatter(font_style="bold")
 paksavyvanduocol = [TableColumn(field="grupe", title="Pakeistų savybių vanduo:", formatter=paksavyvanduofm)]
-paksavyvanduotable = DataTable(source=CDS.paksavyvanduosource, columns=paksavyvanduocol, width=600, height=75, row_headers=None)
+paksavyvanduotable = DataTable(source=paksavyvanduocds, columns=paksavyvanduocol, width=600, height=75, row_headers=None)
 
 # Slopikliai
-
+slopikailist = CDS.slopikai()
+slopikaicds = CDS.slopikaisource()
 slopikaifm = StringFormatter(font_style="bold")
 slopikaicol = [TableColumn(field="grupe", title="Slopikliai:", formatter=slopikaifm)]
-slopikaitable = DataTable(source=CDS.slopikaisource, columns=slopikaicol, width=600, height=50, row_headers=None)
+slopikaitable = DataTable(source=slopikaicds, columns=slopikaicol, width=600, height=50, row_headers=None)
 
 # Stimuliatoriai
-
+stimuliatlist = CDS.stimuliat()
+stimuliatcds = CDS.stimuliatsource()
 stimuliatfm = StringFormatter(font_style="bold")
 stimuliatcol = [TableColumn(field="grupe", title="Stimuliatoriai:", formatter=stimuliatfm)]
-stimuliattable = DataTable(source=CDS.stimuliatsource, columns=stimuliatcol, width=600, height=75, row_headers=None)
+stimuliattable = DataTable(source=stimuliatcds, columns=stimuliatcol, width=600, height=75, row_headers=None)
 
 # Rūkalai
-
+rukalailist = CDS.rukalai()
+rukalaicds = CDS.rukalaisource()
 rukalaifm = StringFormatter(font_style="bold")
 rukalaicol = [TableColumn(field="grupe", title="Rūkalai:", formatter=rukalaifm)]
-rukalaitable = DataTable(source=CDS.rukalaisource, columns=rukalaicol, width=600, height=50, row_headers=None)
+rukalaitable = DataTable(source=rukalaicds, columns=rukalaicol, width=600, height=50, row_headers=None)
 
 # Kiti elgsenos prioritetai
-# Didelio intensyvumo trumpos trukmės fizinė veikla
 
+# Didelio intensyvumo trumpos trukmės fizinė veikla
+didintesyvlist = CDS.didintesyv()
+didintesyvcds = CDS.didintesyvsource()
 didintesyvfm = StringFormatter(font_style="bold")
 didintesyvcol = [TableColumn(field="grupe", title="Didelio intensyvumo trumpos trukmės fizinė veikla:", formatter=didintesyvfm)]
-didintesyvtable = DataTable(source=CDS.didintesyvsource, columns=didintesyvcol, width=600, height=75, row_headers=None)
+didintesyvtable = DataTable(source=didintesyvcds, columns=didintesyvcol, width=600, height=75, row_headers=None)
 
 # Mažo intensyvumo ilgos trukmės fizinė veikla
-
+mazointesyvlist = CDS.mazointesyv()
+mazointesyvcds = CDS.mazointesyvsource()
 mazointesyvfm = StringFormatter(font_style="bold")
 mazointesyvcol = [TableColumn(field="grupe", title="Mažo intensyvumo ilgos trukmės fizinė veikla:", formatter=mazointesyvfm)]
-mazointesyvtable = DataTable(source=CDS.mazointesyvsource, columns=mazointesyvcol, width=600, height=50, row_headers=None)
+mazointesyvtable = DataTable(source=mazointesyvcds, columns=mazointesyvcol, width=600, height=50, row_headers=None)
 
 # Kvėpavimo balansavimas
-
+kvepasulaiklist = CDS.kvepasulaik()
+kvepasulaikcds = CDS.kvepasulaiksource()
 kvepasulaikfm = StringFormatter(font_style="bold", text_color="#CCCC00")
 kvepasulaikcol = [TableColumn(field="grupe", title="Kvėpavimo balansavmas:", formatter=kvepasulaikfm)]
-kvepasulaiktable = DataTable(source=CDS.kvepasulaiksource, columns=kvepasulaikcol, width=600, height=50, row_headers=None)
+kvepasulaiktable = DataTable(source=kvepasulaikcds, columns=kvepasulaikcol, width=600, height=50, row_headers=None)
 
 # Hipoventiliacija
-
+hipoventillist = CDS.hipoventil()
+hipoventilcds = CDS.hipoventilsource()
 hipoventilfm = StringFormatter(font_style="bold")
 hipoventilcol = [TableColumn(field="grupe", title="Hipoventiliacija:", formatter=hipoventilfm)]
-hipoventiltable = DataTable(source=CDS.hipoventilsource, columns=hipoventilcol, width=600, height=50, row_headers=None)
+hipoventiltable = DataTable(source=hipoventilcds, columns=hipoventilcol, width=600, height=50, row_headers=None)
 
 # Grūdinimasis
-
+grudinimaslist = CDS.grudinimas()
+grudinimascds = CDS.grudinimassource()
 grudinimasfm = StringFormatter(font_style="bold")
 grudinimascol = [TableColumn(field="grupe", title="Grūdinimasis:", formatter=grudinimasfm)]
-grudinimastable = DataTable(source=CDS.grudinimassource, columns=grudinimascol, width=600, height=50, row_headers=None)
+grudinimastable = DataTable(source=grudinimascds, columns=grudinimascol, width=600, height=50, row_headers=None)
 
 # Kaitinimasis
-
+kaitinimaslist = CDS.kaitinimas()
+kaitinimascds = CDS.kaitinimassource()
 kaitinimasfm = StringFormatter(font_style="bold")
 kaitinimascol = [TableColumn(field="grupe", title="Kaitinimasis:", formatter=kaitinimasfm)]
-kaitinimastable = DataTable(source=CDS.kaitinimassource, columns=kaitinimascol, width=600, height=50, row_headers=None)
+kaitinimastable = DataTable(source=kaitinimascds, columns=kaitinimascol, width=600, height=50, row_headers=None)
 
 # Galūnių laikymas šiltai
-
+galuniulsillist = CDS.galuniulsil()
+galuniulsilcds = CDS.galuniulsilsource()
 galuniulsilfm = StringFormatter(font_style="bold")
 galuniulsilcol = [TableColumn(field="grupe", title="Galūnių laikymas šiltai:", formatter=galuniulsilfm)]
-galuniulsiltable = DataTable(source=CDS.galuniulsilsource, columns=galuniulsilcol, width=600, height=50, row_headers=None)
+galuniulsiltable = DataTable(source=galuniulsilcds, columns=galuniulsilcol, width=600, height=50, row_headers=None)
 
 # Galūnių laikymas šaltai
-
+galuniulsallist = CDS.galuniulsal()
+galuniulsalcds = CDS.galuniulsalsource()
 galuniulsalfm = StringFormatter(font_style="bold")
 galuniulsalcol = [TableColumn(field="grupe", title="Galūnių laikymas šaltai:", formatter=galuniulsalfm)]
-galuniulsaltable = DataTable(source=CDS.galuniulsalsource, columns=galuniulsalcol, width=600, height=50, row_headers=None)
+galuniulsaltable = DataTable(source=galuniulsalcds, columns=galuniulsalcol, width=600, height=50, row_headers=None)
 
 # Buvimas šiltesnėje aplinkoje
-
+buvsilapllist = CDS.buvsilapl()
+buvsilaplcds = CDS.buvsilaplsource()
 buvsilaplfm = StringFormatter(font_style="bold")
 buvsilaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsilaplfm)]
-buvsilapltable = DataTable(source=CDS.buvsilaplsource, columns=buvsilaplcol, width=600, height=50, row_headers=None)
+buvsilapltable = DataTable(source=buvsilaplcds, columns=buvsilaplcol, width=600, height=50, row_headers=None)
 
 # Buvimas šaltesnėje aplinkoje
-
+buvsalapllist = CDS.buvsalapl()
+buvsalaplcds = CDS.buvsalaplsource()
 buvsalaplfm = StringFormatter(font_style="bold")
-buvsalaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsalaplfm)]
-buvsalapltable = DataTable(source=CDS.buvsalaplsource, columns=buvsalaplcol, width=600, height=50, row_headers=None)
+buvsalaplcol = [TableColumn(field="grupe", title="Buvimas šaltesnėje aplinkoje:", formatter=buvsalaplfm)]
+buvsalapltable = DataTable(source=buvsalaplcds, columns=buvsalaplcol, width=600, height=50, row_headers=None)
 
 # Atidėta ejakuliacija (vyrams)
-
+atidejakullist = CDS.atidejakul()
+atidejakulcds = CDS.atidejakulsource()
 atidejakulfm = StringFormatter(font_style="bold")
 atidejakulcol = [TableColumn(field="grupe", title="Atidėta ejakuliacija (vyrams):", formatter=atidejakulfm)]
-atidejakultable = DataTable(source=CDS.atidejakulsource, columns=atidejakulcol, width=600, height=50, row_headers=None)
+atidejakultable = DataTable(source=atidejakulcds, columns=atidejakulcol, width=600, height=50, row_headers=None)
 
 # Pakartotinis orgazmas (moterims)
-
+pakartotorglist = CDS.pakartotorg()
+pakartotorgcds = CDS.pakartotorgsource()
 pakartotorgfm = StringFormatter(font_style="bold")
 pakartotorgcol = [TableColumn(field="grupe", title="Pakartotinis orgazmas (moterims):", formatter=pakartotorgfm)]
-pakartotorgtable = DataTable(source=CDS.pakartotorgsource, columns=pakartotorgcol, width=600, height=50, row_headers=None)
+pakartotorgtable = DataTable(source=pakartotorgcds, columns=pakartotorgcol, width=600, height=50, row_headers=None)
 
 # Limfotakos aktyvavimas
-
+limfoaktyvlist = CDS.limfoaktyv()
+limfoaktyvcds = CDS.limfoaktyvsource()
 limfoaktyvfm = StringFormatter(font_style="bold")
 limfoaktyvcol = [TableColumn(field="grupe", title="Limfotakos aktyvavimas:", formatter=limfoaktyvfm)]
-limfoaktyvtable = DataTable(source=CDS.limfoaktyvsource, columns=limfoaktyvcol, width=600, height=50, row_headers=None)
+limfoaktyvtable = DataTable(source=limfoaktyvcds, columns=limfoaktyvcol, width=600, height=50, row_headers=None)
 
 # Subalansuotas miegas
-
+subalanmieglist = CDS.subalanmieg()
+subalanmiegcds = CDS.subalanmiegsource()
 subalanmiegfm = StringFormatter(font_style="bold", text_color="green")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
-subalanmiegtable = DataTable(source=CDS.subalanmiegsource, columns=subalanmiegcol, width=600, height=75, row_headers=None)
+subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, row_headers=None)
 
 
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
@@ -2155,7 +2043,6 @@ def buklnustat(val1, val2, val3, param):
 			galutineant = "T"
 
 		katanaboltn[api] = {"Katabolizmas": galutineknt, "Anabolizmas": galutineant}
-
 	print(katanaboltn)
 	return katanaboltn
 
@@ -2171,54 +2058,102 @@ parametrupavsp = ["Ps-1", "S+D", "Pm1+Pm4", "KRi", "Temp", "Derm", "Vaso", "Vyzd
 lentelesp = pd.DataFrame(simparasim, index=parametrupavsp)
 lentelesp = lentelesp[["Norma KT", "Norma AP", "Pagrindas"]]
 
+srcps1rcds = CDS.srcps1rcds()
+srcps1pcds = CDS.srcps1pcds()
+srcps1vcds = CDS.srcps1vcds()
+
+srcspdrcds = CDS.srcspdrcds()
+srcspdpcds = CDS.srcspdpcds()
+srcspdvcds = CDS.srcspdvcds()
+
+srcpm1ppm4rcds = CDS.srcpm1ppm4rcds()
+srcpm1ppm4pcds = CDS.srcpm1ppm4pcds()
+srcpm1ppm4vcds = CDS.srcpm1ppm4vcds()
+
+srckrircds = CDS.srckrircds()
+srckripcds = CDS.srckripcds()
+srckrivcds = CDS.srckrivcds()
+
+srctemprcds = CDS.srctemprcds()
+srctemppcds = CDS.srctemppcds()
+srctempvcds = CDS.srctempvcds()
+
+srcdermsprcds = CDS.srcdermsprcds()
+srcdermsppcds = CDS.srcdermsppcds()
+srcdermspvcds = CDS.srcdermspvcds()
+
+srcvasorcds = CDS.srcvasorcds()
+srcvasopcds = CDS.srcvasopcds()
+srcvasovcds = CDS.srcvasovcds()
+
+srcvyzdsprcds = CDS.srcvyzdsprcds()
+srcvyzdsppcds = CDS.srcvyzdsppcds()
+srcvyzdspvcds = CDS.srcvyzdspvcds()
+
+srctremrcds = CDS.srctremrcds()
+srctrempcds = CDS.srctrempcds()
+srctremvcds = CDS.srctremvcds()
+
+srcnosrcds = CDS.srcnosrcds()
+srcnospcds = CDS.srcnospcds()
+srcnosvcds = CDS.srcnosvcds()
+
+srcsargrcds = CDS.srcsargrcds()
+srcsargpcds = CDS.srcsargpcds()
+srcsargvcds = CDS.srcsargvcds()
+
+srcsklrcds = CDS.srcsklrcds()
+srcsklpcds = CDS.srcsklpcds()
+srcsklvcds = CDS.srcsklvcds()
+
 parametsp = {
-	"ps1rytas": [[psrytas, pgrytas], "ps1r", CDS.srcps1r.data, make_lin(p1, CDS.srcps1r), parametrupavsp.index("Ps-1")],
-	"ps1pietūs": [[pspietus, pgpietus], "ps1p", CDS.srcps1p.data, make_lin(p1, CDS.srcps1p), parametrupavsp.index("Ps-1")],
-	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", CDS.srcps1v.data, make_lin(p1, CDS.srcps1v), parametrupavsp.index("Ps-1")],
+	"ps1rytas": [[psrytas, pgrytas], "ps1r", srcps1rcds.data, make_lin(p1, srcps1rcds), parametrupavsp.index("Ps-1")],
+	"ps1pietūs": [[pspietus, pgpietus], "ps1p", srcps1pcds.data, make_lin(p1, srcps1pcds), parametrupavsp.index("Ps-1")],
+	"ps1vakaras": [[psvakaras, pgvakaras], "ps1v", srcps1vcds.data, make_lin(p1, srcps1vcds), parametrupavsp.index("Ps-1")],
 
-	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", CDS.srcspdr.data, make_lin(p1, CDS.srcspdr), parametrupavsp.index("S+D")],
-	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", CDS.srcspdp.data, make_lin(p1, CDS.srcspdp), parametrupavsp.index("S+D")],
-	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", CDS.srcspdv.data, make_lin(p1, CDS.srcspdv), parametrupavsp.index("S+D")],
+	"s+drytas": [[skarytas, skgrytas, dkarytas, dkgrytas], "s+dr", srcspdrcds.data, make_lin(p1, srcspdrcds), parametrupavsp.index("S+D")],
+	"s+dpietūs": [[skapietus, skgpietus, dkapietus, dkgpietus], "s+dp", srcspdpcds.data, make_lin(p1, srcspdpcds), parametrupavsp.index("S+D")],
+	"s+dvakaras": [[skavakaras, skgvakaras, dkavakaras, dkgvakaras], "s+dv", srcspdvcds.data, make_lin(p1, srcspdvcds), parametrupavsp.index("S+D")],
 
-	"pm1+pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1+pm4r", CDS.srcpm1ppm4r.data, make_lin(p1, CDS.srcpm1ppm4r), parametrupavsp.index("Pm1+Pm4")],
-	"pm1+pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1+pm4p", CDS.srcpm1ppm4p.data, make_lin(p1, CDS.srcpm1ppm4p), parametrupavsp.index("Pm1+Pm4")],
-	"pm1+pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1+pm4v", CDS.srcpm1ppm4v.data, make_lin(p1, CDS.srcpm1ppm4v), parametrupavsp.index("Pm1+Pm4")],
+	"pm1+pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1+pm4r", srcpm1ppm4rcds.data, make_lin(p1, srcpm1ppm4rcds), parametrupavsp.index("Pm1+Pm4")],
+	"pm1+pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1+pm4p", srcpm1ppm4pcds.data, make_lin(p1, srcpm1ppm4pcds), parametrupavsp.index("Pm1+Pm4")],
+	"pm1+pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1+pm4v", srcpm1ppm4vcds.data, make_lin(p1, srcpm1ppm4vcds), parametrupavsp.index("Pm1+Pm4")],
 
-	"krirytas": [[psrytas, kdrytas], "krir", CDS.srckrir.data, make_lin(p1, CDS.srckrir), parametrupavsp.index("KRi")],
-	"kripietūs": [[pspietus, kdpietus], "krip", CDS.srckrip.data, make_lin(p1, CDS.srckrip), parametrupavsp.index("KRi")],
-	"krivakaras": [[psvakaras, kdvakaras], "kriv", CDS.srckriv.data, make_lin(p1, CDS.srckriv), parametrupavsp.index("KRi")],
+	"krirytas": [[psrytas, kdrytas], "krir", srckrircds.data, make_lin(p1, srckrircds), parametrupavsp.index("KRi")],
+	"kripietūs": [[pspietus, kdpietus], "krip", srckripcds.data, make_lin(p1, srckripcds), parametrupavsp.index("KRi")],
+	"krivakaras": [[psvakaras, kdvakaras], "kriv", srckrivcds.data, make_lin(p1, srckrivcds), parametrupavsp.index("KRi")],
 
-	"temprytas": [[ktrytas], "tempr", CDS.srctempr.data, make_lin(p1, CDS.srctempr), parametrupavsp.index("Temp")],
-	"temppietūs": [[ktpietus], "tempp", CDS.srctempp.data, make_lin(p1, CDS.srctempp), parametrupavsp.index("Temp")],
-	"tempvakaras": [[ktvakaras], "tempv", CDS.srctempv.data, make_lin(p1, CDS.srctempv), parametrupavsp.index("Temp")],
+	"temprytas": [[ktrytas], "tempr", srctemprcds.data, make_lin(p1, srctemprcds), parametrupavsp.index("Temp")],
+	"temppietūs": [[ktpietus], "tempp", srctemppcds.data, make_lin(p1, srctemppcds), parametrupavsp.index("Temp")],
+	"tempvakaras": [[ktvakaras], "tempv", srctempvcds.data, make_lin(p1, srctempvcds), parametrupavsp.index("Temp")],
 
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermspr.data, make_lin(p1, CDS.srcdermspr), parametrupavsp.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermspp.data, make_lin(p1, CDS.srcdermspp), parametrupavsp.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermspv.data, make_lin(p1, CDS.srcdermspv), parametrupavsp.index("Derm")],
+	"dermrytas": [[drrytas], "dermr", srcdermsprcds.data, make_lin(p1, srcdermsprcds), parametrupavsp.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", srcdermsppcds.data, make_lin(p1, srcdermsppcds), parametrupavsp.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", srcdermspvcds.data, make_lin(p1, srcdermspvcds), parametrupavsp.index("Derm")],
 
-	"vasorytas": [[vrrytas], "vasor", CDS.srcvasor.data, make_lin(p1, CDS.srcvasor), parametrupavsp.index("Vaso")],
-	"vasopietūs": [[vrpietus], "vasop", CDS.srcvasop.data, make_lin(p1, CDS.srcvasop), parametrupavsp.index("Vaso")],
-	"vasovakaras": [[vrvakaras], "vasov", CDS.srcvasov.data, make_lin(p1, CDS.srcvasov), parametrupavsp.index("Vaso")],
+	"vasorytas": [[vrrytas], "vasor", srcvasorcds.data, make_lin(p1, srcvasorcds), parametrupavsp.index("Vaso")],
+	"vasopietūs": [[vrpietus], "vasop", srcvasopcds.data, make_lin(p1, srcvasopcds), parametrupavsp.index("Vaso")],
+	"vasovakaras": [[vrvakaras], "vasov", srcvasovcds.data, make_lin(p1, srcvasovcds), parametrupavsp.index("Vaso")],
 
-	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdspr.data, make_lin(p1, CDS.srcvyzdspr), parametrupavsp.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdspp.data, make_lin(p1, CDS.srcvyzdspp), parametrupavsp.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdspv.data, make_lin(p1, CDS.srcvyzdspv), parametrupavsp.index("Vyzd")],
+	"vyzdrytas": [[vdrytas], "vyzdr", srcvyzdsprcds.data, make_lin(p1, srcvyzdsprcds), parametrupavsp.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", srcvyzdsppcds.data, make_lin(p1, srcvyzdsppcds), parametrupavsp.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", srcvyzdspvcds.data, make_lin(p1, srcvyzdspvcds), parametrupavsp.index("Vyzd")],
 
-	"tremrytas": [[trrytas], "tremr", CDS.srctremr.data, make_lin(p1, CDS.srctremr), parametrupavsp.index("Trem")],
-	"trempietūs": [[trpietus], "tremp", CDS.srctremp.data, make_lin(p1, CDS.srctremp), parametrupavsp.index("Trem")],
-	"tremvakaras": [[trvakaras], "tremv", CDS.srctremv.data, make_lin(p1, CDS.srctremv), parametrupavsp.index("Trem")],
+	"tremrytas": [[trrytas], "tremr", srctremrcds.data, make_lin(p1, srctremrcds), parametrupavsp.index("Trem")],
+	"trempietūs": [[trpietus], "tremp", srctrempcds.data, make_lin(p1, srctrempcds), parametrupavsp.index("Trem")],
+	"tremvakaras": [[trvakaras], "tremv", srctremvcds.data, make_lin(p1, srctremvcds), parametrupavsp.index("Trem")],
 
-	"nosrytas": [[surytas], "nosr", CDS.srcnosr.data, make_lin(p1, CDS.srcnosr), parametrupavsp.index("Nos")],
-	"nospietūs": [[supietus], "nosp", CDS.srcnosp.data, make_lin(p1, CDS.srcnosp), parametrupavsp.index("Nos")],
-	"nosvakaras": [[suvakaras], "nosv", CDS.srcnosv.data, make_lin(p1, CDS.srcnosv), parametrupavsp.index("Nos")],
+	"nosrytas": [[surytas], "nosr", srcnosrcds.data, make_lin(p1, srcnosrcds), parametrupavsp.index("Nos")],
+	"nospietūs": [[supietus], "nosp", srcnospcds.data, make_lin(p1, srcnospcds), parametrupavsp.index("Nos")],
+	"nosvakaras": [[suvakaras], "nosv", srcnosvcds.data, make_lin(p1, srcnosvcds), parametrupavsp.index("Nos")],
 
-	"sargrytas": [[slrytas], "sargr", CDS.srcsargr.data, make_lin(p1, CDS.srcsargr), parametrupavsp.index("Sarg")],
-	"sargpietūs": [[slpietus], "sargp", CDS.srcsargp.data, make_lin(p1, CDS.srcsargp), parametrupavsp.index("Sarg")],
-	"sargvakaras": [[slvakaras], "sargv", CDS.srcsargv.data, make_lin(p1, CDS.srcsargv), parametrupavsp.index("Sarg")],
+	"sargrytas": [[slrytas], "sargr", srcsargrcds.data, make_lin(p1, srcsargrcds), parametrupavsp.index("Sarg")],
+	"sargpietūs": [[slpietus], "sargp", srcsargpcds.data, make_lin(p1, srcsargpcds), parametrupavsp.index("Sarg")],
+	"sargvakaras": [[slvakaras], "sargv", srcsargvcds.data, make_lin(p1, srcsargvcds), parametrupavsp.index("Sarg")],
 
-	"sklrytas": [[sekrytas], "sklr", CDS.srcsklr.data, make_lin(p1, CDS.srcsklr), parametrupavsp.index("S-kl")],
-	"sklpietūs": [[sekpietus], "sklp", CDS.srcsklp.data, make_lin(p1, CDS.srcsklp), parametrupavsp.index("S-kl")],
-	"sklvakaras": [[sekvakaras], "sklv", CDS.srcsklv.data, make_lin(p1, CDS.srcsklv), parametrupavsp.index("S-kl")]}
+	"sklrytas": [[sekrytas], "sklr", srcsklrcds.data, make_lin(p1, srcsklrcds), parametrupavsp.index("S-kl")],
+	"sklpietūs": [[sekpietus], "sklp", srcsklpcds.data, make_lin(p1, srcsklpcds), parametrupavsp.index("S-kl")],
+	"sklvakaras": [[sekvakaras], "sklv", srcsklvcds.data, make_lin(p1, srcsklvcds), parametrupavsp.index("S-kl")]}
 
 # Ketogeninis|gliukogeninis
 
@@ -2231,34 +2166,67 @@ parametrupavkg = ["KD", "t(ksi)", "P4", "KpHi", "D2-P4", "U-šv", "U-put"]
 lentelekg = pd.DataFrame(ketogliuko, index=parametrupavkg)
 lentelekg = lentelekg[["Norma KT", "Norma AP", "Pagrindas"]]
 
+
+srckdkgrcds = CDS.srckdkgrcds()
+srckdkgpcds = CDS.srckdkgpcds()
+srckdkgvcds = CDS.srckdkgvcds()
+
+srctksikgrcds = CDS.srctksikgrcds()
+srctksikgpcds = CDS.srctksikgpcds()
+srctksikgvcds = CDS.srctksikgvcds()
+
+srcp4rcds = CDS.srcp4rcds()
+srcp4pcds = CDS.srcp4pcds()
+srcp4vcds = CDS.srcp4vcds()
+
+srckphikgrcds = CDS.srckphikgrcds()
+srckphikgpcds = CDS.srckphikgpcds()
+srckphikgvcds = CDS.srckphikgvcds()
+
+srcd2p4rcds = CDS.srcd2p4rcds()
+srcd2p4pcds = CDS.srcd2p4pcds()
+srcd2p4vcds = CDS.srcd2p4vcds()
+
+srcusvkgrcds = CDS.srcusvkgrcds()
+srcusvkgpcds = CDS.srcusvkgpcds()
+srcusvkgvcds = CDS.srcusvkgvcds()
+
+srcuputkgrcds = CDS.srcuputkgrcds()
+srcuputkgpcds = CDS.srcuputkgpcds()
+srcuputkgvcds = CDS.srcuputkgvcds()
+
+srcuputkg1rcds = CDS.srcuputkg1rcds()
+srcuputkg1pcds = CDS.srcuputkg1pcds()
+srcuputkg1vcds = CDS.srcuputkg1vcds()
+
 parametkg = {
-	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", CDS.srckdkgr.data, make_lin(p2, CDS.srckdkgr), parametrupavkg.index("KD")],
-	"kdpietūs": [[kdpietus, slatankpietus, serpietus], "kdp", CDS.srckdkgp.data, make_lin(p2, CDS.srckdkgp), parametrupavkg.index("KD")],
-	"kdvakaras": [[kdvakaras, slatankvakaras, servakaras], "kdv", CDS.srckdkgv.data, make_lin(p2, CDS.srckdkgv), parametrupavkg.index("KD")],
+	"kdrytas": [[kdrytas, slatankrytas, serrytas], "kdr", srckdkgrcds.data, make_lin(p2, srckdkgrcds), parametrupavkg.index("KD")],
+	"kdpietūs": [[kdpietus, slatankpietus, serpietus], "kdp", srckdkgpcds.data, make_lin(p2, srckdkgpcds), parametrupavkg.index("KD")],
+	"kdvakaras": [[kdvakaras, slatankvakaras, servakaras], "kdv", srckdkgvcds.data, make_lin(p2, srckdkgvcds), parametrupavkg.index("KD")],
 
-	"tksirytas": [[ksirytas, slatankrytas, serrytas], "tksir", CDS.srctksikgr.data, make_lin(p2, CDS.srctksikgr), parametrupavkg.index("t(ksi)")],
-	"tksipietūs": [[ksipietus, slatankpietus, serpietus], "tksip", CDS.srctksikgp.data, make_lin(p2, CDS.srctksikgp), parametrupavkg.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras, slatankvakaras, servakaras], "tksiv", CDS.srctksikgv.data, make_lin(p2, CDS.srctksikgv), parametrupavkg.index("t(ksi)")],
+	"tksirytas": [[ksirytas, slatankrytas, serrytas], "tksir", srctksikgrcds.data, make_lin(p2, srctksikgrcds), parametrupavkg.index("t(ksi)")],
+	"tksipietūs": [[ksipietus, slatankpietus, serpietus], "tksip", srctksikgpcds.data, make_lin(p2, srctksikgpcds), parametrupavkg.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras, slatankvakaras, servakaras], "tksiv", srctksikgvcds.data, make_lin(p2, srctksikgvcds), parametrupavkg.index("t(ksi)")],
 
-	"p4rytas": [[pa45rytas, slatankrytas, serrytas], "p4r", CDS.srcp4r.data, make_lin(p2, CDS.srcp4r), parametrupavkg.index("P4")],
-	"p4pietūs": [[pa45pietus, slatankpietus, serpietus], "p4p", CDS.srcp4p.data, make_lin(p2, CDS.srcp4p), parametrupavkg.index("P4")],
-	"p4vakaras": [[pa45vakaras, slatankvakaras, servakaras], "p4v", CDS.srcp4v.data, make_lin(p2, CDS.srcp4v), parametrupavkg.index("P4")],
+	"p4rytas": [[pa45rytas, slatankrytas, serrytas], "p4r", srcp4rcds.data, make_lin(p2, srcp4rcds), parametrupavkg.index("P4")],
+	"p4pietūs": [[pa45pietus, slatankpietus, serpietus], "p4p", srcp4pcds.data, make_lin(p2, srcp4pcds), parametrupavkg.index("P4")],
+	"p4vakaras": [[pa45vakaras, slatankvakaras, servakaras], "p4v", srcp4vcds.data, make_lin(p2, srcp4vcds), parametrupavkg.index("P4")],
 
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphikgr.data, make_lin(p2, CDS.srckphikgr), parametrupavkg.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphikgp.data, make_lin(p2, CDS.srckphikgp), parametrupavkg.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphikgv.data, make_lin(p2, CDS.srckphikgv), parametrupavkg.index("KpHi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", srckphikgrcds.data, make_lin(p2, srckphikgrcds), parametrupavkg.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", srckphikgpcds.data, make_lin(p2, srckphikgpcds), parametrupavkg.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", srckphikgvcds.data, make_lin(p2, srckphikgvcds), parametrupavkg.index("KpHi")],
 
-	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", CDS.srcd2p4r.data, make_lin(p2, CDS.srcd2p4r,), parametrupavkg.index("D2-P4")],
-	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", CDS.srcd2p4p.data, make_lin(p2, CDS.srcd2p4p), parametrupavkg.index("D2-P4")],
-	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", CDS.srcd2p4v.data, make_lin(p2, CDS.srcd2p4v), parametrupavkg.index("D2-P4")],
+	"d2p(4)rytas": [[dkarytas, pa45rytas], "d2p(4)r", srcd2p4rcds.data, make_lin(p2, srcd2p4rcds), parametrupavkg.index("D2-P4")],
+	"d2p(4)pietūs": [[dkapietus, pa45pietus], "d2p(4)p", srcd2p4pcds.data, make_lin(p2, srcd2p4pcds), parametrupavkg.index("D2-P4")],
+	"d2p(4)vakaras": [[dkavakaras, pa45vakaras], "d2p(4)v", srcd2p4vcds.data, make_lin(p2, srcd2p4vcds), parametrupavkg.index("D2-P4")],
 
-	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvkgr.data, make_lin(p2, CDS.srcusvkgr), parametrupavkg.index("U-šv")],
-	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvkgp.data, make_lin(p2, CDS.srcusvkgp), parametrupavkg.index("U-šv")],
-	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvkgv.data, make_lin(p2, CDS.srcusvkgv), parametrupavkg.index("U-šv")],
+	"usvrytas": [[slasvrytas], "usvr", srcusvkgrcds.data, make_lin(p2, srcusvkgrcds), parametrupavkg.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", srcusvkgpcds.data, make_lin(p2, srcusvkgpcds), parametrupavkg.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", srcusvkgvcds.data, make_lin(p2, srcusvkgvcds), parametrupavkg.index("U-šv")],
 
-	"uputrytas": [[slaputrytas], "uputr", [CDS.srcuputkgr.data, CDS.srcuputkg1r.data], make_lin(p2, CDS.srcuputkgr, CDS.srcuputkg1r), parametrupavkg.index("U-put")],
-	"uputpietūs": [[slaputpietus], "uputp", [CDS.srcuputkgp.data, CDS.srcuputkg1p.data], make_lin(p2, CDS.srcuputkgp, CDS.srcuputkg1p), parametrupavkg.index("U-put")],
-	"uputvakaras": [[slaputvakaras], "uputv", [CDS.srcuputkgv.data, CDS.srcuputkg1v.data], make_lin(p2, CDS.srcuputkgv, CDS.srcuputkg1v), parametrupavkg.index("U-put")]}
+	"uputrytas": [[slaputrytas], "uputr", [srcuputkgrcds.data, srcuputkg1rcds.data], make_lin(p2, srcuputkgrcds, srcuputkg1rcds), parametrupavkg.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", [srcuputkgpcds.data, srcuputkg1pcds.data], make_lin(p2, srcuputkgpcds, srcuputkg1pcds), parametrupavkg.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", [srcuputkgvcds.data, srcuputkg1vcds.data], make_lin(p2, srcuputkgvcds, srcuputkg1vcds), parametrupavkg.index("U-put")]}
 
 # Disaerobinis|anaerobinis
 
@@ -2271,30 +2239,54 @@ parametrupavda = ["d(tank)", "U-pHK", "S-pHK", "Derm", "U-šv", "U-put"]
 lenteleda = pd.DataFrame(disaeanae, index=parametrupavda)
 lenteleda = lenteleda[["Norma KT", "Norma AP", "Pagrindas"]]
 
+srcdtankrcds = CDS.srcdtankrcds()
+srcdtankpcds = CDS.srcdtankpcds()
+srcdtankvcds = CDS.srcdtankvcds()
+
+srcuphkdarcds = CDS.srcuphkdarcds()
+srcuphkdapcds = CDS.srcuphkdapcds()
+srcuphkdavcds = CDS.srcuphkdavcds()
+
+srcsphkdarcds = CDS.srcsphkdarcds()
+srcsphkdapcds = CDS.srcsphkdapcds()
+srcsphkdavcds = CDS.srcsphkdavcds()
+
+srcdermdarcds = CDS.srcdermdarcds()
+srcdermdapcds = CDS.srcdermdapcds()
+srcdermdavcds = CDS.srcdermdavcds()
+
+srcusvdarcds = CDS.srcusvdarcds()
+srcusvdapcds = CDS.srcusvdapcds()
+srcusvdavcds = CDS.srcusvdavcds()
+
+srcuputdarcds = CDS.srcuputdarcds()
+srcuputdapcds = CDS.srcuputdapcds()
+srcuputdavcds = CDS.srcuputdavcds()
+
 parametda = {
-	"dtankrytas": [[slatankrytas], "dtankr", CDS.srcdtankr.data, make_lin(p3, CDS.srcdtankr), parametrupavda.index("d(tank)")],
-	"dtankpietūs": [[slatankpietus], "dtankp", CDS.srcdtankp.data, make_lin(p3, CDS.srcdtankp), parametrupavda.index("d(tank)")],
-	"dtankvakaras": [[slatankvakaras], "dtankv", CDS.srcdtankv.data, make_lin(p3, CDS.srcdtankv), parametrupavda.index("d(tank)")],
+	"dtankrytas": [[slatankrytas], "dtankr", srcdtankrcds.data, make_lin(p3, srcdtankrcds), parametrupavda.index("d(tank)")],
+	"dtankpietūs": [[slatankpietus], "dtankp", srcdtankpcds.data, make_lin(p3, srcdtankpcds), parametrupavda.index("d(tank)")],
+	"dtankvakaras": [[slatankvakaras], "dtankv", srcdtankvcds.data, make_lin(p3, srcdtankvcds), parametrupavda.index("d(tank)")],
 
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkdar.data, make_lin(p3, CDS.srcuphkdar), parametrupavda.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkdap.data, make_lin(p3, CDS.srcuphkdap), parametrupavda.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkdav.data, make_lin(p3, CDS.srcuphkdav), parametrupavda.index("U-pHK")],
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", srcuphkdarcds.data, make_lin(p3, srcuphkdarcds), parametrupavda.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", srcuphkdapcds.data, make_lin(p3, srcuphkdapcds), parametrupavda.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", srcuphkdavcds.data, make_lin(p3, srcuphkdavcds), parametrupavda.index("U-pHK")],
 
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkdar.data, make_lin(p3, CDS.srcsphkdar), parametrupavda.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkdap.data, make_lin(p3, CDS.srcsphkdap), parametrupavda.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkdav.data, make_lin(p3, CDS.srcsphkdav), parametrupavda.index("S-pHK")],
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", srcsphkdarcds.data, make_lin(p3, srcsphkdarcds), parametrupavda.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", srcsphkdapcds.data, make_lin(p3, srcsphkdapcds), parametrupavda.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", srcsphkdavcds.data, make_lin(p3, srcsphkdavcds), parametrupavda.index("S-pHK")],
 
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermdar.data, make_lin(p3, CDS.srcdermdar), parametrupavda.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermdap.data, make_lin(p3, CDS.srcdermdap), parametrupavda.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermdav.data, make_lin(p3, CDS.srcdermdav), parametrupavda.index("Derm")],
+	"dermrytas": [[drrytas], "dermr", srcdermdarcds.data, make_lin(p3, srcdermdarcds), parametrupavda.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", srcdermdapcds.data, make_lin(p3, srcdermdapcds), parametrupavda.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", srcdermdavcds.data, make_lin(p3, srcdermdavcds), parametrupavda.index("Derm")],
 
-	"usvrytas": [[slasvrytas], "usvr", CDS.srcusvdar.data, make_lin(p3, CDS.srcusvdar), parametrupavda.index("U-šv")],
-	"usvpietūs": [[slasvpietus], "usvp", CDS.srcusvdap.data, make_lin(p3, CDS.srcusvdap), parametrupavda.index("U-šv")],
-	"usvvakaras": [[slasvvakaras], "usvv", CDS.srcusvdav.data, make_lin(p3, CDS.srcusvdav), parametrupavda.index("U-šv")],
+	"usvrytas": [[slasvrytas], "usvr", srcusvdarcds.data, make_lin(p3, srcusvdarcds), parametrupavda.index("U-šv")],
+	"usvpietūs": [[slasvpietus], "usvp", srcusvdapcds.data, make_lin(p3, srcusvdapcds), parametrupavda.index("U-šv")],
+	"usvvakaras": [[slasvvakaras], "usvv", srcusvdavcds.data, make_lin(p3, srcusvdavcds), parametrupavda.index("U-šv")],
 
-	"uputrytas": [[slaputrytas], "uputr", CDS.srcuputdar.data, make_lin(p3, CDS.srcuputdar), parametrupavda.index("U-put")],
-	"uputpietūs": [[slaputpietus], "uputp", CDS.srcuputdap.data, make_lin(p3, CDS.srcuputdap), parametrupavda.index("U-put")],
-	"uputvakaras": [[slaputvakaras], "uputv", CDS.srcuputdav.data, make_lin(p3, CDS.srcuputdav), parametrupavda.index("U-put")]}
+	"uputrytas": [[slaputrytas], "uputr", srcuputdarcds.data, make_lin(p3, srcuputdarcds), parametrupavda.index("U-put")],
+	"uputpietūs": [[slaputpietus], "uputp", srcuputdapcds.data, make_lin(p3, srcuputdapcds), parametrupavda.index("U-put")],
+	"uputvakaras": [[slaputvakaras], "uputv", srcuputdavcds.data, make_lin(p3, srcuputdavcds), parametrupavda.index("U-put")]}
 
 # Metabolinė alkalozė|acidozė
 
@@ -2307,34 +2299,62 @@ parametrupavalac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4–P1"]
 lentelealac = pd.DataFrame(alkaacid, index=parametrupavalac)
 lentelealac = lentelealac[["Norma KT", "Norma AP", "Pagrindas"]]
 
+srckdalacrcds = CDS.srckdalacrcds()
+srckdalacpcds = CDS.srckdalacpcds()
+srckdalacvcds = CDS.srckdalacvcds()
+
+srctksialacrcds = CDS.srctksialacrcds()
+srctksialacpcds = CDS.srctksialacpcds()
+srctksialacvcds = CDS.srctksialacvcds()
+
+srckphialacrcds = CDS.srckphialacrcds()
+srckphialacpcds = CDS.srckphialacpcds()
+srckphialacvcds = CDS.srckphialacvcds()
+
+srcuphkalacrcds = CDS.srcuphkalacrcds()
+srcuphkalacpcds = CDS.srcuphkalacpcds()
+srcuphkalacvcds = CDS.srcuphkalacvcds()
+
+srcsphkalacrcds = CDS.srcsphkalacrcds()
+srcsphkalacpcds = CDS.srcsphkalacpcds()
+srcsphkalacvcds = CDS.srcsphkalacvcds()
+
+srcp1alacrcds = CDS.srcp1alacrcds()
+srcp1alacpcds = CDS.srcp1alacpcds()
+srcp1alacvcds = CDS.srcp1alacvcds()
+
+srcp4p1alacrcds = CDS.srcp4p1alacrcds()
+srcp4p1alacpcds = CDS.srcp4p1alacpcds()
+srcp4p1alacvcds = CDS.srcp4p1alacvcds()
+
 parametalac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdalacr.data, make_lin(p4, CDS.srckdalacr), parametrupavalac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdalacp.data, make_lin(p4, CDS.srckdalacp), parametrupavalac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdalacv.data, make_lin(p4, CDS.srckdalacv), parametrupavalac.index("KD")],
+	"kdrytas": [[kdrytas], "kdr", srckdalacrcds.data, make_lin(p4, srckdalacrcds), parametrupavalac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", srckdalacpcds.data, make_lin(p4, srckdalacpcds), parametrupavalac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", srckdalacvcds.data, make_lin(p4, srckdalacvcds), parametrupavalac.index("KD")],
 
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksialacr.data, make_lin(p4, CDS.srctksialacr), parametrupavalac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksialacp.data, make_lin(p4, CDS.srctksialacp), parametrupavalac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksialacv.data, make_lin(p4, CDS.srctksialacv), parametrupavalac.index("t(ksi)")],
+	"tksirytas": [[ksirytas], "tksir", srctksialacrcds.data, make_lin(p4, srctksialacrcds), parametrupavalac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", srctksialacpcds.data, make_lin(p4, srctksialacpcds), parametrupavalac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", srctksialacvcds.data, make_lin(p4, srctksialacvcds), parametrupavalac.index("t(ksi)")],
 
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphialacr.data, make_lin(p4, CDS.srckphialacr), parametrupavalac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphialacp.data, make_lin(p4, CDS.srckphialacp), parametrupavalac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphialacv.data, make_lin(p4, CDS.srckphialacv), parametrupavalac.index("KpHi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", srckphialacrcds.data, make_lin(p4, srckphialacrcds), parametrupavalac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", srckphialacpcds.data, make_lin(p4, srckphialacpcds), parametrupavalac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", srckphialacvcds.data, make_lin(p4, srckphialacvcds), parametrupavalac.index("KpHi")],
 
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkalacr.data, make_lin(p4, CDS.srcuphkalacr), parametrupavalac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkalacp.data, make_lin(p4, CDS.srcuphkalacp), parametrupavalac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkalacv.data, make_lin(p4, CDS.srcuphkalacv), parametrupavalac.index("U-pHK")],
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", srcuphkalacrcds.data, make_lin(p4, srcuphkalacrcds), parametrupavalac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", srcuphkalacpcds.data, make_lin(p4, srcuphkalacpcds), parametrupavalac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", srcuphkalacvcds.data, make_lin(p4, srcuphkalacvcds), parametrupavalac.index("U-pHK")],
 
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkalacr.data, make_lin(p4, CDS.srcsphkalacr), parametrupavalac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkalacp.data, make_lin(p4, CDS.srcsphkalacp), parametrupavalac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkalacv.data, make_lin(p4, CDS.srcsphkalacv), parametrupavalac.index("S-pHK")],
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", srcsphkalacrcds.data, make_lin(p4, srcsphkalacrcds), parametrupavalac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", srcsphkalacpcds.data, make_lin(p4, srcsphkalacpcds), parametrupavalac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", srcsphkalacvcds.data, make_lin(p4, srcsphkalacvcds), parametrupavalac.index("S-pHK")],
 
-	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1alacr.data, make_lin(p4, CDS.srcp1alacr), parametrupavalac.index("P1")],
-	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1alacp.data, make_lin(p4, CDS.srcp1alacp), parametrupavalac.index("P1")],
-	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1alacv.data, make_lin(p4, CDS.srcp1alacv), parametrupavalac.index("P1")],
+	"p(1)rytas": [[pgrytas], "p1r", srcp1alacrcds.data, make_lin(p4, srcp1alacrcds), parametrupavalac.index("P1")],
+	"p(1)pietūs": [[pgpietus], "p1p", srcp1alacpcds.data, make_lin(p4, srcp1alacpcds), parametrupavalac.index("P1")],
+	"p(1)vakaras": [[pgvakaras], "p1v", srcp1alacvcds.data, make_lin(p4, srcp1alacvcds), parametrupavalac.index("P1")],
 
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1alacr.data, make_lin(p4, CDS.srcp4p1alacr), parametrupavalac.index("P4–P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1alacp.data, make_lin(p4, CDS.srcp4p1alacp), parametrupavalac.index("P4–P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1alacv.data, make_lin(p4, CDS.srcp4p1alacv), parametrupavalac.index("P4–P1")]}
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", srcp4p1alacrcds.data, make_lin(p4, srcp4p1alacrcds), parametrupavalac.index("P4–P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", srcp4p1alacpcds.data, make_lin(p4, srcp4p1alacpcds), parametrupavalac.index("P4–P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", srcp4p1alacvcds.data, make_lin(p4, srcp4p1alacvcds), parametrupavalac.index("P4–P1")]}
 
 # Elektrolitų trūkumas|perteklius
 
@@ -2347,26 +2367,56 @@ parametrupavetp = ["Pm1-S21", "Pm1+S21", "Pm1-Pm4", "Sm+Dm", "S-D"]
 lenteleetp = pd.DataFrame(elektroltp, index=parametrupavetp)
 lenteleetp = lenteleetp[["Norma KT", "Norma AP", "Pagrindas"]]
 
+
+srcpm1ms21rcds = CDS.srcpm1ms21rcds()
+srcpm1ms21pcds = CDS.srcpm1ms21pcds()
+srcpm1ms21vcds = CDS.srcpm1ms21vcds()
+
+srcpm1ps21rcds = CDS.srcpm1ps21rcds()
+srcpm1ps21pcds = CDS.srcpm1ps21pcds()
+srcpm1ps21vcds = CDS.srcpm1ps21vcds()
+
+srcpm1mpm4rcds = CDS.srcpm1mpm4rcds()
+srcpm1mpm4pcds = CDS.srcpm1mpm4pcds()
+srcpm1mpm4vcds = CDS.srcpm1mpm4vcds()
+
+src1pm1mpm4rcds = CDS.src1pm1mpm4rcds()
+src1pm1mpm4pcds = CDS.src1pm1mpm4pcds()
+src1pm1mpm4vcds = CDS.src1pm1mpm4vcds()
+
+srcsmdmrcds = CDS.srcsmdmrcds()
+srcsmdmpcds = CDS.srcsmdmpcds()
+srcsmdmvcds = CDS.srcsmdmvcds()
+
+srcsmdrcds = CDS.srcsmdrcds()
+srcsmdpcds = CDS.srcsmdpcds()
+srcsmdvcds = CDS.srcsmdvcds()
+
+srcsmd1rcds = CDS.srcsmd1rcds()
+srcsmd1pcds = CDS.srcsmd1pcds()
+srcsmd1vcds = CDS.srcsmd1vcds()
+
+
 parametetp = {
-	"pm1-s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1-s21r", CDS.srcpm1ms21r.data, make_lin(p5, CDS.srcpm1ms21r), parametrupavetp.index("Pm1-S21")],
-	"pm1-s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1-s21p", CDS.srcpm1ms21p.data, make_lin(p5, CDS.srcpm1ms21p), parametrupavetp.index("Pm1-S21")],
-	"pm1-s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1-s21v", CDS.srcpm1ms21v.data, make_lin(p5, CDS.srcpm1ms21v), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1-s21r", srcpm1ms21rcds.data, make_lin(p5, srcpm1ms21rcds), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1-s21p", srcpm1ms21pcds.data, make_lin(p5, srcpm1ms21pcds), parametrupavetp.index("Pm1-S21")],
+	"pm1-s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1-s21v", srcpm1ms21vcds.data, make_lin(p5, srcpm1ms21vcds), parametrupavetp.index("Pm1-S21")],
 
-	"pm1+s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1+s21r", CDS.srcpm1ps21r.data, make_lin(p5, CDS.srcpm1ps21r), parametrupavetp.index("Pm1+S21")],
-	"pm1+s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1+s21p", CDS.srcpm1ps21p.data, make_lin(p5, CDS.srcpm1ps21p), parametrupavetp.index("Pm1+S21")],
-	"pm1+s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1+s21v", CDS.srcpm1ps21v.data, make_lin(p5, CDS.srcpm1ps21v), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21rytas": [[pgrytas, parytas, pa15rytas, pa45rytas, skarytas, skgrytas], "pm1+s21r", srcpm1ps21rcds.data, make_lin(p5, srcpm1ps21rcds), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus, skapietus, skgpietus], "pm1+s21p", srcpm1ps21pcds.data, make_lin(p5, srcpm1ps21pcds), parametrupavetp.index("Pm1+S21")],
+	"pm1+s21vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras, skavakaras, skgvakaras], "pm1+s21v", srcpm1ps21vcds.data, make_lin(p5, srcpm1ps21vcds), parametrupavetp.index("Pm1+S21")],
 
-	"pm1-pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1-pm4r", [CDS.srcpm1mpm4r.data, CDS.src1pm1mpm4r.data], make_lin(p5, CDS.srcpm1mpm4r, CDS.src1pm1mpm4r), parametrupavetp.index("Pm1-Pm4")],
-	"pm1-pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1-pm4p", [CDS.srcpm1mpm4p.data, CDS.src1pm1mpm4p.data], make_lin(p5, CDS.srcpm1mpm4p, CDS.src1pm1mpm4p), parametrupavetp.index("Pm1-Pm4")],
-	"pm1-pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1-pm4v", [CDS.srcpm1mpm4v.data, CDS.src1pm1mpm4v.data], make_lin(p5, CDS.srcpm1mpm4v, CDS.src1pm1mpm4v), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4rytas": [[pgrytas, parytas, pa15rytas, pa45rytas], "pm1-pm4r", [srcpm1mpm4rcds.data, src1pm1mpm4rcds.data], make_lin(p5, srcpm1mpm4rcds, src1pm1mpm4rcds), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4pietūs": [[pgpietus, papietus, pa15pietus, pa45pietus], "pm1-pm4p", [srcpm1mpm4pcds.data, src1pm1mpm4pcds.data], make_lin(p5, srcpm1mpm4pcds, src1pm1mpm4pcds), parametrupavetp.index("Pm1-Pm4")],
+	"pm1-pm4vakaras": [[pgvakaras, pavakaras, pa15vakaras, pa45vakaras], "pm1-pm4v", [srcpm1mpm4vcds.data, src1pm1mpm4vcds.data], make_lin(p5, srcpm1mpm4vcds, src1pm1mpm4vcds), parametrupavetp.index("Pm1-Pm4")],
 
-	"smdmrytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "smdmr", CDS.srcsmdmr.data, make_lin(p5, CDS.srcsmdmr), parametrupavetp.index("Sm+Dm")],
-	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", CDS.srcsmdmp.data, make_lin(p5, CDS.srcsmdmp), parametrupavetp.index("Sm+Dm")],
-	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", CDS.srcsmdmv.data, make_lin(p5, CDS.srcsmdmv), parametrupavetp.index("Sm+Dm")],
+	"smdmrytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "smdmr", srcsmdmrcds.data, make_lin(p5, srcsmdmrcds), parametrupavetp.index("Sm+Dm")],
+	"smdmpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "smdmp", srcsmdmpcds.data, make_lin(p5, srcsmdmpcds), parametrupavetp.index("Sm+Dm")],
+	"smdmvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "smdmv", srcsmdmvcds.data, make_lin(p5, srcsmdmvcds), parametrupavetp.index("Sm+Dm")],
 
-	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", [CDS.srcsmdr.data, CDS.srcsmd1r.data], make_lin(p5, CDS.srcsmdr, CDS.srcsmd1r), parametrupavetp.index("S-D")],
-	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", [CDS.srcsmdp.data, CDS.srcsmd1p.data], make_lin(p5, CDS.srcsmdp, CDS.srcsmd1p), parametrupavetp.index("S-D")],
-	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", [CDS.srcsmdv.data, CDS.srcsmd1v.data], make_lin(p5, CDS.srcsmdv, CDS.srcsmd1v), parametrupavetp.index("S-D")]}
+	"s-drytas": [[skgrytas, skarytas, dkgrytas, dkarytas], "s-dr", [srcsmdrcds.data, srcsmd1rcds.data], make_lin(p5, srcsmdrcds, srcsmd1rcds), parametrupavetp.index("S-D")],
+	"s-dpietūs": [[skgpietus, skapietus, dkgpietus, dkapietus], "s-dp", [srcsmdpcds.data, srcsmd1pcds.data], make_lin(p5, srcsmdpcds, srcsmd1pcds), parametrupavetp.index("S-D")],
+	"s-dvakaras": [[skgvakaras, skavakaras, dkgvakaras, dkavakaras], "s-dv", [srcsmdvcds.data, srcsmd1vcds.data], make_lin(p5, srcsmdvcds, srcsmd1vcds), parametrupavetp.index("S-D")]}
 
 # Kalio trūkumo alkalozė|pertekliaus acidozė
 
@@ -2379,38 +2429,70 @@ parametrupavktalpac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "Vyzd", "Derm",
 lentelektalpac = pd.DataFrame(kaliotalpac, index=parametrupavktalpac)
 lentelektalpac = lentelektalpac[["Norma KT", "Norma AP", "Pagrindas"]]
 
+srckdktalpacrcds = CDS.srckdktalpacrcds()
+srckdktalpacpcds = CDS.srckdktalpacpcds()
+srckdktalpacvcds = CDS.srckdktalpacvcds()
+
+srctksiktalpacrcds = CDS.srctksiktalpacrcds()
+srctksiktalpacpcds = CDS.srctksiktalpacpcds()
+srctksiktalpacvcds = CDS.srctksiktalpacvcds()
+
+srckphiktalpacrcds = CDS.srckphiktalpacrcds()
+srckphiktalpacpcds = CDS.srckphiktalpacpcds()
+srckphiktalpacvcds = CDS.srckphiktalpacvcds()
+
+srcuphkktalpacrcds = CDS.srcuphkktalpacrcds()
+srcuphkktalpacpcds = CDS.srcuphkktalpacpcds()
+srcuphkktalpacvcds = CDS.srcuphkktalpacvcds()
+
+srcsphkktalpacrcds = CDS.srcsphkktalpacrcds()
+srcsphkktalpacpcds = CDS.srcsphkktalpacpcds()
+srcsphkktalpacvcds = CDS.srcsphkktalpacvcds()
+
+srcvyzdktalpacrcds = CDS.srcvyzdktalpacrcds()
+srcvyzdktalpacpcds = CDS.srcvyzdktalpacpcds()
+srcvyzdktalpacvcds = CDS.srcvyzdktalpacvcds()
+
+srcdermktalpacrcds = CDS.srcdermktalpacrcds()
+srcdermktalpacpcds = CDS.srcdermktalpacpcds()
+srcdermktalpacvcds = CDS.srcdermktalpacvcds()
+
+srcp4p1ktalpacrcds = CDS.srcp4p1ktalpacrcds()
+srcp4p1ktalpacpcds = CDS.srcp4p1ktalpacpcds()
+srcp4p1ktalpacvcds = CDS.srcp4p1ktalpacvcds()
+
 parametktalpac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdktalpacr.data, make_lin(p6, CDS.srckdktalpacr), parametrupavktalpac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdktalpacp.data, make_lin(p6, CDS.srckdktalpacp), parametrupavktalpac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdktalpacv.data, make_lin(p6, CDS.srckdktalpacv), parametrupavktalpac.index("KD")],
+	"kdrytas": [[kdrytas], "kdr", srckdktalpacrcds.data, make_lin(p6, srckdktalpacrcds), parametrupavktalpac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", srckdktalpacpcds.data, make_lin(p6, srckdktalpacpcds), parametrupavktalpac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", srckdktalpacvcds.data, make_lin(p6, srckdktalpacvcds), parametrupavktalpac.index("KD")],
 
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksiktalpacr.data, make_lin(p6, CDS.srctksiktalpacr), parametrupavktalpac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiktalpacp.data, make_lin(p6, CDS.srctksiktalpacp), parametrupavktalpac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiktalpacv.data, make_lin(p6, CDS.srctksiktalpacv), parametrupavktalpac.index("t(ksi)")],
+	"tksirytas": [[ksirytas], "tksir", srctksiktalpacrcds.data, make_lin(p6, srctksiktalpacrcds), parametrupavktalpac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", srctksiktalpacpcds.data, make_lin(p6, srctksiktalpacpcds), parametrupavktalpac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", srctksiktalpacvcds.data, make_lin(p6, srctksiktalpacvcds), parametrupavktalpac.index("t(ksi)")],
 
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiktalpacr.data, make_lin(p6, CDS.srckphiktalpacr), parametrupavktalpac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiktalpacp.data, make_lin(p6, CDS.srckphiktalpacp), parametrupavktalpac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiktalpacv.data, make_lin(p6, CDS.srckphiktalpacv), parametrupavktalpac.index("KpHi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", srckphiktalpacrcds.data, make_lin(p6, srckphiktalpacrcds), parametrupavktalpac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", srckphiktalpacpcds.data, make_lin(p6, srckphiktalpacpcds), parametrupavktalpac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", srckphiktalpacvcds.data, make_lin(p6, srckphiktalpacvcds), parametrupavktalpac.index("KpHi")],
 
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkktalpacr.data, make_lin(p6, CDS.srcuphkktalpacr), parametrupavktalpac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkktalpacp.data, make_lin(p6, CDS.srcuphkktalpacp), parametrupavktalpac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkktalpacv.data, make_lin(p6, CDS.srcuphkktalpacv), parametrupavktalpac.index("U-pHK")],
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", srcuphkktalpacrcds.data, make_lin(p6, srcuphkktalpacrcds), parametrupavktalpac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", srcuphkktalpacpcds.data, make_lin(p6, srcuphkktalpacpcds), parametrupavktalpac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", srcuphkktalpacvcds.data, make_lin(p6, srcuphkktalpacvcds), parametrupavktalpac.index("U-pHK")],
 
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkktalpacr.data, make_lin(p6, CDS.srcsphkktalpacr), parametrupavktalpac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkktalpacp.data, make_lin(p6, CDS.srcsphkktalpacp), parametrupavktalpac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkktalpacv.data, make_lin(p6, CDS.srcsphkktalpacv), parametrupavktalpac.index("S-pHK")],
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", srcsphkktalpacrcds.data, make_lin(p6, srcsphkktalpacrcds), parametrupavktalpac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", srcsphkktalpacpcds.data, make_lin(p6, srcsphkktalpacpcds), parametrupavktalpac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", srcsphkktalpacvcds.data, make_lin(p6, srcsphkktalpacvcds), parametrupavktalpac.index("S-pHK")],
 
-	"vyzdrytas": [[vdrytas], "vyzdr", CDS.srcvyzdktalpacr.data, make_lin(p6, CDS.srcvyzdktalpacr), parametrupavktalpac.index("Vyzd")],
-	"vyzdpietūs": [[vdpietus], "vyzdp", CDS.srcvyzdktalpacp.data, make_lin(p6, CDS.srcvyzdktalpacp), parametrupavktalpac.index("Vyzd")],
-	"vyzdvakaras": [[vdvakaras], "vyzdv", CDS.srcvyzdktalpacv.data, make_lin(p6, CDS.srcvyzdktalpacv), parametrupavktalpac.index("Vyzd")],
+	"vyzdrytas": [[vdrytas], "vyzdr", srcvyzdktalpacrcds.data, make_lin(p6, srcvyzdktalpacrcds), parametrupavktalpac.index("Vyzd")],
+	"vyzdpietūs": [[vdpietus], "vyzdp", srcvyzdktalpacpcds.data, make_lin(p6, srcvyzdktalpacpcds), parametrupavktalpac.index("Vyzd")],
+	"vyzdvakaras": [[vdvakaras], "vyzdv", srcvyzdktalpacvcds.data, make_lin(p6, srcvyzdktalpacvcds), parametrupavktalpac.index("Vyzd")],
 
-	"dermrytas": [[drrytas], "dermr", CDS.srcdermktalpacr.data, make_lin(p6, CDS.srcdermktalpacr), parametrupavktalpac.index("Derm")],
-	"dermpietūs": [[drpietus], "dermp", CDS.srcdermktalpacp.data, make_lin(p6, CDS.srcdermktalpacp), parametrupavktalpac.index("Derm")],
-	"dermvakaras": [[drvakaras], "dermv", CDS.srcdermktalpacv.data, make_lin(p6, CDS.srcdermktalpacv), parametrupavktalpac.index("Derm")],
+	"dermrytas": [[drrytas], "dermr", srcdermktalpacrcds.data, make_lin(p6, srcdermktalpacrcds), parametrupavktalpac.index("Derm")],
+	"dermpietūs": [[drpietus], "dermp", srcdermktalpacpcds.data, make_lin(p6, srcdermktalpacpcds), parametrupavktalpac.index("Derm")],
+	"dermvakaras": [[drvakaras], "dermv", srcdermktalpacvcds.data, make_lin(p6, srcdermktalpacvcds), parametrupavktalpac.index("Derm")],
 
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ktalpacr.data, make_lin(p6, CDS.srcp4p1ktalpacr), parametrupavktalpac.index("P4-P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ktalpacp.data, make_lin(p6, CDS.srcp4p1ktalpacp), parametrupavktalpac.index("P4-P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ktalpacv.data, make_lin(p6, CDS.srcp4p1ktalpacv), parametrupavktalpac.index("P4-P1")]}
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", srcp4p1ktalpacrcds.data, make_lin(p6, srcp4p1ktalpacrcds), parametrupavktalpac.index("P4-P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", srcp4p1ktalpacpcds.data, make_lin(p6, srcp4p1ktalpacpcds), parametrupavktalpac.index("P4-P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", srcp4p1ktalpacvcds.data, make_lin(p6, srcp4p1ktalpacvcds), parametrupavktalpac.index("P4-P1")]}
 
 # Respiracinė alkalozė|acidozė
 
@@ -2423,34 +2505,62 @@ parametrupavralac = ["KD", "t(ksi)", "KpHi", "U-pHK", "S-pHK", "P1", "P4-P1"]
 lenteleralac = pd.DataFrame(respialac, index=parametrupavralac)
 lenteleralac = lenteleralac[["Norma KT", "Norma AP", "Pagrindas"]]
 
+srckdralacrcds = CDS.srckdralacrcds()
+srckdralacpcds = CDS.srckdralacpcds()
+srckdralacvcds = CDS.srckdralacvcds()
+
+srctksiralacrcds = CDS.srctksiralacrcds()
+srctksiralacpcds = CDS.srctksiralacpcds()
+srctksiralacvcds = CDS.srctksiralacvcds()
+
+srckphiralacrcds = CDS.srckphiralacrcds()
+srckphiralacpcds = CDS.srckphiralacpcds()
+srckphiralacvcds = CDS.srckphiralacvcds()
+
+srcuphkralacrcds = CDS.srcuphkralacrcds()
+srcuphkralacpcds = CDS.srcuphkralacpcds()
+srcuphkralacvcds = CDS.srcuphkralacvcds()
+
+srcsphkralacrcds = CDS.srcsphkralacrcds()
+srcsphkralacpcds = CDS.srcsphkralacpcds()
+srcsphkralacvcds = CDS.srcsphkralacvcds()
+
+srcp1ralacrcds = CDS.srcp1ralacrcds()
+srcp1ralacpcds = CDS.srcp1ralacpcds()
+srcp1ralacvcds = CDS.srcp1ralacvcds()
+
+srcp4p1ralacrcds = CDS.srcp1ralacrcds()
+srcp4p1ralacpcds = CDS.srcp1ralacpcds()
+srcp4p1ralacvcds = CDS.srcp1ralacvcds()
+
 parametralac = {
-	"kdrytas": [[kdrytas], "kdr", CDS.srckdralacr.data, make_lin(p7, CDS.srckdralacr), parametrupavralac.index("KD")],
-	"kdpietūs": [[kdpietus], "kdp", CDS.srckdralacp.data, make_lin(p7, CDS.srckdralacp), parametrupavralac.index("KD")],
-	"kdvakaras": [[kdvakaras], "kdv", CDS.srckdralacv.data, make_lin(p7, CDS.srckdralacv), parametrupavralac.index("KD")],
+	"kdrytas": [[kdrytas], "kdr", srckdralacrcds.data, make_lin(p7, srckdralacrcds), parametrupavralac.index("KD")],
+	"kdpietūs": [[kdpietus], "kdp", srckdralacpcds.data, make_lin(p7, srckdralacpcds), parametrupavralac.index("KD")],
+	"kdvakaras": [[kdvakaras], "kdv", srckdralacvcds.data, make_lin(p7, srckdralacvcds), parametrupavralac.index("KD")],
 
-	"tksirytas": [[ksirytas], "tksir", CDS.srctksiralacr.data, make_lin(p7, CDS.srctksiralacr), parametrupavralac.index("t(ksi)")],
-	"tksipietūs": [[ksipietus], "tksip", CDS.srctksiralacp.data, make_lin(p7, CDS.srctksiralacp), parametrupavralac.index("t(ksi)")],
-	"tksivakaras": [[ksivakaras], "tksiv", CDS.srctksiralacv.data, make_lin(p7, CDS.srctksiralacv), parametrupavralac.index("t(ksi)")],
+	"tksirytas": [[ksirytas], "tksir", srctksiralacrcds.data, make_lin(p7, srctksiralacrcds), parametrupavralac.index("t(ksi)")],
+	"tksipietūs": [[ksipietus], "tksip", srctksiralacpcds.data, make_lin(p7, srctksiralacpcds), parametrupavralac.index("t(ksi)")],
+	"tksivakaras": [[ksivakaras], "tksiv", srctksiralacvcds.data, make_lin(p7, srctksiralacvcds), parametrupavralac.index("t(ksi)")],
 
-	"kphirytas": [[kdrytas, ksirytas], "kphir", CDS.srckphiralacr.data, make_lin(p7, CDS.srckphiralacr), parametrupavralac.index("KpHi")],
-	"kphipietūs": [[kdpietus, ksipietus], "kphip", CDS.srckphiralacp.data, make_lin(p7, CDS.srckphiralacp), parametrupavralac.index("KpHi")],
-	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", CDS.srckphiralacv.data, make_lin(p7, CDS.srckphiralacv), parametrupavralac.index("KpHi")],
+	"kphirytas": [[kdrytas, ksirytas], "kphir", srckphiralacrcds.data, make_lin(p7, srckphiralacrcds), parametrupavralac.index("KpHi")],
+	"kphipietūs": [[kdpietus, ksipietus], "kphip", srckphiralacpcds.data, make_lin(p7, srckphiralacpcds), parametrupavralac.index("KpHi")],
+	"kphivakaras": [[kdvakaras, ksivakaras], "kphiv", srckphiralacvcds.data, make_lin(p7, srckphiralacvcds), parametrupavralac.index("KpHi")],
 
-	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", CDS.srcuphkralacr.data, make_lin(p7, CDS.srcuphkralacr), parametrupavralac.index("U-pHK")],
-	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", CDS.srcuphkralacp.data, make_lin(p7, CDS.srcuphkralacp), parametrupavralac.index("U-pHK")],
-	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", CDS.srcuphkralacv.data, make_lin(p7, CDS.srcuphkralacv), parametrupavralac.index("U-pHK")],
+	"uphkrytas": [[slatankrytas, slarugrytas], "uphkr", srcuphkralacrcds.data, make_lin(p7, srcuphkralacrcds), parametrupavralac.index("U-pHK")],
+	"uphkpietūs": [[slatankpietus, slarugpietus], "uphkp", srcuphkralacpcds.data, make_lin(p7, srcuphkralacpcds), parametrupavralac.index("U-pHK")],
+	"uphkvakaras": [[slatankvakaras, slarugvakaras], "uphkv", srcuphkralacvcds.data, make_lin(p7, srcuphkralacvcds), parametrupavralac.index("U-pHK")],
 
-	"sphkrytas": [[slatankrytas, serrytas], "sphkr", CDS.srcsphkralacr.data, make_lin(p7, CDS.srcsphkralacr), parametrupavralac.index("S-pHK")],
-	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", CDS.srcsphkralacp.data, make_lin(p7, CDS.srcsphkralacp), parametrupavralac.index("S-pHK")],
-	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", CDS.srcsphkralacv.data, make_lin(p7, CDS.srcsphkralacv), parametrupavralac.index("S-pHK")],
+	"sphkrytas": [[slatankrytas, serrytas], "sphkr", srcsphkralacrcds.data, make_lin(p7, srcsphkralacrcds), parametrupavralac.index("S-pHK")],
+	"sphkpietūs": [[slatankpietus, serpietus], "sphkp", srcsphkralacpcds.data, make_lin(p7, srcsphkralacpcds), parametrupavralac.index("S-pHK")],
+	"sphkvakaras": [[slatankvakaras, servakaras], "sphkv", srcsphkralacvcds.data, make_lin(p7, srcsphkralacvcds), parametrupavralac.index("S-pHK")],
 
-	"p(1)rytas": [[pgrytas], "p1r", CDS.srcp1ralacr.data, make_lin(p7, CDS.srcp1ralacr), parametrupavralac.index("P1")],
-	"p(1)pietūs": [[pgpietus], "p1p", CDS.srcp1ralacp.data, make_lin(p7, CDS.srcp1ralacp), parametrupavralac.index("P1")],
-	"p(1)vakaras": [[pgvakaras], "p1v", CDS.srcp1ralacv.data, make_lin(p7, CDS.srcp1ralacv), parametrupavralac.index("P1")],
+	"p(1)rytas": [[pgrytas], "p1r", srcp1ralacrcds.data, make_lin(p7, srcp1ralacrcds), parametrupavralac.index("P1")],
+	"p(1)pietūs": [[pgpietus], "p1p", srcp1ralacpcds.data, make_lin(p7, srcp1ralacpcds), parametrupavralac.index("P1")],
+	"p(1)vakaras": [[pgvakaras], "p1v", srcp1ralacvcds.data, make_lin(p7, srcp1ralacvcds), parametrupavralac.index("P1")],
 
-	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", CDS.srcp4p1ralacr.data, make_lin(p7, CDS.srcp4p1ralacr), parametrupavralac.index("P4-P1")],
-	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", CDS.srcp4p1ralacp.data, make_lin(p7, CDS.srcp4p1ralacp), parametrupavralac.index("P4-P1")],
-	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", CDS.srcp4p1ralacv.data, make_lin(p7, CDS.srcp4p1ralacv), parametrupavralac.index("P4-P1")]}
+	"p4p1rytas": [[pa45rytas, pgrytas], "p4p1r", srcp4p1ralacrcds.data, make_lin(p7, srcp4p1ralacrcds), parametrupavralac.index("P4-P1")],
+	"p4p1pietūs": [[pa45pietus, pgpietus], "p4p1p", srcp4p1ralacpcds.data, make_lin(p7, srcp4p1ralacpcds), parametrupavralac.index("P4-P1")],
+	"p4p1vakaras": [[pa45vakaras, pgvakaras], "p4p1v", srcp4p1ralacvcds.data, make_lin(p7, srcp4p1ralacvcds), parametrupavralac.index("P4-P1")]}
 
 hidracind = {
 	"hidrindrytas": [[slarugrytas, serrytas, slatankrytas]],
@@ -2506,6 +2616,7 @@ def pagr_update(attr, old, new):
 	# taip bokeh atnaujinama x ir y reikšmės atvaizdavimui grafike
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
+			# print(key, sourcedata)
 
 		elif "s+d" in str(key):
 			n, yreiksme, sourcedata, linija, indx = parametsp[key]
@@ -3182,486 +3293,479 @@ def pagr_update(attr, old, new):
 	# Geriamas vanduo
 	if avrl:
 		if mean(avrl) <= 8.5:
-			v1 = "T"
-			a, b = CDS.vanduo
 			gervandfm.text_color = "green"
 			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
+			new_data = {'grupe': [*vandulist], 'reiksmes': reik * len(vandulist)}
+			vanduocds.data.update(new_data)
 		elif mean(avrl) >= 12.0:
-			v1 = "N"
-			a, b = CDS.vanduo
 			gervandfm.text_color = "red"
 			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
+			new_data = {'grupe': [*vandulist], 'reiksmes': reik * len(vandulist)}
+			vanduocds.data.update(new_data)
 		else:
-			v1 = "-"
-			a, b = CDS.vanduo
 			gervandfm.text_color = None
 			gervandfm.font_style = "bold"
-			new_data = {'grupe': [a, b], 'reiksmes': reik * len(CDS.vanduo)}
-			CDS.gervandsource.data = new_data
+			new_data = {'grupe': [*vandulist], 'reiksmes': reik * len(vandulist)}
+			vanduocds.data.update(new_data)
 
 	# Organinės rūgštys
 	if (maatnk == "T") or (maatna == "T"):
 		orgrugfm.text_color = "red"
 		orgrugfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.orgrug], 'reiksmes': reik * len(CDS.orgrug)}
-		CDS.orgrugsource.data = new_data
+		new_data = {'grupe': [*orgruglist], 'reiksmes': reik * len(orgruglist)}
+		orgrugcds.data.update(new_data)
 	else:
 		orgrugfm.text_color = None
 		orgrugfm.font_style = "bold"
-		new_data = {'grupe': [* CDS.orgrug], 'reiksmes': reik * len(CDS.orgrug)}
-		CDS.orgrugsource.data = new_data
+		new_data = {'grupe': [* orgruglist], 'reiksmes': reik * len(orgruglist)}
+		orgrugcds.data.update(new_data)
 
 	# Hidrokarbonatai
 	if raatna == "T":
 		hidrokarbofm.text_color = "red"
 		hidrokarbofm.font_style = "bold"
-		new_data = {'grupe': [*CDS.hidrokarbo], 'reiksmes': reik * len(CDS.hidrokarbo)}
-		CDS.hidrokarbosource.data = new_data
-
+		new_data = {'grupe': [*hidrokarbolist], 'reiksmes': reik * len(hidrokarbolist)}
+		hidrokarbocds.data.update(new_data)
 	else:
 		hidrokarbofm.text_color = None
 		hidrokarbofm.font_style = "bold"
-		new_data = {'grupe': [*CDS.hidrokarbo], 'reiksmes': reik * len(CDS.hidrokarbo)}
-		CDS.hidrokarbosource.data = new_data
+		new_data = {'grupe': [*hidrokarbolist], 'reiksmes': reik * len(hidrokarbolist)}
+		hidrokarbocds.data.update(new_data)
 
 	# Natris, chloras, fluoras
 	if (etptnk == "T") and (etptna == "T"):
 		natchlofluofm.text_color = None
 		natchlofluofm.font_style = "bold"
-		new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
-		CDS.natchlofluosource.data = new_data
+		new_data = {'grupe': [*natchlofluolist], 'reiksmes': reik * len(natchlofluolist)}
+		natchlofluocds.data.update(new_data)
 	else:
 		if etptnk == "T":
 			natchlofluofm.text_color = "green"
 			natchlofluofm.font_style = "bold"
-			new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
-			CDS.natchlofluosource.data = new_data
+			new_data = {'grupe': [*natchlofluolist], 'reiksmes': reik * len(natchlofluolist)}
+			natchlofluocds.data.update(new_data)
 		else:
 			if etptna == "T":
 				natchlofluofm.text_color = "red"
 				natchlofluofm.font_style = "bold"
-				new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
-				CDS.natchlofluosource.data = new_data
+				new_data = {'grupe': [*natchlofluolist], 'reiksmes': reik * len(natchlofluolist)}
+				natchlofluocds.data.update(new_data)
 			else:
 				natchlofluofm.text_color = None
 				natchlofluofm.font_style = "bold"
-				new_data = {'grupe': [*CDS.natchlofluo], 'reiksmes': reik * len(CDS.natchlofluo)}
-				CDS.natchlofluosource.data = new_data
+				new_data = {'grupe': [*natchlofluolist], 'reiksmes': reik * len(natchlofluolist)}
+				natchlofluocds.data.update(new_data)
 
 	# Sulfatai
 	if (etptnk == "T") and (etptna == "T"):
 		sulfatfm.text_color = "green"
 		sulfatfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
-		CDS.sulfatsource.data = new_data
+		new_data = {'grupe': [*sulfatlist], 'reiksmes': reik * len(sulfatlist)}
+		sulfatcds.data.update(new_data)
 	else:
 		if etptna == "T":
 			sulfatfm.text_color = "green"
 			sulfatfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
-			CDS.sulfatsource.data = new_data
+			new_data = {'grupe': [*sulfatlist], 'reiksmes': reik * len(sulfatlist)}
+			sulfatcds.data.update(new_data)
 		else:
 			sulfatfm.text_color = None
 			sulfatfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.sulfat], 'reiksmes': reik * len(CDS.sulfat)}
-			CDS.sulfatsource.data = new_data
+			new_data = {'grupe': [*sulfatlist], 'reiksmes': reik * len(sulfatlist)}
+			sulfatcds.data.update(new_data)
 
 	# Krakmolo šaltiniai
 	if (sptna == "T") or (kgtna == "T") or (datna == "T"):
 		krakmolfm.text_color = "red"
 		krakmolfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
-		CDS.krakmolsource.data = new_data
+		new_data = {'grupe': [*krakmollist], 'reiksmes': reik * len(krakmollist)}
+		krakmolcds.data.update(new_data)
 	else:
 		krakmolfm.text_color = "#CCCC00"
 		krakmolfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.krakmol], 'reiksmes': reik * len(CDS.krakmol)}
-		CDS.krakmolsource.data = new_data
+		new_data = {'grupe': [*krakmollist], 'reiksmes': reik * len(krakmollist)}
+		krakmolcds.data.update(new_data)
 
 	# Polinesotieji riebalai
 	if datnk == "T":
 		poliriebfm.text_color = "red"
 		poliriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.polirieb], 'reiksmes': reik * len(CDS.polirieb)}
-		CDS.poliriebsource.data = new_data
+		new_data = {'grupe': [*polirieblist], 'reiksmes': reik * len(polirieblist)}
+		poliriebcds.data.update(new_data)
 	else:
 		poliriebfm.text_color = "#CCCC00"
 		poliriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.polirieb], 'reiksmes': reik * len(CDS.polirieb)}
-		CDS.poliriebsource.data = new_data
+		new_data = {'grupe': [*polirieblist], 'reiksmes': reik * len(polirieblist)}
+		poliriebcds.data.update(new_data)
 
 	# Mononesotieji riebalai
 	if (kgtnk == "T") or (datnk == "T"):
 		monoriebfm.text_color = "green"
 		monoriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.monorieb], 'reiksmes': reik * len(CDS.monorieb)}
-		CDS.monoriebsource.data = new_data
+		new_data = {'grupe': [*monorieblist], 'reiksmes': reik * len(monorieblist)}
+		monoriebcds.data.update(new_data)
 	else:
 		monoriebfm.text_color = None
 		monoriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.monorieb], 'reiksmes': reik * len(CDS.monorieb)}
-		CDS.monoriebsource.data = new_data
+		new_data = {'grupe': [*monorieblist], 'reiksmes': reik * len(monorieblist)}
+		monoriebcds.data.update(new_data)
 
 	# Sotieji riebalai
 	if kgtnk == "T":
 		sotriebfm.text_color = "red"
 		sotriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
-		CDS.sotriebsource.data = new_data
+		new_data = {'grupe': [*sotrieblist], 'reiksmes': reik * len(sotrieblist)}
+		sotriebcds.data.update(new_data)
 	else:
 		if kgtna == "T":
 			sotriebfm.text_color = "green"
 			sotriebfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
-			CDS.sotriebsource.data = new_data
+			new_data = {'grupe': [*sotrieblist], 'reiksmes': reik * len(sotrieblist)}
+			sotriebcds.data.update(new_data)
 		else:
 			sotriebfm.text_color = None
 			sotriebfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.sotrieb], 'reiksmes': reik * len(CDS.sotrieb)}
-			CDS.sotriebsource.data = new_data
+			new_data = {'grupe': [*sotrieblist], 'reiksmes': reik * len(sotrieblist)}
+			sotriebcds.data.update(new_data)
 
 	# Stipriai pakitę baltymai ir riebalai
 	if (sptnk == "T") or (sptna == "T") or (kgtnk == "T") or (datnk == "T"):
 		spbaltirriebfm.text_color = "red"
 		spbaltirriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.spbaltirrieb], 'reiksmes': reik * len(CDS.spbaltirrieb)}
-		CDS.spbaltirriebsource.data = new_data
+		new_data = {'grupe': [*spbaltirrieblist], 'reiksmes': reik * len(spbaltirrieblist)}
+		spbaltirriebcds.data.update(new_data)
 	else:
 		spbaltirriebfm.text_color = None
 		spbaltirriebfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.spbaltirrieb], 'reiksmes': reik * len(CDS.spbaltirrieb)}
-		CDS.spbaltirriebsource.data = new_data
+		new_data = {'grupe': [*spbaltirrieblist], 'reiksmes': reik * len(spbaltirrieblist)}
+		spbaltirriebcds.data.update(new_data)
 
 	# Kiaušiniai
 	if (kgtnk == "T") or (datnk == "T"):
 		kiausiniaifm.text_color = "green"
 		kiausiniaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.kiausiniai], 'reiksmes': reik * len(CDS.kiausiniai)}
-		CDS.kiaussource.data = new_data
+		new_data = {'grupe': [*kiausiniailist], 'reiksmes': reik * len(kiausiniailist)}
+		kiausiniaicds.data.update(new_data)
 	else:
 		kiausiniaifm.text_color = None
 		kiausiniaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.kiausiniai], 'reiksmes': reik * len(CDS.kiausiniai)}
-		CDS.kiaussource.data = new_data
+		new_data = {'grupe': [*kiausiniailist], 'reiksmes': reik * len(kiausiniailist)}
+		kiausiniaicds.data.update(new_data)
 
 	# Organai
 	if kgtnk == "T":
 		organaifm.text_color = "red"
 		organaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
-		CDS.organsource.data = new_data
+		new_data = {'grupe': [*organailist], 'reiksmes': reik * len(organailist)}
+		organaicds.data.update(new_data)
 	else:
 		if kgtna == "T":
 			organaifm.text_color = "green"
 			organaifm.font_style = "bold"
-			new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
-			CDS.organsource.data = new_data
+			new_data = {'grupe': [*organailist], 'reiksmes': reik * len(organailist)}
+			organaicds.data.update(new_data)
 		else:
 			organaifm.text_color = None
 			organaifm.font_style = "bold"
-			new_data = {'grupe': [*CDS.organai], 'reiksmes': reik * len(CDS.organai)}
-			CDS.organsource.data = new_data
+			new_data = {'grupe': [*organailist], 'reiksmes': reik * len(organailist)}
+			organaicds.data.update(new_data)
 
 	# Pieno baltymai
 	if (sptnk == "T") or (sptna == "T"):
 		pienbaltfm.text_color = "red"
 		pienbaltfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
-		CDS.pienbaltsource.data = new_data
+		new_data = {'grupe': [*pienbaltlist], 'reiksmes': reik * len(pienbaltlist)}
+		pienbaltcds.data.update(new_data)
 	else:
 		if kgtnk == "T":
 			pienbaltfm.text_color = "green"
 			pienbaltfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
-			CDS.pienbaltsource.data = new_data
+			new_data = {'grupe': [*pienbaltlist], 'reiksmes': reik * len(pienbaltlist)}
+			pienbaltcds.data.update(new_data)
 		else:
 			pienbaltfm.text_color = None
 			pienbaltfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.pienbalt], 'reiksmes': reik * len(CDS.pienbalt)}
-			CDS.pienbaltsource.data = new_data
+			new_data = {'grupe': [*pienbaltlist], 'reiksmes': reik * len(pienbaltlist)}
+			pienbaltcds.data.update(new_data)
 
 	# Moliuskai ir vėžiagyviai
 	if kgtnk == "T":
 		moliuvezfm.text_color = "red"
 		moliuvezfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
-		CDS.moliuvezsource.data = new_data
+		new_data = {'grupe': [*moliuvezlist], 'reiksmes': reik * len(moliuvezlist)}
+		moliuvezcds.data.update(new_data)
 	else:
 		if kgtna == "T":
 			moliuvezfm.text_color = "green"
 			moliuvezfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
-			CDS.moliuvezsource.data = new_data
+			new_data = {'grupe': [*moliuvezlist], 'reiksmes': reik * len(moliuvezlist)}
+			moliuvezcds.data.update(new_data)
 		else:
 			moliuvezfm.text_color = None
 			moliuvezfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.moliuvez], 'reiksmes': reik * len(CDS.moliuvez)}
-			CDS.moliuvezsource.data = new_data
+			new_data = {'grupe': [*moliuvezlist], 'reiksmes': reik * len(moliuvezlist)}
+			moliuvezcds.data.update(new_data)
 
 	# Balta mėsa
 	if kgtnk == "T":
 		baltamesafm.text_color = "green"
 		baltamesafm.font_style = "bold"
-		new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
-		CDS.baltamesasource.data = new_data
+		new_data = {'grupe': [*baltamesalist], 'reiksmes': reik * len(baltamesalist)}
+		baltamesacds.data.update(new_data)
 	else:
 		if kgtna == "T":
 			baltamesafm.text_color = "#CCCC00"
 			baltamesafm.font_style = "bold"
-			new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
-			CDS.baltamesasource.data = new_data
+			new_data = {'grupe': [*baltamesalist], 'reiksmes': reik * len(baltamesalist)}
+			baltamesacds.data.update(new_data)
 		else:
 			baltamesafm.text_color = None
 			baltamesafm.font_style = "bold"
-			new_data = {'grupe': [*CDS.baltamesa], 'reiksmes': reik * len(CDS.baltamesa)}
-			CDS.baltamesasource.data = new_data
+			new_data = {'grupe': [*baltamesalist], 'reiksmes': reik * len(baltamesalist)}
+			baltamesacds.data.update(new_data)
 
 	# Raudona mėsa
 	if kgtnk == "T":
 		raudomesafm.text_color = "red"
 		raudomesafm.font_style = "bold"
-		new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
-		CDS.raudomesasource.data = new_data
+		new_data = {'grupe': [*raudomesalist], 'reiksmes': reik * len(raudomesalist)}
+		raudomesacds.data.update(new_data)
 	else:
 		if kgtna == "T":
 			raudomesafm.text_color = "green"
 			raudomesafm.font_style = "bold"
-			new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
-			CDS.raudomesasource.data = new_data
+			new_data = {'grupe': [*raudomesalist], 'reiksmes': reik * len(raudomesalist)}
+			raudomesacds.data.update(new_data)
 		else:
 			raudomesafm.text_color = None
 			raudomesafm.font_style = "bold"
-			new_data = {'grupe': [*CDS.raudomesa], 'reiksmes': reik * len(CDS.raudomesa)}
-			CDS.raudomesasource.data = new_data
+			new_data = {'grupe': [*raudomesalist], 'reiksmes': reik * len(raudomesalist)}
+			raudomesacds.data.update(new_data)
 
 	# Grybai
 	if (sptnk == "T") or (sptnk == "T") or (kgtnk == "T"):
 		grybaifm.text_color = "red"
 		grybaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.grybai], 'reiksmes': reik * len(CDS.grybai)}
-		CDS.grybaisource.data = new_data
+		new_data = {'grupe': [*grybailist], 'reiksmes': reik * len(grybailist)}
+		grybaicds.data.update(new_data)
 	else:
 		grybaifm.text_color = "green"
 		grybaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.grybai], 'reiksmes': reik * len(CDS.grybai)}
-		CDS.grybaisource.data = new_data
+		new_data = {'grupe': [*grybailist], 'reiksmes': reik * len(grybailist)}
+		grybaicds.data.update(new_data)
 
 	# Augaliniai baltymai
 	if (sptnk == "T") or (sptna == "T"):
 		augalbaltfm.text_color = "red"
 		augalbaltfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
-		CDS.augalbaltsource.data = new_data
+		new_data = {'grupe': [*augalbaltlist], 'reiksmes': reik * len(augalbaltlist)}
+		augalbaltcds.data.update(new_data)
 	else:
 		if kgtnk == "T":
 			augalbaltfm.text_color = "green"
 			augalbaltfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
-			CDS.augalbaltsource.data = new_data
+			new_data = {'grupe': [*augalbaltlist], 'reiksmes': reik * len(augalbaltlist)}
+			augalbaltcds.data.update(new_data)
 		else:
 			augalbaltfm.text_color = "#CCCC00"
 			augalbaltfm.font_style = "bold"
-			new_data = {'grupe': [*CDS.augalbalt], 'reiksmes': reik * len(CDS.augalbalt)}
-			CDS.augalbaltsource.data = new_data
+			new_data = {'grupe': [*augalbaltlist], 'reiksmes': reik * len(augalbaltlist)}
+			augalbaltcds.data.update(new_data)
 
 	# Pakeistų savybių vanduo
 	if (etptnk == "T") or (etptna == "T"):
 		paksavyvanduofm.text_color = "red"
 		paksavyvanduofm.font_style = "bold"
-		new_data = {'grupe': [*CDS.paksavyvanduo], 'reiksmes': reik * len(CDS.paksavyvanduo)}
-		CDS.paksavyvanduosource.data = new_data
+		new_data = {'grupe': [*paksavyvanduolist], 'reiksmes': reik * len(paksavyvanduolist)}
+		paksavyvanduocds.data.update(new_data)
 	else:
 		paksavyvanduofm.text_color = "#CCCC00"
 		paksavyvanduofm.font_style = "bold"
-		new_data = {'grupe': [*CDS.paksavyvanduo], 'reiksmes': reik * len(CDS.paksavyvanduo)}
-		CDS.paksavyvanduosource.data = new_data
+		new_data = {'grupe': [*paksavyvanduolist], 'reiksmes': reik * len(paksavyvanduolist)}
+		paksavyvanduocds.data.update(new_data)
 
 	# Slopikliai
 	if sptna == "T":
 		slopikaifm.text_color = "red"
 		slopikaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.slopikai], 'reiksmes': reik * len(CDS.slopikai)}
-		CDS.slopikaisource.data = new_data
+		new_data = {'grupe': [*slopikailist], 'reiksmes': reik * len(slopikailist)}
+		slopikaicds.data.update(new_data)
 	else:
 		slopikaifm.text_color = "#CCCC00"
 		slopikaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.slopikai], 'reiksmes': reik * len(CDS.slopikai)}
-		CDS.slopikaisource.data = new_data
+		new_data = {'grupe': [*slopikailist], 'reiksmes': reik * len(slopikailist)}
+		slopikaicds.data.update(new_data)
 
-	# # Stimuliatoriai
+	# Stimuliatoriai
 	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and
 		(((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
 		stimuliatfm.text_color = "red"
 		stimuliatfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.stimuliat], 'reiksmes': reik * len(CDS.stimuliat)}
-		CDS.stimuliatsource.data = new_data
+		new_data = {'grupe': [*stimuliatlist], 'reiksmes': reik * len(stimuliatlist)}
+		stimuliatcds.data.update(new_data)
 	else:
 		stimuliatfm.text_color = "#CCCC00"
 		stimuliatfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.stimuliat], 'reiksmes': reik * len(CDS.stimuliat)}
-		CDS.stimuliatsource.data = new_data
+		new_data = {'grupe': [*stimuliatlist], 'reiksmes': reik * len(stimuliatlist)}
+		stimuliatcds.data.update(new_data)
 
 	# Rūkalai
 	if (sptnk == "T") or (datnk == "T") or (raatna == "T"):
 		rukalaifm.text_color = "red"
 		rukalaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.rukalai], 'reiksmes': reik * len(CDS.rukalai)}
-		CDS.rukalaisource.data = new_data
+		new_data = {'grupe': [*rukalailist], 'reiksmes': reik * len(rukalailist)}
+		rukalaicds.data.update(new_data)
 	else:
 		rukalaifm.text_color = "#CCCC00"
 		rukalaifm.font_style = "bold"
-		new_data = {'grupe': [*CDS.rukalai], 'reiksmes': reik * len(CDS.rukalai)}
-		CDS.rukalaisource.data = new_data
+		new_data = {'grupe': [*rukalailist], 'reiksmes': reik * len(rukalailist)}
+		rukalaicds.data.update(new_data)
 
 	# Didelio intensyvumo trumpos trukmės fizinė veikla
 	if (kgtnk == "T") or (datnk == "T"):
 		didintesyvfm.text_color = "green"
 		didintesyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.didintesyv], 'reiksmes': reik * len(CDS.didintesyv)}
-		CDS.didintesyvsource.data = new_data
+		new_data = {'grupe': [*didintesyvlist], 'reiksmes': reik * len(didintesyvlist)}
+		didintesyvcds.data.update(new_data)
 	else:
 		didintesyvfm.text_color = None
 		didintesyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.didintesyv], 'reiksmes': reik * len(CDS.didintesyv)}
-		CDS.didintesyvsource.data = new_data
+		new_data = {'grupe': [*didintesyvlist], 'reiksmes': reik * len(didintesyvlist)}
+		didintesyvcds.data.update(new_data)
 
 	# Mažo intensyvumo ilgos trukmės fizinė veikla
 	if (kgtnk == "T") or (datnk == "T"):
 		mazointesyvfm.text_color = "red"
 		mazointesyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.mazointesyv], 'reiksmes': reik * len(CDS.mazointesyv)}
-		CDS.mazointesyvsource.data = new_data
+		new_data = {'grupe': [*mazointesyvlist], 'reiksmes': reik * len(mazointesyvlist)}
+		mazointesyvcds.data.update(new_data)
 	else:
 		mazointesyvfm.text_color = None
 		mazointesyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.mazointesyv], 'reiksmes': reik * len(CDS.mazointesyv)}
-		CDS.mazointesyvsource.data = new_data
+		new_data = {'grupe': [*mazointesyvlist], 'reiksmes': reik * len(mazointesyvlist)}
+		mazointesyvcds.data.update(new_data)
 
 	# Hipoventiliacija
 	if raatna == "T":
 		hipoventilfm.text_color = "red"
 		hipoventilfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.hipoventil], 'reiksmes': reik * len(CDS.hipoventil)}
-		CDS.hipoventilsource.data = new_data
+		new_data = {'grupe': [*hipoventillist], 'reiksmes': reik * len(hipoventillist)}
+		hipoventilcds.data.update(new_data)
 	else:
 		hipoventilfm.text_color = "#CCCC00"
 		hipoventilfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.hipoventil], 'reiksmes': reik * len(CDS.hipoventil)}
-		CDS.hipoventilsource.data = new_data
+		new_data = {'grupe': [*hipoventillist], 'reiksmes': reik * len(hipoventillist)}
+		hipoventilcds.data.update(new_data)
 
 	# Grūdinimasis
 	if (sptnk == "T") or (kgtnk == "T") or (datnk == "T"):
 		grudinimasfm.text_color = "red"
 		grudinimasfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.grudinimas], 'reiksmes': reik * len(CDS.grudinimas)}
-		CDS.grudinimassource.data = new_data
+		new_data = {'grupe': [*grudinimaslist], 'reiksmes': reik * len(grudinimaslist)}
+		grudinimascds.data.update(new_data)
 	else:
 		grudinimasfm.text_color = "#CCCC00"
 		grudinimasfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.grudinimas], 'reiksmes': reik * len(CDS.grudinimas)}
-		CDS.grudinimassource.data = new_data
+		new_data = {'grupe': [*grudinimaslist], 'reiksmes': reik * len(grudinimaslist)}
+		grudinimascds.data.update(new_data)
 
 	# Kaitinimasis
 	if (sptna == "T") or (kgtna == "T") or (datna == "T"):
 		kaitinimasfm.text_color = "red"
 		kaitinimasfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.kaitinimas], 'reiksmes': reik * len(CDS.kaitinimas)}
-		CDS.kaitinimassource.data = new_data
+		new_data = {'grupe': [*kaitinimaslist], 'reiksmes': reik * len(kaitinimaslist)}
+		kaitinimascds.data.update(new_data)
 	else:
 		kaitinimasfm.text_color = "#CCCC00"
 		kaitinimasfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.kaitinimas], 'reiksmes': reik * len(CDS.kaitinimas)}
-		CDS.kaitinimassource.data = new_data
+		new_data = {'grupe': [*kaitinimaslist], 'reiksmes': reik * len(kaitinimaslist)}
+		kaitinimascds.data.update(new_data)
 
 	# Galūnių laikymas šiltai
 	if sptnk == "T":
 		galuniulsilfm.text_color = "green"
 		galuniulsilfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.galuniulsil], 'reiksmes': reik * len(CDS.galuniulsil)}
-		CDS.galuniulsilsource.data = new_data
+		new_data = {'grupe': [*galuniulsillist], 'reiksmes': reik * len(galuniulsillist)}
+		galuniulsilcds.data.update(new_data)
 	else:
 		galuniulsilfm.text_color = None
 		galuniulsilfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.galuniulsil], 'reiksmes': reik * len(CDS.galuniulsil)}
-		CDS.galuniulsilsource.data = new_data
+		new_data = {'grupe': [*galuniulsillist], 'reiksmes': reik * len(galuniulsillist)}
+		galuniulsilcds.data.update(new_data)
 
 	# Galūnių laikymas šaltai
 	if sptnk == "T":
 		galuniulsalfm.text_color = "red"
 		galuniulsalfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.galuniulsal], 'reiksmes': reik * len(CDS.galuniulsal)}
-		CDS.galuniulsalsource.data = new_data
+		new_data = {'grupe': [*galuniulsallist], 'reiksmes': reik * len(galuniulsallist)}
+		galuniulsalcds.data.update(new_data)
 	else:
 		galuniulsalfm.text_color = None
 		galuniulsalfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.galuniulsal], 'reiksmes': reik * len(CDS.galuniulsal)}
-		CDS.galuniulsalsource.data = new_data
+		new_data = {'grupe': [*galuniulsallist], 'reiksmes': reik * len(galuniulsallist)}
+		galuniulsalcds.data.update(new_data)
 
 	# Buvimas šiltesnėje aplinkoje
 	if sptnk == "T":
 		buvsilaplfm.text_color = "green"
 		buvsilaplfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.buvsilapl], 'reiksmes': reik * len(CDS.buvsilapl)}
-		CDS.buvsilaplsource.data = new_data
+		new_data = {'grupe': [*buvsilapllist], 'reiksmes': reik * len(buvsilapllist)}
+		buvsilaplcds.data.update(new_data)
 	else:
 		buvsilaplfm.text_color = None
 		buvsilaplfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.buvsilapl], 'reiksmes': reik * len(CDS.buvsilapl)}
-		CDS.buvsilaplsource.data = new_data
+		new_data = {'grupe': [*buvsilapllist], 'reiksmes': reik * len(buvsilapllist)}
+		buvsilaplcds.data.update(new_data)
 
 	# Buvimas šaltesnėje aplinkoje
 	if sptnk == "T":
 		buvsalaplfm.text_color = "red"
 		buvsalaplfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.buvsalapl], 'reiksmes': reik * len(CDS.buvsalapl)}
-		CDS.buvsalaplsource.data = new_data
+		new_data = {'grupe': [*buvsalapllist], 'reiksmes': reik * len(buvsalapllist)}
+		buvsalaplcds.data.update(new_data)
 	else:
 		buvsalaplfm.text_color = None
 		buvsalaplfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.buvsalapl], 'reiksmes': reik * len(CDS.buvsalapl)}
-		CDS.buvsalaplsource.data = new_data
+		new_data = {'grupe': [*buvsalapllist], 'reiksmes': reik * len(buvsalapllist)}
+		buvsalaplcds.data.update(new_data)
 
 	# Atidėta ejakuliacija (vyrams)
 	if (sptnk == "T") and (lytis.value == "Vyras"):
 		atidejakulfm.text_color = "green"
 		atidejakulfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.atidejakul], 'reiksmes': reik * len(CDS.atidejakul)}
-		CDS.atidejakulsource.data = new_data
+		new_data = {'grupe': [*atidejakullist], 'reiksmes': reik * len(atidejakullist)}
+		atidejakulcds.data.update(new_data)
 	else:
 		atidejakulfm.text_color = None
 		atidejakulfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.atidejakul], 'reiksmes': reik * len(CDS.atidejakul)}
-		CDS.atidejakulsource.data = new_data
+		new_data = {'grupe': [*atidejakullist], 'reiksmes': reik * len(atidejakullist)}
+		atidejakulcds.data.update(new_data)
 
 	# Pakartotinis orgazmas (moterims)
 	if (sptna == "T") and (lytis.value == "Moteris"):
 		pakartotorgfm.text_color = "green"
 		pakartotorgfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.pakartotorg], 'reiksmes': reik * len(CDS.pakartotorg)}
-		CDS.pakartotorgsource.data = new_data
+		new_data = {'grupe': [*pakartotorglist], 'reiksmes': reik * len(pakartotorglist)}
+		pakartotorgcds.data.update(new_data)
 	else:
 		pakartotorgfm.text_color = None
 		pakartotorgfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.pakartotorg], 'reiksmes': reik * len(CDS.pakartotorg)}
-		CDS.pakartotorgsource.data = new_data
+		new_data = {'grupe': [*pakartotorglist], 'reiksmes': reik * len(pakartotorglist)}
+		pakartotorgcds.data.update(new_data)
 
 	# Limfotakos aktyvavimas
 	if (etptna == "T") or (etptna == "T"):
 		limfoaktyvfm.text_color = "green"
 		limfoaktyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.limfoaktyv], 'reiksmes': reik * len(CDS.limfoaktyv)}
-		CDS.limfoaktyvsource.data = new_data
+		new_data = {'grupe': [*limfoaktyvlist], 'reiksmes': reik * len(limfoaktyvlist)}
+		limfoaktyvcds.data.update(new_data)
 	else:
 		limfoaktyvfm.text_color = None
 		limfoaktyvfm.font_style = "bold"
-		new_data = {'grupe': [*CDS.limfoaktyv], 'reiksmes': reik * len(CDS.limfoaktyv)}
-		CDS.limfoaktyvsource.data = new_data
+		new_data = {'grupe': [*limfoaktyvlist], 'reiksmes': reik * len(limfoaktyvlist)}
+		limfoaktyvcds.data.update(new_data)
 
-	print(lytis.value)
+	# print(lytis.value)
 
 # "T“ Žalia spalva - rekomenduojama vartoti daugiau,
 # „N“ Raudona spalva - vartoti nerekomenduojama,
@@ -3673,59 +3777,73 @@ for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalp
 	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
 		w.on_change("value", pagr_update)
 
+# export_svgs(p1, filename="p1.svg")
+# export_svgs(p2, filename="p2.svg")
+# export_svgs(p3, filename="p3.svg")
+# export_svgs(p4, filename="p4.svg")
+# export_svgs(p5, filename="p5.svg")
+# export_svgs(p6, filename="p6.svg")
+# export_svgs(p7, filename="p7.svg")
+
+
+# def exppng():
+# 	return export_svgs(grid, filename="p1.svg")
+
+# export_png(lay7, filename="plot.png"),
+# rekomendmyg.on_click(exppng)
 
 # visi elementai sujungiami į norimą layout
-lay1 = row(protok(), invard, inpavard, lytis, inamz)
-lay2 = column(tikslus(), pagrapras())
+lay1 = row(protok, invard, inpavard, lytis, inamz)
+lay2 = column(tikslus, pagrapras)
 lay3 = layout(
-	[slapimo()],
-	[aprslarugs(), slarugrytas, slarugpietus, slarugvakaras],
-	[aprslasvies(), slasvrytas, slasvpietus, slasvvakaras],
-	[aprslatank(), slatankrytas, slatankpietus, slatankvakaras],
-	[aprslaputo(), slaputrytas, slaputpietus, slaputvakaras],
-	[prikseil()],
-	[seiliu()],
-	[aprseilrugst(), serrytas, serpietus, servakaras],
-	[aprseilklamp(), sekrytas, sekpietus, sekvakaras],
-	[tiriam()],
-	[kraujot()],
-	[aprpulsed(), psrytas, pspietus, psvakaras],
-	[refleksu()],
-	[aprkunotemp(), ktrytas, ktpietus, ktvakaras],
-	[aprdermoref(), drrytas, drpietus, drvakaras],
-	[aprvasomref(), vrrytas, vrpietus, vrvakaras],
-	[aprvyzdyd(), vdrytas, vdpietus, vdvakaras],
-	[aprtremoref(), trrytas, trpietus, trvakaras],
-	[aprsneruzgu(), surytas, supietus, suvakaras],
-	[tiriam1()],
-	[aprsarglinref(), slrytas, slpietus, slvakaras],
-	[tiriam2()],
-	[kvepparmat10()],
-	[aprkvepdaz(), kdrytas, kdpietus, kdvakaras],
-	[tiriam3()],
-	[kraujparmat()],
-	[aprpulgul(), pgrytas, pgpietus, pgvakaras],
-	[aprsiskraujgul(), skgrytas, skgpietus, skgvakaras],
-	[aprdiakraujgul(), dkgrytas, dkgpietus, dkgvakaras],
-	[ortatest()],
-	[aprpulsatsi15()],
-	[atsist(), parytas, papietus, pavakaras],
-	[po15(), pa15rytas, pa15pietus, pa15vakaras],
-	[aprkraujpulsatsi45()],
-	[siskraujatsi(), skarytas, skapietus, skavakaras],
-	[diaskraujatsi(), dkarytas, dkapietus, dkavakaras],
-	[pulsatsi45(), pa45rytas, pa45pietus, pa45vakaras],
-	[tiriam4()],
-	[kvepparmat14()],
-	[aprkvepsu(), ksirytas, ksipietus, ksivakaras])
+	[slapimo],
+	[aprslarugs, slarugrytas, slarugpietus, slarugvakaras],
+	[aprslasvies, slasvrytas, slasvpietus, slasvvakaras],
+	[aprslatank, slatankrytas, slatankpietus, slatankvakaras],
+	[aprslaputo, slaputrytas, slaputpietus, slaputvakaras],
+	[prikseil],
+	[seiliu],
+	[aprseilrugst, serrytas, serpietus, servakaras],
+	[aprseilklamp, sekrytas, sekpietus, sekvakaras],
+	[tiriam],
+	[kraujot],
+	[aprpulsed, psrytas, pspietus, psvakaras],
+	[refleksu],
+	[aprkunotemp, ktrytas, ktpietus, ktvakaras],
+	[aprdermoref, drrytas, drpietus, drvakaras],
+	[aprvasomref, vrrytas, vrpietus, vrvakaras],
+	[aprvyzdyd, vdrytas, vdpietus, vdvakaras],
+	[aprtremoref, trrytas, trpietus, trvakaras],
+	[aprsneruzgu, surytas, supietus, suvakaras],
+	[tiriam1],
+	[aprsarglinref, slrytas, slpietus, slvakaras],
+	[tiriam2],
+	[kvepparmat10],
+	[aprkvepdaz, kdrytas, kdpietus, kdvakaras],
+	[tiriam3],
+	[kraujparmat],
+	[aprpulgul, pgrytas, pgpietus, pgvakaras],
+	[aprsiskraujgul, skgrytas, skgpietus, skgvakaras],
+	[aprdiakraujgul, dkgrytas, dkgpietus, dkgvakaras],
+	[ortatest],
+	[aprpulsatsi15],
+	[atsist, parytas, papietus, pavakaras],
+	[po15, pa15rytas, pa15pietus, pa15vakaras],
+	[aprkraujpulsatsi45],
+	[siskraujatsi, skarytas, skapietus, skavakaras],
+	[diaskraujatsi, dkarytas, dkapietus, dkavakaras],
+	[pulsatsi45, pa45rytas, pa45pietus, pa45vakaras],
+	[tiriam4],
+	[kvepparmat14],
+	[aprkvepsu, ksirytas, ksipietus, ksivakaras])
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-lay5 = column(spacer_1, grid, lay4, rekokatego(), rekotipai())
+lay5 = column(spacer_1, grid, lay4, rekokatego, rekotipai)
 lay6 = row(lay3, lay5)
 
 dt1 = column(
-	maistproduk(),
+	maistproduk,
 	gervandtable,
 	orgrugtable,
 	hidrokarbotable,
@@ -3749,12 +3867,12 @@ dt1 = column(
 )
 
 dt2 = column(
-	kitumedz(),
+	kitumedz,
 	paksavyvanduotable,
 	slopikaitable,
 	stimuliattable,
 	rukalaitable,
-	kitielgsen(),
+	kitielgsen,
 	didintesyvtable,
 	mazointesyvtable,
 	kvepasulaiktable,
@@ -3769,14 +3887,12 @@ dt2 = column(
 	pakartotorgtable,
 	limfoaktyvtable,
 	subalanmiegtable,
-	kitosreko(),
-	kitosrekolentel()
+	kitosreko,
+	kitosrekolentel
 )
 lay7 = row(dt1, spacer_8, dt2)
 
 lay8 = column(lay1, lay2, lay6, lay7)
-
-# export_png(dt1, filename="plot.png")
 
 # add the layout to curdoc
 curdoc().add_root(lay8)
