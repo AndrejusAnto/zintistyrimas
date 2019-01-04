@@ -1072,7 +1072,7 @@ def galuniulsilsource():
 
 # Galūnių laikymas šaltai datatable
 def galuniulsal():
-	return ["kaikščiojimas basomis namie ir pirštinių nedėvėjimas vėsiu metų laiku"]
+	return ["vaikščiojimas basomis namie ir pirštinių nedėvėjimas vėsiu metų laiku"]
 
 
 def galuniulsalsource():
