@@ -1452,12 +1452,12 @@ ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 rekokatego = Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
-		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
+		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=600)
 rekotipai = Div(text="""<i>Prioritetų žymėjimas:
-		Žalia spalva - rekomenduojama vartoti daugiau,
-		Raudona spalva - vartoti nerekomenduojama,
-		Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
+		<br>Žalia spalva - rekomenduojama vartoti daugiau
+		<br>Raudona spalva - vartoti nerekomenduojama
+		<br>Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą)
+		<br>Jokios spalvos - papildomų rekomendacijų nėra</i>""", width=600)
 maistproduk = Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
 kitumedz = Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
 kitielgsen = Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
@@ -1747,6 +1747,7 @@ spacer_5 = Spacer(width=150, height=89)
 spacer_6 = Spacer(width=150, height=89)
 spacer_7 = Spacer(width=150, height=89)
 spacer_8 = Spacer(width=50)
+spacer_9 = Spacer(width=50)
 
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
@@ -3837,7 +3838,7 @@ lay3 = layout(
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-lay5 = column(spacer_1, grid, lay4, rekokatego, rekotipai)
+lay5 = column(spacer_1, grid)
 lay6 = row(lay3, lay5)
 
 dt1 = column(
@@ -3886,7 +3887,10 @@ dt2 = column(
 	limfoaktyvtable,
 	subalanmiegtable,
 	kitosrekodiv,
-	kitosrekoinput
+	kitosrekoinput,
+	rekokatego,
+	rekotipai,
+	lay4
 )
 lay7 = row(dt1, spacer_8, dt2)
 
