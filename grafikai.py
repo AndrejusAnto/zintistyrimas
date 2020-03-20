@@ -77,7 +77,7 @@ def make_graf(p, pav, count, factor):
 	p = figure(x_range=[-5, 5], y_range=FactorRange(factors=factor), height=heigth_count(count), tools="save", toolbar_location="above")
 	p.title.text = "<-Katabolizmas|Anabolizmas->"
 	p.title.align = "center"
-	p.output_backend = "svg"
+	# p.output_backend = "svg"
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 - 1)], text=["Rytas"], text_font_size='10pt', text_font_style="bold", angle=1.56)
 	p.text(x=[-4.7], y=[(count - (count - 3) / 3 * 2 - 2)], text=["Pietūs"], text_font_size='10pt', text_font_style="bold", angle=1.56)
 	p.text(x=[-4.7], y=[(count - count)], text=["Vakaras"], text_font_size='10pt', text_font_style="bold", angle=1.56)
@@ -86,12 +86,9 @@ def make_graf(p, pav, count, factor):
 	p.xaxis.axis_label = pav
 	p.yaxis.visible = False
 	p.xaxis.ticker = FixedTicker(ticks=[-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5])
-	p.xaxis.formatter = FuncTickFormatter(code="""
-		data = {"-3.5": "Didelis", "-2.5": "Vidutinis", "-1.5": 'Mažas', "-0.5": "Norma", 0.5: 'Norma', 1.5: 'Mažas', 2.5: 'Vidutinis', 3.5: 'Didelis'}
-		return data[tick]
-	""")
+	p.xaxis.major_label_overrides = {-3.5: "Didelis", -2.5: "Vidutinis", -1.5: "Mažas", -0.5: "Norma", 0.5: "Norma", 1.5: "Mažas", 2.5: "Vidutinis", 3.5: "Didelis"}
 	p.xaxis.major_tick_line_color = None
-	p.output_backend = "svg"
+	# p.output_backend = "svg"
 
 	p.add_layout(Span(location=0, dimension='height', line_color='black', line_dash='solid', line_width=4))
 	p.add_layout(Span(location=1, dimension='height', line_color='green', line_dash='dashed', line_width=4))

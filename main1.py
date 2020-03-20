@@ -13,7 +13,6 @@ import itertools
 import grafikai
 import CDS
 
-
 # ši dalis, tam, kad būtų galima reguliuoti TextInput width, nes yra nustatytas Bokeh TextInput default min width,
 # kurio negalima mažinti per parametrų nurodymą. Pvz. "invard = TextInput(name = "vard", value="", title = "Vardas", width = 130"
 # -per TextInput "name" galima nurodyti kažkokį vardą ir tada per html/css bk-root input[name$="vard"] galima nustatyti norimą width.
@@ -365,20 +364,15 @@ curdoc().template = jinja2.Template(source='''
 	</html>
 ''')
 
-
 # viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
-# def protok():
-# 	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
-protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
 
+protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=50)
 invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
 inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
 lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], value="Vyras", width=130, height=20)
-inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
+inamz = TextInput(name="amz", value="", title="Amžius", width=100, height=20)
 
-tikslus = Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
-	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=1300)
-
+tikslus = Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus, todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=1300)
 pagrapras = Div(text="""<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
 Jei tai pirmasis tyrimas, pradedama keisti mityba, jei tai pakartotinis tyrimas, toliau
 maitinamasi pagal ankstesnio tyrimo metu pateiktas rekomendacijas. Mitybos keitimas
@@ -1737,7 +1731,7 @@ subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", form
 subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, index_position=None)
 
 
-rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
+rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
 spacer_0 = Spacer(width=150, height=20)
 spacer_1 = Spacer(width=150, height=89)
 spacer_2 = Spacer(width=150, height=89)
@@ -3598,8 +3592,7 @@ def pagr_update(attr, old, new):
 		slopikaicds.data.update(new_data)
 
 	# Stimuliatoriai
-	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and
-		(((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
+	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and (((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
 		stimuliatfm.text_color = "red"
 		stimuliatfm.font_style = "bold"
 		new_data = {'grupe': [*stimuliatlist], 'reiksmes': reik * len(stimuliatlist)}
@@ -3766,15 +3759,17 @@ def pagr_update(attr, old, new):
 		new_data = {'grupe': [*limfoaktyvlist], 'reiksmes': reik * len(limfoaktyvlist)}
 		limfoaktyvcds.data.update(new_data)
 
+
 for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac, hidracind, dictlytis]:
 	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
 		w.on_change("value", pagr_update)
 
 
-def textareaupdate(attr, old, new):
-    print(new)
+# def textareaupdate(attr, old, new):
+# 	print(new)
 
-kitosreko = kitosrekoinput.on_change("value", textareaupdate)
+
+# kitosreko = kitosrekoinput.on_change("value", textareaupdate)
 
 # export_svgs(p1, filename="p1.svg")
 # export_svgs(p2, filename="p2.svg")
