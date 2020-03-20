@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from bokeh.io import curdoc, export_png, export_svgs
 from bokeh.layouts import column, row, layout, gridplot
-from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter, TextAreaInput
+from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
 from bokeh.models import Spacer
 import jinja2
 from statistics import mean
@@ -12,6 +12,26 @@ import pandas as pd
 import itertools
 import grafikai
 import CDS
+import base64
+from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
+import glob
+from collections import OrderedDict
+
+from bokeh.core.properties import String, Instance
+from bokeh.models import LayoutDOM, Slider, InputWidget
+
+# class TextareaInput(InputWidget):
+#      ''' Multi-line input widget.
+
+#      '''
+
+#      value = String(default="", help="""
+#      Initial or entered text value.
+#      """)
+
+# custom_slider = TextareaInput(value="")
 
 # ši dalis, tam, kad būtų galima reguliuoti TextInput width, nes yra nustatytas Bokeh TextInput default min width,
 # kurio negalima mažinti per parametrų nurodymą. Pvz. "invard = TextInput(name = "vard", value="", title = "Vardas", width = 130"
@@ -53,21 +73,17 @@ curdoc().template = jinja2.Template(source='''
 			min-width: 50px !important;
 			width: 50px !important;
 			}
-			.bk-root input[name$="name1"] {
-			min-width: 570px !important;
-			width: 570px !important;
-			}
 			.bk-root input[name$="rytas"] {
-			min-width: 55px !important;
-			width: 55px !important;
+			min-width: 60px !important;
+			width: 60px !important;
 			}
 			.bk-root input[name$="pietus"] {
-			min-width: 55px !important;
-			width: 55px !important;
+			min-width: 60px !important;
+			width: 60px !important;
 			}
 			.bk-root input[name$="vakaras"] {
-			min-width: 55px !important;
-			width: 55px !important;
+			min-width: 60px !important;
+			width: 60px !important;
 			}
 
 			textarea {
@@ -229,8 +245,8 @@ curdoc().template = jinja2.Template(source='''
 			border-radius: 50%;
 			height: 10px;
 			width: 10px;
-			top: 34%;
-			left: 34%;
+			top: 50%;
+			left: 50%;
 			margin: 50x 50px 50px 50x;
 			}
 
@@ -318,7 +334,6 @@ curdoc().template = jinja2.Template(source='''
 			}
 
 			.popup h2 {
-			color: #333;
 			font-family: Verdana, Arial, sans-serif;
 			}
 
@@ -364,16 +379,20 @@ curdoc().template = jinja2.Template(source='''
 	</html>
 ''')
 
-# viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
 
-protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=50)
+# viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
+# def protok():
+# 	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
+protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
+
 invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
 inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
 lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], value="Vyras", width=130, height=20)
-inamz = TextInput(name="amz", value="", title="Amžius", width=100, height=20)
+inamz = TextInput(name="amz", value="", title="Amžius", width=80, height=20)
 
-tikslus = Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus, todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:""", width=1300)
-pagrapras = Div(text="""<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
+pagrapras = Div(text="""Tikslūs organizmo tyrimo metu atliekamų testų rezultatai padeda geriau suprasti organizme vykstančius procesus,
+	todėl tinkamas pasirengimas tyrimui yra labai svarbus tikrajai Jūsų organizmo būklei nustatyti:<br>
+<b>3-2 SAVAITĖS IKI TYRIMŲ DIENOS:</b><br>
 Jei tai pirmasis tyrimas, pradedama keisti mityba, jei tai pakartotinis tyrimas, toliau
 maitinamasi pagal ankstesnio tyrimo metu pateiktas rekomendacijas. Mitybos keitimas
 reikalingas norint padėti:
@@ -1446,17 +1465,17 @@ ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
 rekokatego = Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
-		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=600)
+		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
 rekotipai = Div(text="""<i>Prioritetų žymėjimas:
-		<br>Žalia spalva - rekomenduojama vartoti daugiau
-		<br>Raudona spalva - vartoti nerekomenduojama
-		<br>Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą)
-		<br>Jokios spalvos - papildomų rekomendacijų nėra</i>""", width=600)
+		Žalia spalva - rekomenduojama vartoti daugiau,
+		Raudona spalva - vartoti nerekomenduojama,
+		Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
 maistproduk = Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
 kitumedz = Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
 kitielgsen = Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
-kitosrekodiv = Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
-kitosrekoinput = TextAreaInput(cols=78, rows=10)
+kitosreko = Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
+kitosrekolentel = Div(text="""<textarea rows="9" cols="76"></textarea>""")
 
 # Maisto produktų prioritetai
 # Geriamasis vanduo datatable
@@ -1464,7 +1483,7 @@ vandulist = CDS.vanduo()
 vanduocds = CDS.gervandsource()
 gervandfm = StringFormatter(font_style="bold")
 gervandcol = [TableColumn(field="grupe", title="Geriamasis vanduo:", formatter=gervandfm)]
-gervandtable = DataTable(source=vanduocds, columns=gervandcol, width=600, height=75, index_position=None)
+gervandtable = DataTable(source=vanduocds, columns=gervandcol, width=600, height=75, index_header=None, index_position=None)
 
 
 # Organinės rūgštys
@@ -1472,133 +1491,133 @@ orgruglist = CDS.orgrug()
 orgrugcds = CDS.orgrugsource()
 orgrugfm = StringFormatter(font_style="bold")
 orgrugcol = [TableColumn(field="grupe", title="Organinės rūgštys:", formatter=orgrugfm)]
-orgrugtable = DataTable(source=orgrugcds, columns=orgrugcol, width=600, height=125, index_position=None)
+orgrugtable = DataTable(source=orgrugcds, columns=orgrugcol, width=600, height=125, index_header=None, index_position=None)
 
 # Hidrokarbonatai
 hidrokarbolist = CDS.hidrokarbo()
 hidrokarbocds = CDS.hidrokarbosource()
 hidrokarbofm = StringFormatter(font_style="bold")
 hidrokarbocol = [TableColumn(field="grupe", title="Hidrokarbonatai:", formatter=hidrokarbofm)]
-hidrokarbotable = DataTable(source=hidrokarbocds, columns=hidrokarbocol, width=600, height=50, index_position=None)
+hidrokarbotable = DataTable(source=hidrokarbocds, columns=hidrokarbocol, width=600, height=50, index_header=None, index_position=None)
 
 # Natris, chloras, fluoras
 natchlofluolist = CDS.natchlofluo()
 natchlofluocds = CDS.natchlofluosource()
 natchlofluofm = StringFormatter(font_style="bold")
 natchlofluocol = [TableColumn(field="grupe", title="Natris, chloras, fluoras:", formatter=natchlofluofm)]
-natchlofluotable = DataTable(source=natchlofluocds, columns=natchlofluocol, width=600, height=75, index_position=None)
+natchlofluotable = DataTable(source=natchlofluocds, columns=natchlofluocol, width=600, height=75, index_header=None, index_position=None)
 
 # Sulfatai
 sulfatlist = CDS.sulfat()
 sulfatcds = CDS.sulfatsource()
 sulfatfm = StringFormatter(font_style="bold")
 sulfatcol = [TableColumn(field="grupe", title="Sulfatai:", formatter=sulfatfm)]
-sulfattable = DataTable(source=sulfatcds, columns=sulfatcol, width=600, height=50, index_position=None)
+sulfattable = DataTable(source=sulfatcds, columns=sulfatcol, width=600, height=50, index_header=None, index_position=None)
 
 # Krakmolo šaltiniai
 krakmollist = CDS.krakmol()
 krakmolcds = CDS.krakmolsource()
 krakmolfm = StringFormatter(font_style="bold")
 krakmolcol = [TableColumn(field="grupe", title="Krakmolo šaltiniai:", formatter=krakmolfm)]
-krakmoltable = DataTable(source=krakmolcds, columns=krakmolcol, width=600, height=50, index_position=None)
+krakmoltable = DataTable(source=krakmolcds, columns=krakmolcol, width=600, height=50, index_header=None, index_position=None)
 
 # Augaliniai inertinai (ląsteliena)
 augalinertlist = CDS.augalinert()
 augalinertcds = CDS.augalinertsource()
 augalinertfm = StringFormatter(font_style="bold", text_color="green")
 augalinertcol = [TableColumn(field="grupe", title="Augaliniai inertinai (ląsteliena):", formatter=augalinertfm)]
-augalinerttable = DataTable(source=augalinertcds, columns=augalinertcol, width=600, height=50, index_position=None)
+augalinerttable = DataTable(source=augalinertcds, columns=augalinertcol, width=600, height=50, index_header=None, index_position=None)
 
 # Neaugaliniai inertinai
 neaugalinert = CDS.neaugalinert()
 neaugalinertcds = CDS.neaugalinertsource()
 neaugalinertfm = StringFormatter(font_style="bold", text_color="green")
 neaugalinertcol = [TableColumn(field="grupe", title="Neaugaliniai inertinai:", formatter=neaugalinertfm)]
-neaugalinerttable = DataTable(source=neaugalinertcds, columns=neaugalinertcol, width=600, height=75, index_position=None)
+neaugalinerttable = DataTable(source=neaugalinertcds, columns=neaugalinertcol, width=600, height=75, index_header=None, index_position=None)
 
 # Polinesotieji riebalai
 polirieblist = CDS.polirieb()
 poliriebcds = CDS.poliriebsource()
 poliriebfm = StringFormatter(font_style="bold")
 poliriebcol = [TableColumn(field="grupe", title="Polinesotieji riebalai:", formatter=poliriebfm)]
-poliriebtable = DataTable(source=poliriebcds, columns=poliriebcol, width=600, height=175, index_position=None)
+poliriebtable = DataTable(source=poliriebcds, columns=poliriebcol, width=600, height=175, index_header=None, index_position=None)
 
 # Mononesotieji riebalai
 monorieblist = CDS.monorieb()
 monoriebcds = CDS.monoriebsource()
 monoriebfm = StringFormatter(font_style="bold")
 monoriebcol = [TableColumn(field="grupe", title="Mononesotieji riebalai:", formatter=monoriebfm)]
-monoriebtable = DataTable(source=monoriebcds, columns=monoriebcol, width=600, height=100, index_position=None)
+monoriebtable = DataTable(source=monoriebcds, columns=monoriebcol, width=600, height=100, index_header=None, index_position=None)
 
 # Sotieji riebalai
 sotrieblist = CDS.sotrieb()
 sotriebcds = CDS.sotriebsource()
 sotriebfm = StringFormatter(font_style="bold")
 sotriebcol = [TableColumn(field="grupe", title="Sotieji riebalai:", formatter=sotriebfm)]
-sotriebtable = DataTable(source=sotriebcds, columns=sotriebcol, width=600, height=75, index_position=None)
+sotriebtable = DataTable(source=sotriebcds, columns=sotriebcol, width=600, height=75, index_header=None, index_position=None)
 
 # Stipriai pakitę baltymai ir riebalai
 spbaltirrieblist = CDS.spbaltirrieb()
 spbaltirriebcds = CDS.spbaltirriebsource()
 spbaltirriebfm = StringFormatter(font_style="bold")
 spbaltirriebcol = [TableColumn(field="grupe", title="Stipriai pakitę baltymai ir riebalai:", formatter=spbaltirriebfm)]
-spbaltirriebtable = DataTable(source=spbaltirriebcds, columns=spbaltirriebcol, width=600, height=200, index_position=None)
+spbaltirriebtable = DataTable(source=spbaltirriebcds, columns=spbaltirriebcol, width=600, height=200, index_header=None, index_position=None)
 
 # Kiaušiniai
 kiausiniailist = CDS.kiausiniai()
 kiausiniaicds = CDS.kiaussource()
 kiausiniaifm = StringFormatter(font_style="bold")
 kiausiniaicol = [TableColumn(field="grupe", title="Kiaušiniai:", formatter=kiausiniaifm)]
-kiausiniaitable = DataTable(source=kiausiniaicds, columns=kiausiniaicol, width=600, height=50, index_position=None)
+kiausiniaitable = DataTable(source=kiausiniaicds, columns=kiausiniaicol, width=600, height=50, index_header=None, index_position=None)
 
 # Organai
 organailist = CDS.organai()
 organaicds = CDS.organsource()
 organaifm = StringFormatter(font_style="bold")
 organaicol = [TableColumn(field="grupe", title="Organai:", formatter=organaifm)]
-organaitable = DataTable(source=organaicds, columns=organaicol, width=600, height=50, index_position=None)
+organaitable = DataTable(source=organaicds, columns=organaicol, width=600, height=50, index_header=None, index_position=None)
 
 # Pieno baltymai
 pienbaltlist = CDS.pienbalt()
 pienbaltcds = CDS.pienbaltsource()
 pienbaltfm = StringFormatter(font_style="bold")
 pienbaltcol = [TableColumn(field="grupe", title="Pieno baltymai:", formatter=pienbaltfm)]
-pienbalttable = DataTable(source=pienbaltcds, columns=pienbaltcol, width=600, height=75, index_position=None)
+pienbalttable = DataTable(source=pienbaltcds, columns=pienbaltcol, width=600, height=75, index_header=None, index_position=None)
 
 # Moliuskai ir vėžiagyviai
 moliuvezlist = CDS.moliuvez()
 moliuvezcds = CDS.moliuvezsource()
 moliuvezfm = StringFormatter(font_style="bold")
 moliuvezcol = [TableColumn(field="grupe", title="Moliuskai ir vėžiagyviai:", formatter=moliuvezfm)]
-moliuveztable = DataTable(source=moliuvezcds, columns=moliuvezcol, width=600, height=50, index_position=None)
+moliuveztable = DataTable(source=moliuvezcds, columns=moliuvezcol, width=600, height=50, index_header=None, index_position=None)
 
 # Balta mėsa
 baltamesalist = CDS.baltamesa()
 baltamesacds = CDS.baltamesasource()
 baltamesafm = StringFormatter(font_style="bold")
 baltamesacol = [TableColumn(field="grupe", title="Balta mėsa:", formatter=baltamesafm)]
-baltamesatable = DataTable(source=baltamesacds, columns=baltamesacol, width=600, height=75, index_position=None)
+baltamesatable = DataTable(source=baltamesacds, columns=baltamesacol, width=600, height=75, index_header=None, index_position=None)
 
 # Raudona mėsa
 raudomesalist = CDS.raudomesa()
 raudomesacds = CDS.raudomesasource()
 raudomesafm = StringFormatter(font_style="bold")
 raudomesacol = [TableColumn(field="grupe", title="Raudona mėsa:", formatter=raudomesafm)]
-raudomesatable = DataTable(source=raudomesacds, columns=raudomesacol, width=600, height=75, index_position=None)
+raudomesatable = DataTable(source=raudomesacds, columns=raudomesacol, width=600, height=75, index_header=None, index_position=None)
 
 # Grybai
 grybailist = CDS.grybai()
 grybaicds = CDS.grybaisource()
 grybaifm = StringFormatter(font_style="bold")
 grybaicol = [TableColumn(field="grupe", title="Grybai:", formatter=grybaifm)]
-grybaitable = DataTable(source=grybaicds, columns=grybaicol, width=600, height=50, index_position=None)
+grybaitable = DataTable(source=grybaicds, columns=grybaicol, width=600, height=50, index_header=None, index_position=None)
 
 # Augaliniai baltymai
 augalbaltlist = CDS.augalbalt()
 augalbaltcds = CDS.augalbaltsource()
 augalbaltfm = StringFormatter(font_style="bold")
 augalbaltcol = [TableColumn(field="grupe", title="Augaliniai baltymai:", formatter=augalbaltfm)]
-augalbalttable = DataTable(source=augalbaltcds, columns=augalbaltcol, width=600, height=50, index_position=None)
+augalbalttable = DataTable(source=augalbaltcds, columns=augalbaltcol, width=600, height=50, index_header=None, index_position=None)
 
 # Kitų medžiagų vartojimo prioritetai
 
@@ -1607,28 +1626,28 @@ paksavyvanduolist = CDS.paksavyvanduo()
 paksavyvanduocds = CDS.paksavyvanduosource()
 paksavyvanduofm = StringFormatter(font_style="bold")
 paksavyvanduocol = [TableColumn(field="grupe", title="Pakeistų savybių vanduo:", formatter=paksavyvanduofm)]
-paksavyvanduotable = DataTable(source=paksavyvanduocds, columns=paksavyvanduocol, width=600, height=75, index_position=None)
+paksavyvanduotable = DataTable(source=paksavyvanduocds, columns=paksavyvanduocol, width=600, height=75, index_header=None, index_position=None)
 
 # Slopikliai
 slopikailist = CDS.slopikai()
 slopikaicds = CDS.slopikaisource()
 slopikaifm = StringFormatter(font_style="bold")
 slopikaicol = [TableColumn(field="grupe", title="Slopikliai:", formatter=slopikaifm)]
-slopikaitable = DataTable(source=slopikaicds, columns=slopikaicol, width=600, height=50, index_position=None)
+slopikaitable = DataTable(source=slopikaicds, columns=slopikaicol, width=600, height=50, index_header=None, index_position=None)
 
 # Stimuliatoriai
 stimuliatlist = CDS.stimuliat()
 stimuliatcds = CDS.stimuliatsource()
 stimuliatfm = StringFormatter(font_style="bold")
 stimuliatcol = [TableColumn(field="grupe", title="Stimuliatoriai:", formatter=stimuliatfm)]
-stimuliattable = DataTable(source=stimuliatcds, columns=stimuliatcol, width=600, height=75, index_position=None)
+stimuliattable = DataTable(source=stimuliatcds, columns=stimuliatcol, width=600, height=75, index_header=None, index_position=None)
 
 # Rūkalai
 rukalailist = CDS.rukalai()
 rukalaicds = CDS.rukalaisource()
 rukalaifm = StringFormatter(font_style="bold")
 rukalaicol = [TableColumn(field="grupe", title="Rūkalai:", formatter=rukalaifm)]
-rukalaitable = DataTable(source=rukalaicds, columns=rukalaicol, width=600, height=50, index_position=None)
+rukalaitable = DataTable(source=rukalaicds, columns=rukalaicol, width=600, height=50, index_header=None, index_position=None)
 
 # Kiti elgsenos prioritetai
 
@@ -1637,101 +1656,101 @@ didintesyvlist = CDS.didintesyv()
 didintesyvcds = CDS.didintesyvsource()
 didintesyvfm = StringFormatter(font_style="bold")
 didintesyvcol = [TableColumn(field="grupe", title="Didelio intensyvumo trumpos trukmės fizinė veikla:", formatter=didintesyvfm)]
-didintesyvtable = DataTable(source=didintesyvcds, columns=didintesyvcol, width=600, height=75, index_position=None)
+didintesyvtable = DataTable(source=didintesyvcds, columns=didintesyvcol, width=600, height=75, index_header=None, index_position=None)
 
 # Mažo intensyvumo ilgos trukmės fizinė veikla
 mazointesyvlist = CDS.mazointesyv()
 mazointesyvcds = CDS.mazointesyvsource()
 mazointesyvfm = StringFormatter(font_style="bold")
 mazointesyvcol = [TableColumn(field="grupe", title="Mažo intensyvumo ilgos trukmės fizinė veikla:", formatter=mazointesyvfm)]
-mazointesyvtable = DataTable(source=mazointesyvcds, columns=mazointesyvcol, width=600, height=50, index_position=None)
+mazointesyvtable = DataTable(source=mazointesyvcds, columns=mazointesyvcol, width=600, height=50, index_header=None, index_position=None)
 
 # Kvėpavimo balansavimas
 kvepasulaiklist = CDS.kvepasulaik()
 kvepasulaikcds = CDS.kvepasulaiksource()
 kvepasulaikfm = StringFormatter(font_style="bold", text_color="#CCCC00")
 kvepasulaikcol = [TableColumn(field="grupe", title="Kvėpavimo balansavmas:", formatter=kvepasulaikfm)]
-kvepasulaiktable = DataTable(source=kvepasulaikcds, columns=kvepasulaikcol, width=600, height=50, index_position=None)
+kvepasulaiktable = DataTable(source=kvepasulaikcds, columns=kvepasulaikcol, width=600, height=50, index_header=None, index_position=None)
 
 # Hipoventiliacija
 hipoventillist = CDS.hipoventil()
 hipoventilcds = CDS.hipoventilsource()
 hipoventilfm = StringFormatter(font_style="bold")
 hipoventilcol = [TableColumn(field="grupe", title="Hipoventiliacija:", formatter=hipoventilfm)]
-hipoventiltable = DataTable(source=hipoventilcds, columns=hipoventilcol, width=600, height=50, index_position=None)
+hipoventiltable = DataTable(source=hipoventilcds, columns=hipoventilcol, width=600, height=50, index_header=None, index_position=None)
 
 # Grūdinimasis
 grudinimaslist = CDS.grudinimas()
 grudinimascds = CDS.grudinimassource()
 grudinimasfm = StringFormatter(font_style="bold")
 grudinimascol = [TableColumn(field="grupe", title="Grūdinimasis:", formatter=grudinimasfm)]
-grudinimastable = DataTable(source=grudinimascds, columns=grudinimascol, width=600, height=50, index_position=None)
+grudinimastable = DataTable(source=grudinimascds, columns=grudinimascol, width=600, height=50, index_header=None, index_position=None)
 
 # Kaitinimasis
 kaitinimaslist = CDS.kaitinimas()
 kaitinimascds = CDS.kaitinimassource()
 kaitinimasfm = StringFormatter(font_style="bold")
 kaitinimascol = [TableColumn(field="grupe", title="Kaitinimasis:", formatter=kaitinimasfm)]
-kaitinimastable = DataTable(source=kaitinimascds, columns=kaitinimascol, width=600, height=50, index_position=None)
+kaitinimastable = DataTable(source=kaitinimascds, columns=kaitinimascol, width=600, height=50, index_header=None, index_position=None)
 
 # Galūnių laikymas šiltai
 galuniulsillist = CDS.galuniulsil()
 galuniulsilcds = CDS.galuniulsilsource()
 galuniulsilfm = StringFormatter(font_style="bold")
 galuniulsilcol = [TableColumn(field="grupe", title="Galūnių laikymas šiltai:", formatter=galuniulsilfm)]
-galuniulsiltable = DataTable(source=galuniulsilcds, columns=galuniulsilcol, width=600, height=50, index_position=None)
+galuniulsiltable = DataTable(source=galuniulsilcds, columns=galuniulsilcol, width=600, height=50, index_header=None, index_position=None)
 
 # Galūnių laikymas šaltai
 galuniulsallist = CDS.galuniulsal()
 galuniulsalcds = CDS.galuniulsalsource()
 galuniulsalfm = StringFormatter(font_style="bold")
 galuniulsalcol = [TableColumn(field="grupe", title="Galūnių laikymas šaltai:", formatter=galuniulsalfm)]
-galuniulsaltable = DataTable(source=galuniulsalcds, columns=galuniulsalcol, width=600, height=50, index_position=None)
+galuniulsaltable = DataTable(source=galuniulsalcds, columns=galuniulsalcol, width=600, height=50, index_header=None, index_position=None)
 
 # Buvimas šiltesnėje aplinkoje
 buvsilapllist = CDS.buvsilapl()
 buvsilaplcds = CDS.buvsilaplsource()
 buvsilaplfm = StringFormatter(font_style="bold")
 buvsilaplcol = [TableColumn(field="grupe", title="Buvimas šiltesnėje aplinkoje:", formatter=buvsilaplfm)]
-buvsilapltable = DataTable(source=buvsilaplcds, columns=buvsilaplcol, width=600, height=50, index_position=None)
+buvsilapltable = DataTable(source=buvsilaplcds, columns=buvsilaplcol, width=600, height=50, index_header=None, index_position=None)
 
 # Buvimas šaltesnėje aplinkoje
 buvsalapllist = CDS.buvsalapl()
 buvsalaplcds = CDS.buvsalaplsource()
 buvsalaplfm = StringFormatter(font_style="bold")
 buvsalaplcol = [TableColumn(field="grupe", title="Buvimas šaltesnėje aplinkoje:", formatter=buvsalaplfm)]
-buvsalapltable = DataTable(source=buvsalaplcds, columns=buvsalaplcol, width=600, height=50, index_position=None)
+buvsalapltable = DataTable(source=buvsalaplcds, columns=buvsalaplcol, width=600, height=50, index_header=None, index_position=None)
 
 # Atidėta ejakuliacija (vyrams)
 atidejakullist = CDS.atidejakul()
 atidejakulcds = CDS.atidejakulsource()
 atidejakulfm = StringFormatter(font_style="bold")
 atidejakulcol = [TableColumn(field="grupe", title="Atidėta ejakuliacija (vyrams):", formatter=atidejakulfm)]
-atidejakultable = DataTable(source=atidejakulcds, columns=atidejakulcol, width=600, height=50, index_position=None)
+atidejakultable = DataTable(source=atidejakulcds, columns=atidejakulcol, width=600, height=50, index_header=None, index_position=None)
 
 # Pakartotinis orgazmas (moterims)
 pakartotorglist = CDS.pakartotorg()
 pakartotorgcds = CDS.pakartotorgsource()
 pakartotorgfm = StringFormatter(font_style="bold")
 pakartotorgcol = [TableColumn(field="grupe", title="Pakartotinis orgazmas (moterims):", formatter=pakartotorgfm)]
-pakartotorgtable = DataTable(source=pakartotorgcds, columns=pakartotorgcol, width=600, height=50, index_position=None)
+pakartotorgtable = DataTable(source=pakartotorgcds, columns=pakartotorgcol, width=600, height=50, index_header=None, index_position=None)
 
 # Limfotakos aktyvavimas
 limfoaktyvlist = CDS.limfoaktyv()
 limfoaktyvcds = CDS.limfoaktyvsource()
 limfoaktyvfm = StringFormatter(font_style="bold")
 limfoaktyvcol = [TableColumn(field="grupe", title="Limfotakos aktyvavimas:", formatter=limfoaktyvfm)]
-limfoaktyvtable = DataTable(source=limfoaktyvcds, columns=limfoaktyvcol, width=600, height=50, index_position=None)
+limfoaktyvtable = DataTable(source=limfoaktyvcds, columns=limfoaktyvcol, width=600, height=50, index_header=None, index_position=None)
 
 # Subalansuotas miegas
 subalanmieglist = CDS.subalanmieg()
 subalanmiegcds = CDS.subalanmiegsource()
 subalanmiegfm = StringFormatter(font_style="bold", text_color="green")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
-subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=550, height=75, index_position=None)
+subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, index_header=None, index_position=None)
 
 
-rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
+rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
 spacer_0 = Spacer(width=150, height=20)
 spacer_1 = Spacer(width=150, height=89)
 spacer_2 = Spacer(width=150, height=89)
@@ -1741,7 +1760,6 @@ spacer_5 = Spacer(width=150, height=89)
 spacer_6 = Spacer(width=150, height=89)
 spacer_7 = Spacer(width=150, height=89)
 spacer_8 = Spacer(width=50)
-spacer_9 = Spacer(width=50)
 
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
@@ -3152,8 +3170,8 @@ def pagr_update(attr, old, new):
 		elif "vakaras" in str(key):
 			kaliotalpacv[key] = karareiksme
 
-		if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
-			ktktareiksme = buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav6)
+	if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
+		ktktareiksme = buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav6)
 
 	for key in parametralac.keys():
 		if "kd" in str(key):
@@ -3193,7 +3211,7 @@ def pagr_update(attr, old, new):
 			n, yreiksme, sourcedata, linija, indx = parametralac[key]
 			slatv, serugv = verte(n)
 			tankindx = (slatv * 1000) - 1000
-			formule = serugv + (0.033333 * tankindx) - 0.533333
+			formule = serugv + (0.033333 * tankindx) - 0.533603
 			karareiksme = formule_kt_ar_ap(formule, linija, indx, lenteleralac, key)
 			new_data = {'x': [0, karareiksme], 'y': [yreiksme, yreiksme]}
 			sourcedata.update(new_data)
@@ -3287,8 +3305,8 @@ def pagr_update(attr, old, new):
 
 	# Geriamas vanduo
 	if avrl:
+		print(avrl)
 		if mean(avrl) <= 8.5:
-			print(vandulist)
 			gervandfm.text_color = "green"
 			gervandfm.font_style = "bold"
 			new_data = {'grupe': [*vandulist], 'reiksmes': reik * len(vandulist)}
@@ -3593,7 +3611,8 @@ def pagr_update(attr, old, new):
 		slopikaicds.data.update(new_data)
 
 	# Stimuliatoriai
-	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and (((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
+	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and
+		(((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
 		stimuliatfm.text_color = "red"
 		stimuliatfm.font_style = "bold"
 		new_data = {'grupe': [*stimuliatlist], 'reiksmes': reik * len(stimuliatlist)}
@@ -3760,41 +3779,198 @@ def pagr_update(attr, old, new):
 		new_data = {'grupe': [*limfoaktyvlist], 'reiksmes': reik * len(limfoaktyvlist)}
 		limfoaktyvcds.data.update(new_data)
 
+	# print(lytis.value)
+
+# "T“ Žalia spalva - rekomenduojama vartoti daugiau,
+# „N“ Raudona spalva - vartoti nerekomenduojama,
+# „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+# „-“ Jokios spalvos - papildomų rekomendacijų nėra
+
 
 for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac, hidracind, dictlytis]:
 	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
 		w.on_change("value", pagr_update)
 
+#slarow = row(slapimo, ccc,)
 
-# def textareaupdate(attr, old, new):
-# 	print(new)
+def exppng():
+	export_png(p1, filename="reko/p1.png")
+	export_png(p2, filename="reko/p2.png")
+	export_png(p3, filename="reko/p3.png")
+	export_png(p4, filename="reko/p4.png")
+	export_png(p5, filename="reko/p5.png")
+	export_png(p6, filename="reko/p6.png")
+	export_png(p7, filename="reko/p7.png")
+	export_png(dt1, filename="reko/p8.png")
+	export_png(dt2, filename="reko/p9.png")
+
+	font1 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 24)
+	font2 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 26)
+	font3 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 32)
+	font4 = ImageFont.truetype("LiberationSansNarrow-Regular.ttf", 22)
+
+	image_list = []
+
+	for filename in glob.glob("reko/*.png"):
+		image_list.append(filename)
+
+	image_list = sorted(image_list)
+	image_list.insert(0, "logo/zintislogo.png")
+	print(image_list)
+
+	width = 1300
+	sumsh = []
+
+	for i in image_list:
+		img = Image.open(i)
+		sumsh.append(img.size[1])
+
+	totalh = sum(sumsh) - sumsh[-1] - 400
+
+	new_i = Image.new("RGB", (width, totalh), "white")
+	draw = ImageDraw.Draw(new_i)
+	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam
+tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
+aukščiau.
+Prioritetų žymėjimas:
+Žalia spalva - rekomenduojama vartoti daugiau,
+Raudona spalva - vartoti nerekomenduojama,
+Tamsiai geltona spalva - vartoti saikingai
+(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+Jokios spalvos - papildomų rekomendacijų nėra.'''
+	# tyrimo pagridnas
+	text_coo_x = 100
+	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
+	draw.text(xy=(text_coo_x, 225), text="Vardas:", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(text_coo_x, 265), text="Pavardė:", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(text_coo_x, 305), text="Lytis:", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(text_coo_x, 505), text="Data:", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(1100, 135), text="www.zintis.lt", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(1000, 175), text="sveikatingumas@zintis.lt", fill=(0, 0, 0), font=font2)
+
+	draw.text(xy=(250, 225), text=invard.value, fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 265), text=inpavard.value, fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 305), text="Vyras", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 505), text="2018-01-20", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
 
 
-# kitosreko = kitosrekoinput.on_change("value", textareaupdate)
 
-# export_svgs(p1, filename="p1.svg")
-# export_svgs(p2, filename="p2.svg")
-# export_svgs(p3, filename="p3.svg")
-# export_svgs(p4, filename="p4.svg")
-# export_svgs(p5, filename="p5.svg")
-# export_svgs(p6, filename="p6.svg")
-# export_svgs(p7, filename="p7.svg")
+	begin = 10
+	begin1 = 0
+
+	for idx, img in enumerate(image_list):
+		print(img)
+		images = Image.open(img)
+		sizeh = images.size[0]
+		sizev = images.size[1]
+		if idx == 0:
+			sizeh = int(sizeh * 0.5)
+			sizev = int(sizev * 0.5)
+			images = images.convert("RGB")
+			images = images.resize([sizeh, sizev], Image.ANTIALIAS)
+			new_i.paste(images, (50, begin, (sizeh + 50), (begin + sizev)))
+			begin += sizev
+		elif 1 <= int(idx) <= 7:
+			images = images.convert("RGB")
+			new_i.paste(images, (700, begin, 1300, (begin + sizev)))
+			begin += sizev
+		else:
+			if idx == 8:
+				images = images.crop([0, 0, sizeh, 2000])
+				sizev = images.size[1]
+			images = images.convert("RGBA")
+			alpha = images.convert('RGBA').split()[-1]
+			new_i.paste(images, (begin1, begin, (begin1 + sizeh), (begin + sizev)), mask=alpha)
+			begin1 += sizeh
+
+	# kadangi ši dalis kodinta pyhon 3.5, todėl naujomas OrderedDict, bet nuo 3.6,1 versijos galima naudoti dict, nes duomenys
+	# išlaiko vietą
+	parametrai = ["Šlapimo parametrai", "Seilių parametrai", "Refleksai", "Kraujotakos parametrai", "Kvėpavimo parametrai"]
+	duomenys = [[["Rūgštingumas", slarugrytas.value, slarugpietus.value, slarugvakaras.value],
+					 ["Tankis", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
+					 ["Šviesumas", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
+					 ["Putojimas", slaputrytas.value, slaputpietus.value, slaputvakaras.value]],
+					[["Rūgštingumas", serrytas.value, serpietus.value, servakaras.value],
+					 ["Klampumas", sekrytas.value, sekpietus.value, sekvakaras.value]],
+					[["Kūno temperatūra", ktrytas.value, ktpietus.value, ktvakaras.value],
+					 ["Dermografizmas", drrytas.value, drpietus.value, drvakaras.value],
+					 ["Vasomotorinis", vrrytas.value, vrpietus.value, vrvakaras.value],
+					 ["Vyzdžio dydis", vdrytas.value, vdpietus.value, vdvakaras.value],
+					 ["Tremoras (drebulys)", trrytas.value, trpietus.value, trvakaras.value],
+					 ["Šnervių užgulimas", surytas.value, supietus.value, suvakaras.value],
+					 ["Sargento linija", slrytas.value, slpietus.value, slvakaras.value]],
+					[["Pulsas sėdinti",psrytas.value, pspietus.value, psvakaras.value],
+					 ["Pulsas gulint", pgrytas.value, pgpietus.value, pgvakaras.value],
+					 ["Sistolinis kraujospūdis gulint", skgrytas.value, skgpietus.value, skgvakaras.value],
+					 ["Diastolinis kraujospūdis gulint", dkgrytas.value, dkgpietus.value, dkgvakaras.value],
+					 ["Pulsas tik ką atsistojus",parytas.value, papietus.value, pavakaras.value],
+					 ["Pulsas atsistojus po 15 s", pa15rytas.value, pa15pietus.value, pa15vakaras.value],
+					 ["Sistolinis kraujospūdis atsistojus", skarytas.value, skapietus.value, skavakaras.value],
+					 ["Diastolinis kraujospūdis atsistojus", dkarytas.value, dkapietus.value, dkavakaras.value],
+					 ["Pulsas atsistojus po 45 s", pa45rytas.value, pa45pietus.value, pa45vakaras.value]],
+					[["Kvėpavimo dažnis", kdrytas.value, kdpietus.value, kdvakaras.value],
+				 	["Kvėpavimo sulaikymas įkvėpus", ksirytas.value, ksipietus.value, ksivakaras.value]]
+					]
 
 
-# def exppng():
-# 	return export_svgs(grid, filename="p1.svg")
 
-# export_png(lay7, filename="plot.png"),
-# rekomendmyg.on_click(exppng)
+
+
+	parametruduomenys = OrderedDict()
+
+	for duo, par in zip(duomenys , parametrai):
+		parametruduomenys[par] = duo
+
+
+	lis = []
+	for i in duomenys:
+	    for j in i:
+	        lis.append(j[0])
+
+	max_para_length = int(len(max(lis, key=len)))
+
+	prad = 50
+	pabaig = 400
+	parametruh = 30
+
+	for k, v in parametruduomenys.items():
+		draw.text(xy=(prad, pabaig), text=k, fill=(0, 0, 0), font=font1)
+		draw.text(xy=(400, pabaig), text="Rytas", fill=(0, 0, 0), font=font1)
+		draw.text(xy=(480, pabaig), text="Pietūs", fill=(0, 0, 0), font=font1)
+		draw.text(xy=(560, pabaig), text="Vakaras", fill=(0, 0, 0), font=font1)
+		rytash = font1.getsize("Rytas")[0]
+		pietush = font1.getsize("Pietūs")[0]
+		vakarash = font1.getsize("Vakaras")[0]
+		for j in v:
+			pararytash = font1.getsize(j[1])[0]
+			parapietush = font1.getsize(j[2])[0]
+			paravakarash = font1.getsize(j[3])[0]
+			draw.text(xy=(prad, pabaig + parametruh), text=j[0], fill=(0, 0, 0), font=font4)
+			draw.text(xy=((rytash - pararytash)/2 + 400, pabaig + parametruh), text=j[1], fill=(0, 0, 0), font=font4)
+			draw.text(xy=((pietush - parapietush)/2 + 480, pabaig + parametruh), text=j[2], fill=(0, 0, 0), font=font4)
+			draw.text(xy=((vakarash - paravakarash)/2 + 560, pabaig + parametruh), text=j[3], fill=(0, 0, 0), font=font4)
+			draw.rectangle( (((prad - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
+			draw.rectangle( (((470 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
+			draw.rectangle( (((550 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
+			draw.rectangle( (((640 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
+			pabaig = pabaig + parametruh + 10
+		pabaig = pabaig + parametruh + 40
+
+
+	new_i.save("f1.pdf", "PDF", resoliution=100.0)
+
+
+rekomendmyg.on_click(exppng)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok, invard, inpavard, lytis, inamz)
-lay2 = column(tikslus, pagrapras)
+lay2 = column(pagrapras)
 lay3 = layout(
 	[slapimo],
 	[aprslarugs, slarugrytas, slarugpietus, slarugvakaras],
-	[aprslasvies, slasvrytas, slasvpietus, slasvvakaras],
 	[aprslatank, slatankrytas, slatankpietus, slatankvakaras],
+	[aprslasvies, slasvrytas, slasvpietus, slasvvakaras],
 	[aprslaputo, slaputrytas, slaputpietus, slaputvakaras],
 	[prikseil],
 	[seiliu],
@@ -3834,8 +4010,8 @@ lay3 = layout(
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-# lay5 = column(spacer_1, )
-lay6 = row(lay3, grid)
+lay5 = column(spacer_1, grid, lay4, rekokatego, rekotipai)
+lay6 = row(lay3, lay5)
 
 dt1 = column(
 	maistproduk,
@@ -3882,11 +4058,8 @@ dt2 = column(
 	pakartotorgtable,
 	limfoaktyvtable,
 	subalanmiegtable,
-	kitosrekodiv,
-	kitosrekoinput,
-	rekokatego,
-	rekotipai,
-	lay4
+	kitosreko,
+	kitosrekolentel
 )
 lay7 = row(dt1, spacer_8, dt2)
 
