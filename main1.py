@@ -50,24 +50,24 @@ curdoc().template = jinja2.Template(source='''
 			width: 100px !important;
 			}
 			.bk-root input[name$="amz"] {
-			min-width: 34px !important;
-			width: 34px !important;
+			min-width: 50px !important;
+			width: 50px !important;
 			}
 			.bk-root input[name$="name1"] {
 			min-width: 570px !important;
 			width: 570px !important;
 			}
 			.bk-root input[name$="rytas"] {
-			min-width: 33px !important;
-			width: 33px !important;
+			min-width: 55px !important;
+			width: 55px !important;
 			}
 			.bk-root input[name$="pietus"] {
-			min-width: 33px !important;
-			width: 33px !important;
+			min-width: 55px !important;
+			width: 55px !important;
 			}
 			.bk-root input[name$="vakaras"] {
-			min-width: 33px !important;
-			width: 33px !important;
+			min-width: 55px !important;
+			width: 55px !important;
 			}
 
 			textarea {
@@ -1728,7 +1728,7 @@ subalanmieglist = CDS.subalanmieg()
 subalanmiegcds = CDS.subalanmiegsource()
 subalanmiegfm = StringFormatter(font_style="bold", text_color="green")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
-subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, index_position=None)
+subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=550, height=75, index_position=None)
 
 
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
