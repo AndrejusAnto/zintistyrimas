@@ -3152,8 +3152,8 @@ def pagr_update(attr, old, new):
 		elif "vakaras" in str(key):
 			kaliotalpacv[key] = karareiksme
 
-	if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
-		ktktareiksme = buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav6)
+		if len(kaliotalpacr) == len(kaliotalpacp) == len(kaliotalpacv) == 8:
+			ktktareiksme = buklnustat(kaliotalpacr, kaliotalpacp, kaliotalpacv, dictpav6)
 
 	for key in parametralac.keys():
 		if "kd" in str(key):
@@ -3288,6 +3288,7 @@ def pagr_update(attr, old, new):
 	# Geriamas vanduo
 	if avrl:
 		if mean(avrl) <= 8.5:
+			print(vandulist)
 			gervandfm.text_color = "green"
 			gervandfm.font_style = "bold"
 			new_data = {'grupe': [*vandulist], 'reiksmes': reik * len(vandulist)}
@@ -3833,8 +3834,8 @@ lay3 = layout(
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-lay5 = column(spacer_1, grid)
-lay6 = row(lay3, lay5)
+# lay5 = column(spacer_1, )
+lay6 = row(lay3, grid)
 
 dt1 = column(
 	maistproduk,

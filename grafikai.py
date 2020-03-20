@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from bokeh.plotting import figure
-from bokeh.models import Span, BoxAnnotation, FixedTicker, FuncTickFormatter
+from bokeh.models import Span, BoxAnnotation, FixedTicker
 from bokeh.models.ranges import FactorRange
 
 # grafikai
