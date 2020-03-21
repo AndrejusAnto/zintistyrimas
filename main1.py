@@ -3801,11 +3801,11 @@ def exppng():
 
 	image_list = []
 
-	for filename in glob.glob("reko/*.png"):
+	for filename in glob.glob("/home/andrejusa/zintis/Zintistyrimasasdasd/kodas/*.png"):
 		image_list.append(filename)
 
 	image_list = sorted(image_list)
-	image_list.insert(0, "logo/zintislogo.png")
+	image_list.insert(0, "/home/andrejusa/zintis/Zintistyrimasasdasd/kodas/logo/zintislogo.png")
 	print(image_list)
 
 	width = 1300
