@@ -3,7 +3,7 @@
 
 from bokeh.io import curdoc, export_png, export_svgs
 from bokeh.layouts import column, row, layout, gridplot
-from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
+from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter, TextAreaInput
 from bokeh.models import Spacer
 import jinja2
 from statistics import mean
@@ -23,16 +23,6 @@ from collections import OrderedDict
 from bokeh.core.properties import String, Instance
 from bokeh.models import LayoutDOM, Slider, InputWidget
 
-# class TextareaInput(InputWidget):
-#      ''' Multi-line input widget.
-
-#      '''
-
-#      value = String(default="", help="""
-#      Initial or entered text value.
-#      """)
-
-# custom_slider = TextareaInput(value="")
 
 # ši dalis, tam, kad būtų galima reguliuoti TextInput width, nes yra nustatytas Bokeh TextInput default min width,
 # kurio negalima mažinti per parametrų nurodymą. Pvz. "invard = TextInput(name = "vard", value="", title = "Vardas", width = 130"
@@ -1460,10 +1450,19 @@ rodomas laikas sekundėmis įrašomas eilutėje 6.2 „Kvėpavimo sulaikymas įk
 	</div>
 </div>
 	""", width=250)
+
 ksirytas = TextInput(name="rytas", value="0", title="Rytas", width=60)
 ksipietus = TextInput(name="pietus", value="0", title="Pietūs", width=60)
 ksivakaras = TextInput(name="vakaras", value="0", title="Vakaras", width=60)
 
+maistproduk = Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
+kitumedz = Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
+kitielgsen = Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
+kitosreko = Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
+
+kitosrekolentel = TextAreaInput(rows=10)
+
+rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
 rekokatego = Div(text="""Kategorijos išdėstytos svarbos mažėjimo tvarka,
 		tad jei prioritetai dėl tam tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra aukščiau.""", width=570)
 rekotipai = Div(text="""<i>Prioritetų žymėjimas:
@@ -1471,11 +1470,16 @@ rekotipai = Div(text="""<i>Prioritetų žymėjimas:
 		Raudona spalva - vartoti nerekomenduojama,
 		Tamsiai geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
 		Jokios spalvos - papildomų rekomendacijų nėra.</i>""", width=570)
-maistproduk = Div(text="""<b>Maisto produktų prioritetai</b>""", width=270)
-kitumedz = Div(text="""<b>Kitų medžiagų vartojimo prioritetai</b>""", width=270)
-kitielgsen = Div(text="""<b>Kiti elgsenos prioritetai</b>""", width=270)
-kitosreko = Div(text="""<b>Kitos rekomendacijos</b>""", width=270)
-kitosrekolentel = Div(text="""<textarea rows="9" cols="76"></textarea>""")
+
+spacer_0 = Spacer(width=150, height=20)
+spacer_1 = Spacer(width=150, height=60)
+spacer_2 = Spacer(width=150, height=60)
+spacer_3 = Spacer(width=150, height=60)
+spacer_4 = Spacer(width=150, height=60)
+spacer_5 = Spacer(width=150, height=60)
+spacer_6 = Spacer(width=150, height=60)
+spacer_7 = Spacer(width=150, height=60)
+spacer_8 = Spacer(width=180)
 
 # Maisto produktų prioritetai
 # Geriamasis vanduo datatable
@@ -1748,19 +1752,6 @@ subalanmiegcds = CDS.subalanmiegsource()
 subalanmiegfm = StringFormatter(font_style="bold", text_color="green")
 subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", formatter=subalanmiegfm)]
 subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, index_header=None, index_position=None)
-
-
-rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
-spacer_0 = Spacer(width=150, height=20)
-spacer_1 = Spacer(width=150, height=60)
-spacer_2 = Spacer(width=150, height=60)
-spacer_3 = Spacer(width=150, height=60)
-spacer_4 = Spacer(width=150, height=60)
-spacer_5 = Spacer(width=150, height=60)
-spacer_6 = Spacer(width=150, height=60)
-spacer_7 = Spacer(width=150, height=60)
-spacer_8 = Spacer(width=180)
-
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
 p2 = grafikai.make_graf(grafikai.plist[1], grafikai.pavadin[1], grafikai.countkg, grafikai.factorskg)
