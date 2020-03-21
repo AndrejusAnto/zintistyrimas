@@ -383,8 +383,7 @@ curdoc().template = jinja2.Template(source='''
 # viso tyrimo tekstinė dalis TextInput laukeliais, kuriuose reikia suvesti duomenis.
 # def protok():
 # 	return Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
-protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=15)
-
+protok = Div(text="""<br><b>ORGANIZMO BŪKLĖS TYRIMO PROTOKOLAS</b>""", width=330, height=50)
 invard = TextInput(name="vard", value="", title="Vardas", width=130, height=20)
 inpavard = TextInput(name="pavard", value="", title="Pavardė", width=160, height=20)
 lytis = Select(name="lyt", title="Lytis:", options=["Vyras", "Moteris"], value="Vyras", width=130, height=20)
@@ -3298,14 +3297,18 @@ def pagr_update(attr, old, new):
 	reik = ["-"]
 	avrl = []
 	for v in hidracind.values():
+		print("v", v)
 		n = v[0]
+		print("n", n)
 		v1, v2, v3 = verte(n)
 		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
+		print("hdi", hdi)
 		avrl.append(hdi)
 
 	# Geriamas vanduo
 	if avrl:
 		print(avrl)
+		print(mean(avrl))
 		if mean(avrl) <= 8.5:
 			gervandfm.text_color = "green"
 			gervandfm.font_style = "bold"
