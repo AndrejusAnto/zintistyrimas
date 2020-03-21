@@ -1752,14 +1752,14 @@ subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, widt
 
 rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
 spacer_0 = Spacer(width=150, height=20)
-spacer_1 = Spacer(width=150, height=89)
-spacer_2 = Spacer(width=150, height=89)
-spacer_3 = Spacer(width=150, height=89)
-spacer_4 = Spacer(width=150, height=89)
-spacer_5 = Spacer(width=150, height=89)
-spacer_6 = Spacer(width=150, height=89)
-spacer_7 = Spacer(width=150, height=89)
-spacer_8 = Spacer(width=50)
+spacer_1 = Spacer(width=150, height=60)
+spacer_2 = Spacer(width=150, height=60)
+spacer_3 = Spacer(width=150, height=60)
+spacer_4 = Spacer(width=150, height=60)
+spacer_5 = Spacer(width=150, height=60)
+spacer_6 = Spacer(width=150, height=60)
+spacer_7 = Spacer(width=150, height=60)
+spacer_8 = Spacer(width=180)
 
 
 p1 = grafikai.make_graf(grafikai.plist[0], grafikai.pavadin[0], grafikai.countsp, grafikai.factorssp)
@@ -4003,8 +4003,8 @@ lay3 = layout(
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
 lay4 = row(spacer_0, rekomendmyg)
-lay5 = column(spacer_1, grid, lay4, rekokatego, rekotipai)
-lay6 = row(lay3, lay5)
+# lay5 = column(spacer_1, grid)
+lay6 = row(lay3, grid)
 
 dt1 = column(
 	maistproduk,
@@ -4052,7 +4052,10 @@ dt2 = column(
 	limfoaktyvtable,
 	subalanmiegtable,
 	kitosreko,
-	kitosrekolentel
+	kitosrekolentel,
+	lay4,
+	rekokatego,
+	rekotipai
 )
 lay7 = row(dt1, spacer_8, dt2)
 
