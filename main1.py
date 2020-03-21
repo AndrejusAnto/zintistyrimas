@@ -3784,15 +3784,15 @@ def reko_update(attr, old, new):
 
 
 def exppng():
-	export_png(p1, filename="reko/p1.png")
-	export_png(p2, filename="reko/p2.png")
-	export_png(p3, filename="reko/p3.png")
-	export_png(p4, filename="reko/p4.png")
-	export_png(p5, filename="reko/p5.png")
-	export_png(p6, filename="reko/p6.png")
-	export_png(p7, filename="reko/p7.png")
-	export_png(dt1, filename="reko/p8.png")
-	export_png(dt2, filename="reko/p9.png")
+	export_png(p1, filename="p1.png")
+	export_png(p2, filename="p2.png")
+	export_png(p3, filename="p3.png")
+	export_png(p4, filename="p4.png")
+	export_png(p5, filename="p5.png")
+	export_png(p6, filename="p6.png")
+	export_png(p7, filename="p7.png")
+	export_png(dt1, filename="p8.png")
+	export_png(dt2, filename="p9.png")
 
 	font1 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 24)
 	font2 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 26)
@@ -3801,12 +3801,12 @@ def exppng():
 
 	image_list = []
 
-	for filename in glob.glob("/home/andrejusa/zintis/Zintistyrimasasdasd/kodas/*.png"):
+	for filename in glob.glob("/home/andrejusa/zintis/zintistyrimas/*.png"):
 		image_list.append(filename)
 
 	image_list = sorted(image_list)
 	image_list.insert(0, "/home/andrejusa/zintis/Zintistyrimasasdasd/kodas/logo/zintislogo.png")
-	print(image_list)
+	print("image_list", image_list)
 
 	width = 1300
 	sumsh = []
@@ -3816,7 +3816,6 @@ def exppng():
 		sumsh.append(img.size[1])
 
 	totalh = sum(sumsh) - sumsh[-1] - 400
-
 	new_i = Image.new("RGB", (width, totalh), "white")
 	draw = ImageDraw.Draw(new_i)
 	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam
@@ -3834,14 +3833,14 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(text_coo_x, 225), text="Vardas:", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(text_coo_x, 265), text="Pavardė:", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(text_coo_x, 305), text="Lytis:", fill=(0, 0, 0), font=font2)
-	draw.text(xy=(text_coo_x, 505), text="Data:", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(text_coo_x, 345), text="Data:", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(1100, 135), text="www.zintis.lt", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(1000, 175), text="sveikatingumas@zintis.lt", fill=(0, 0, 0), font=font2)
 
 	draw.text(xy=(250, 225), text=invard.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 265), text=inpavard.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 305), text="Vyras", fill=(0, 0, 0), font=font2)
-	draw.text(xy=(250, 505), text="2018-01-20", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 345), text="2018-01-20", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
 
 	begin = 10
@@ -3898,7 +3897,7 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 					["Diastolinis kraujospūdis atsistojus", dkarytas.value, dkapietus.value, dkavakaras.value],
 					["Pulsas atsistojus po 45 s", pa45rytas.value, pa45pietus.value, pa45vakaras.value]],
 					[["Kvėpavimo dažnis", kdrytas.value, kdpietus.value, kdvakaras.value],
-					["Kvėpavimo sulaikymas įkvėpus", ksirytas.value, ksipietusvalue, ksivakaras.value]]]
+					["Kvėpavimo sulaikymas įkvėpus", ksirytas.value, ksipietus.value, ksivakaras.value]]]
 
 	parametruduomenys = OrderedDict()
 
