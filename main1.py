@@ -3772,19 +3772,16 @@ def pagr_update(attr, old, new):
 		new_data = {'grupe': [*limfoaktyvlist], 'reiksmes': reik * len(limfoaktyvlist)}
 		limfoaktyvcds.data.update(new_data)
 
-	# print(lytis.value)
-
-# "T“ Žalia spalva - rekomenduojama vartoti daugiau,
-# „N“ Raudona spalva - vartoti nerekomenduojama,
-# „S“ Geltona spalva - vartoti saikingai (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-# „-“ Jokios spalvos - papildomų rekomendacijų nėra
-
 
 for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalpac, parametralac, hidracind, dictlytis]:
 	for w in list(itertools.chain.from_iterable([b[0] for b in [i for i in k.values()]])):
 		w.on_change("value", pagr_update)
 
-#slarow = row(slapimo, ccc,)
+
+def reko_update(attr, old, new):
+	naujas = new
+	return naujas
+
 
 def exppng():
 	export_png(p1, filename="reko/p1.png")
