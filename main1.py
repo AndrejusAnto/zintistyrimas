@@ -1,5 +1,6 @@
 
 # -*- coding: utf-8 -*-
+
 from bokeh.io import curdoc, export_png, export_svgs
 from bokeh.layouts import column, row, layout, gridplot
 from bokeh.models.widgets import TextInput, Div, Select, Button, DataTable, TableColumn, StringFormatter
@@ -1749,7 +1750,7 @@ subalanmiegcol = [TableColumn(field="grupe", title="Subalansuotas miegas:", form
 subalanmiegtable = DataTable(source=subalanmiegcds, columns=subalanmiegcol, width=600, height=75, index_header=None, index_position=None)
 
 
-rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=20)
+rekomendmyg = Button(label="Rekomendacijos", button_type="success", height=30)
 spacer_0 = Spacer(width=150, height=20)
 spacer_1 = Spacer(width=150, height=89)
 spacer_2 = Spacer(width=150, height=89)
@@ -3307,8 +3308,6 @@ def pagr_update(attr, old, new):
 
 	# Geriamas vanduo
 	if avrl:
-		print(avrl)
-		print(mean(avrl))
 		if mean(avrl) <= 8.5:
 			gervandfm.text_color = "green"
 			gervandfm.font_style = "bold"
@@ -3857,8 +3856,6 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 505), text="2018-01-20", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
 
-
-
 	begin = 10
 	begin1 = 0
 
@@ -3891,45 +3888,39 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	# išlaiko vietą
 	parametrai = ["Šlapimo parametrai", "Seilių parametrai", "Refleksai", "Kraujotakos parametrai", "Kvėpavimo parametrai"]
 	duomenys = [[["Rūgštingumas", slarugrytas.value, slarugpietus.value, slarugvakaras.value],
-					 ["Tankis", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
-					 ["Šviesumas", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
-					 ["Putojimas", slaputrytas.value, slaputpietus.value, slaputvakaras.value]],
+					["Tankis", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
+					["Šviesumas", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
+					["Putojimas", slaputrytas.value, slaputpietus.value, slaputvakaras.value]],
 					[["Rūgštingumas", serrytas.value, serpietus.value, servakaras.value],
-					 ["Klampumas", sekrytas.value, sekpietus.value, sekvakaras.value]],
+					["Klampumas", sekrytas.value, sekpietus.value, sekvakaras.value]],
 					[["Kūno temperatūra", ktrytas.value, ktpietus.value, ktvakaras.value],
-					 ["Dermografizmas", drrytas.value, drpietus.value, drvakaras.value],
-					 ["Vasomotorinis", vrrytas.value, vrpietus.value, vrvakaras.value],
-					 ["Vyzdžio dydis", vdrytas.value, vdpietus.value, vdvakaras.value],
-					 ["Tremoras (drebulys)", trrytas.value, trpietus.value, trvakaras.value],
-					 ["Šnervių užgulimas", surytas.value, supietus.value, suvakaras.value],
-					 ["Sargento linija", slrytas.value, slpietus.value, slvakaras.value]],
+					["Dermografizmas", drrytas.value, drpietus.value, drvakaras.value],
+					["Vasomotorinis", vrrytas.value, vrpietus.value, vrvakaras.value],
+					["Vyzdžio dydis", vdrytas.value, vdpietus.value, vdvakaras.value],
+					["Tremoras (drebulys)", trrytas.value, trpietus.value, trvakaras.value],
+					["Šnervių užgulimas", surytas.value, supietus.value, suvakaras.value],
+					["Sargento linija", slrytas.value, slpietus.value, slvakaras.value]],
 					[["Pulsas sėdinti",psrytas.value, pspietus.value, psvakaras.value],
-					 ["Pulsas gulint", pgrytas.value, pgpietus.value, pgvakaras.value],
-					 ["Sistolinis kraujospūdis gulint", skgrytas.value, skgpietus.value, skgvakaras.value],
-					 ["Diastolinis kraujospūdis gulint", dkgrytas.value, dkgpietus.value, dkgvakaras.value],
-					 ["Pulsas tik ką atsistojus",parytas.value, papietus.value, pavakaras.value],
-					 ["Pulsas atsistojus po 15 s", pa15rytas.value, pa15pietus.value, pa15vakaras.value],
-					 ["Sistolinis kraujospūdis atsistojus", skarytas.value, skapietus.value, skavakaras.value],
-					 ["Diastolinis kraujospūdis atsistojus", dkarytas.value, dkapietus.value, dkavakaras.value],
-					 ["Pulsas atsistojus po 45 s", pa45rytas.value, pa45pietus.value, pa45vakaras.value]],
+					["Pulsas gulint", pgrytas.value, pgpietus.value, pgvakaras.value],
+					["Sistolinis kraujospūdis gulint", skgrytas.value, skgpietus.value, skgvakaras.value],
+					["Diastolinis kraujospūdis gulint", dkgrytas.value, dkgpietus.value, dkgvakaras.value],
+					["Pulsas tik ką atsistojus",parytas.value, papietus.value, pavakaras.value],
+					["Pulsas atsistojus po 15 s", pa15rytas.value, pa15pietus.value, pa15vakaras.value],
+					["Sistolinis kraujospūdis atsistojus", skarytas.value, skapietus.value, skavakaras.value],
+					["Diastolinis kraujospūdis atsistojus", dkarytas.value, dkapietus.value, dkavakaras.value],
+					["Pulsas atsistojus po 45 s", pa45rytas.value, pa45pietus.value, pa45vakaras.value]],
 					[["Kvėpavimo dažnis", kdrytas.value, kdpietus.value, kdvakaras.value],
-				 	["Kvėpavimo sulaikymas įkvėpus", ksirytas.value, ksipietus.value, ksivakaras.value]]
-					]
-
-
-
-
+					["Kvėpavimo sulaikymas įkvėpus", ksirytas.value, ksipietusvalue, ksivakaras.value]]]
 
 	parametruduomenys = OrderedDict()
 
-	for duo, par in zip(duomenys , parametrai):
+	for duo, par in zip(duomenys, parametrai):
 		parametruduomenys[par] = duo
-
 
 	lis = []
 	for i in duomenys:
-	    for j in i:
-	        lis.append(j[0])
+		for j in i:
+			lis.append(j[0])
 
 	max_para_length = int(len(max(lis, key=len)))
 
@@ -3950,16 +3941,15 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 			parapietush = font1.getsize(j[2])[0]
 			paravakarash = font1.getsize(j[3])[0]
 			draw.text(xy=(prad, pabaig + parametruh), text=j[0], fill=(0, 0, 0), font=font4)
-			draw.text(xy=((rytash - pararytash)/2 + 400, pabaig + parametruh), text=j[1], fill=(0, 0, 0), font=font4)
-			draw.text(xy=((pietush - parapietush)/2 + 480, pabaig + parametruh), text=j[2], fill=(0, 0, 0), font=font4)
-			draw.text(xy=((vakarash - paravakarash)/2 + 560, pabaig + parametruh), text=j[3], fill=(0, 0, 0), font=font4)
-			draw.rectangle( (((prad - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
-			draw.rectangle( (((470 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
-			draw.rectangle( (((550 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
-			draw.rectangle( (((640 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2 ))), outline="black")
+			draw.text(xy=((rytash - pararytash) / 2 + 400, pabaig + parametruh), text=j[1], fill=(0, 0, 0), font=font4)
+			draw.text(xy=((pietush - parapietush) / 2 + 480, pabaig + parametruh), text=j[2], fill=(0, 0, 0), font=font4)
+			draw.text(xy=((vakarash - paravakarash) / 2 + 560, pabaig + parametruh), text=j[3], fill=(0, 0, 0), font=font4)
+			draw.rectangle((((prad - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2))), outline="black")
+			draw.rectangle((((470 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2))), outline="black")
+			draw.rectangle((((550 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2))), outline="black")
+			draw.rectangle((((640 - 5), (pabaig + parametruh)), ((390 - 5), (pabaig + parametruh * 2))), outline="black")
 			pabaig = pabaig + parametruh + 10
 		pabaig = pabaig + parametruh + 40
-
 
 	new_i.save("f1.pdf", "PDF", resoliution=100.0)
 
