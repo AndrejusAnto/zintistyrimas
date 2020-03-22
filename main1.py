@@ -3942,7 +3942,7 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 			pabaig = pabaig + parametruh + 10
 		pabaig = pabaig + parametruh + 40
 
-	new_i.save("10.pdf", "PDF", resoliution=100.0)
+	new_i.save("p10.pdf", "PDF", resoliution=100.0)
 
 
 rekomendmyg.on_click(exppng)
@@ -4040,15 +4040,12 @@ dt2 = column(
 	pakartotorgtable,
 	limfoaktyvtable,
 	subalanmiegtable,
-	kitosreko,
-	kitosrekolentel,
-	lay3,
-	rekokatego,
-	rekotipai
+	kitosreko
 )
-lay5 = row(dt1, spacer_8, dt2)
-
-lay6 = column(lay1, pagrapras, lay4, lay5)
+lay5 = column(kitosrekolentel, lay3, rekokatego, rekotipai)
+lay6 = column(dt2, lay5)
+lay7 = row(dt1, spacer_8, lay6)
+lay8 = column(lay1, pagrapras, lay4, lay7)
 
 # add the layout to curdoc
-curdoc().add_root(lay6)
+curdoc().add_root(lay8)
