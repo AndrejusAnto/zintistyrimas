@@ -3777,13 +3777,11 @@ for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalp
 
 def reko_update(attr, old, new):
 	# print("kitosrekolentel", kitosrekolentel.value)
-	# print("old", old)
-	# print("new", new)
-	return kitosrekolentel.value
+	print("old", old)
+	print("new", new)
 
 
-k = kitosrekolentel.on_change("value", reko_update)
-print("kitosrekolentel.value", k)
+kitosrekolentel.on_change("value", reko_update)
 
 
 # def exportpng(a):
@@ -3809,6 +3807,8 @@ def ataskaitapdf():
 	font3 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 32)
 	font4 = ImageFont.truetype("LiberationSansNarrow-Regular.ttf", 22)
 
+	# kitosrekolentel.value
+
 	image_list = []
 
 	for filename in glob.glob("/home/andrejusa/zintis/zintistyrimas/*.png"):
@@ -3829,15 +3829,15 @@ def ataskaitapdf():
 	new_i = Image.new("RGB", (width, totalh), "white")
 	draw = ImageDraw.Draw(new_i)
 	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam
-	tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
-	aukščiau.
-	Prioritetų žymėjimas:
-	Žalia spalva - rekomenduojama vartoti daugiau,
-	Raudona spalva - vartoti nerekomenduojama,
-	Tamsiai geltona spalva - vartoti saikingai
-	(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-	Jokios spalvos - papildomų rekomendacijų nėra.'''
-	# tyrimo pagridnas
+tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
+aukščiau.
+Prioritetų žymėjimas:
+Žalia spalva - rekomenduojama vartoti daugiau,
+Raudona spalva - vartoti nerekomenduojama,
+Tamsiai geltona spalva - vartoti saikingai
+(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+Jokios spalvos - papildomų rekomendacijų nėra.'''
+	# tyrimo pagridnasss
 	text_coo_x = 100
 	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
 	draw.text(xy=(text_coo_x, 225), text="Vardas:", fill=(0, 0, 0), font=font2)
@@ -3849,9 +3849,10 @@ def ataskaitapdf():
 
 	draw.text(xy=(250, 225), text=invard.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 265), text=inpavard.value, fill=(0, 0, 0), font=font2)
-	draw.text(xy=(250, 305), text="Vyras", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 345), text="2018-01-20", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
+	draw.text(xy=(1000, 2000), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
 
 	begin = 10
 	begin1 = 0
@@ -3927,9 +3928,9 @@ def ataskaitapdf():
 
 	for k, v in parametruduomenys.items():
 		draw.text(xy=(prad, pabaig), text=k, fill=(0, 0, 0), font=font1)
-		draw.text(xy=(400, pabaig), text="Rytas", fill=(0, 0, 0), font=font1)
-		draw.text(xy=(480, pabaig), text="Pietūs", fill=(0, 0, 0), font=font1)
-		draw.text(xy=(560, pabaig), text="Vakaras", fill=(0, 0, 0), font=font1)
+		draw.text(xy=(395, pabaig), text="Rytas", fill=(0, 0, 0), font=font1)
+		draw.text(xy=(470, pabaig), text="Pietūs", fill=(0, 0, 0), font=font1)
+		draw.text(xy=(550, pabaig), text="Vakaras", fill=(0, 0, 0), font=font1)
 		rytash = font1.getsize("Rytas")[0]
 		pietush = font1.getsize("Pietūs")[0]
 		vakarash = font1.getsize("Vakaras")[0]
