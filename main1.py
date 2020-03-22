@@ -3604,7 +3604,7 @@ def pagr_update(attr, old, new):
 		slopikaicds.data.update(new_data)
 
 	# Stimuliatoriai
-	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and
+	if ((((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T")) or (mean(avrl) >= 12)) and 
 		(((sptnk == "T") or (kgtnk == "T") or (datnk == "T") or (etptnk == "T") or (etptna == "T") or (mean(avrl) <= 8.5)))):
 		stimuliatfm.text_color = "red"
 		stimuliatfm.font_style = "bold"
@@ -3779,15 +3779,24 @@ for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalp
 
 
 def reko_update(attr, old, new):
-	print("old", old)
-	print("new", new)
+	# print("kitosrekolentel", kitosrekolentel.value)
+	# print("old", old)
+	# print("new", new)
+	return kitosrekolentel.value
 
 
-# kitosrekolentel.on_change("value", reko_update)
-# print("kitosrekolentel.value", kitosrekolentel.value)
+k = kitosrekolentel.on_change("value", reko_update)
+print("kitosrekolentel.value", k)
 
 
-def exppng():
+# def exportpng(a):
+# 	grafikailist = [p1, p2, p3, p4, p5, p6, p7, dt1, dt2]
+# 	for i in a:
+# 		export_png(i, filename=f"{i}.png")
+
+
+def ataskaitapdf():
+	# exportpng(grafikailist)
 	export_png(p1, filename="p1.png")
 	export_png(p2, filename="p2.png")
 	export_png(p3, filename="p3.png")
@@ -3945,7 +3954,7 @@ def exppng():
 	new_i.save("p10.pdf", "PDF", resoliution=100.0)
 
 
-rekomendmyg.on_click(exppng)
+rekomendmyg.on_click(ataskaitapdf)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok, invard, inpavard, lytis, inamz)
