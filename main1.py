@@ -3779,8 +3779,12 @@ for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalp
 
 
 def reko_update(attr, old, new):
-	naujas = new
-	return naujas
+	print("old", old)
+	print("new", new)
+
+
+# kitosrekolentel.on_change("value", reko_update)
+# print("kitosrekolentel.value", kitosrekolentel.value)
 
 
 def exppng():
@@ -3938,15 +3942,14 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 			pabaig = pabaig + parametruh + 10
 		pabaig = pabaig + parametruh + 40
 
-	new_i.save("f1.pdf", "PDF", resoliution=100.0)
+	new_i.save("10.pdf", "PDF", resoliution=100.0)
 
 
 rekomendmyg.on_click(exppng)
 
 # visi elementai sujungiami į norimą layout
 lay1 = row(protok, invard, inpavard, lytis, inamz)
-lay2 = column(pagrapras)
-lay3 = layout(
+lay2 = layout(
 	[slapimo],
 	[aprslarugs, slarugrytas, slarugpietus, slarugvakaras],
 	[aprslatank, slatankrytas, slatankpietus, slatankvakaras],
@@ -3989,9 +3992,8 @@ lay3 = layout(
 	[aprkvepsu, ksirytas, ksipietus, ksivakaras])
 
 grid = gridplot([p1, spacer_2, p2, spacer_3, p3, spacer_4, p4, spacer_5, p5, spacer_6, p6, spacer_7, p7], ncols=1)
-lay4 = row(spacer_0, rekomendmyg)
-# lay5 = column(spacer_1, grid)
-lay6 = row(lay3, grid)
+lay3 = row(spacer_0, rekomendmyg)
+lay4 = row(lay2, grid)
 
 dt1 = column(
 	maistproduk,
@@ -4040,13 +4042,13 @@ dt2 = column(
 	subalanmiegtable,
 	kitosreko,
 	kitosrekolentel,
-	lay4,
+	lay3,
 	rekokatego,
 	rekotipai
 )
-lay7 = row(dt1, spacer_8, dt2)
+lay5 = row(dt1, spacer_8, dt2)
 
-lay8 = column(lay1, lay2, lay6, lay7)
+lay6 = column(lay1, pagrapras, lay4, lay5)
 
 # add the layout to curdoc
-curdoc().add_root(lay8)
+curdoc().add_root(lay6)
