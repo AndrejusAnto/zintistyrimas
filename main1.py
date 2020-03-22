@@ -3823,14 +3823,14 @@ def exppng():
 	new_i = Image.new("RGB", (width, totalh), "white")
 	draw = ImageDraw.Draw(new_i)
 	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam
-tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
-aukščiau.
-Prioritetų žymėjimas:
-Žalia spalva - rekomenduojama vartoti daugiau,
-Raudona spalva - vartoti nerekomenduojama,
-Tamsiai geltona spalva - vartoti saikingai
-(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-Jokios spalvos - papildomų rekomendacijų nėra.'''
+	tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
+	aukščiau.
+	Prioritetų žymėjimas:
+	Žalia spalva - rekomenduojama vartoti daugiau,
+	Raudona spalva - vartoti nerekomenduojama,
+	Tamsiai geltona spalva - vartoti saikingai
+	(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
+	Jokios spalvos - papildomų rekomendacijų nėra.'''
 	# tyrimo pagridnas
 	text_coo_x = 100
 	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
