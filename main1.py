@@ -3289,12 +3289,9 @@ def pagr_update(attr, old, new):
 	reik = ["-"]
 	avrl = []
 	for v in hidracind.values():
-		print("v", v)
 		n = v[0]
-		print("n", n)
 		v1, v2, v3 = verte(n)
 		hdi = v1 + v2 - (v3 * 1000 - 1000) / 5
-		print("hdi", hdi)
 		avrl.append(hdi)
 
 	# Geriamas vanduo
