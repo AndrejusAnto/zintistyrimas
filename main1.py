@@ -20,6 +20,7 @@ from PIL import ImageFont
 import glob
 from collections import OrderedDict
 import datetime
+import textwrap
 
 from bokeh.core.properties import String, Instance
 from bokeh.models import LayoutDOM, Slider, InputWidget
@@ -3807,6 +3808,7 @@ def ataskaitapdf():
 	font2 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 26)
 	font3 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 32)
 	font4 = ImageFont.truetype("LiberationSansNarrow-Regular.ttf", 22)
+	font5 = ImageFont.truetype("/home/andrejusa/zintis/aller-cufonfonts/Aller_LtIt.ttf", 18)
 
 	image_list = []
 
@@ -3836,6 +3838,14 @@ Raudona spalva - vartoti nerekomenduojama,
 Tamsiai geltona spalva - vartoti saikingai
 (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
 Jokios spalvos - papildomų rekomendacijų nėra.'''
+	caption = kitosrekolentel.value
+	wrapper = textwrap.TextWrapper(width=75)
+	word_list = wrapper.wrap(text=caption)
+	caption_new = ''
+	for ii in word_list[:-1]:
+		caption_new = caption_new + ii + '\n'
+	caption_new += word_list[-1]
+	# print(novo)
 	# tyrimo pagridnas
 	text_coo_x = 100
 	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
@@ -3851,13 +3861,13 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 345), text=str(datetime.date.today()), fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
-	draw.text(xy=(615, 3466), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
+	# draw.text(xy=(615, 3466), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
+	draw.text(xy=(615, 3466), text=str(caption_new), fill=(0, 0, 0), font=font5)
 
 	begin = 10
 	begin1 = 0
 
 	for idx, img in enumerate(image_list):
-		print(img)
 		images = Image.open(img)
 		sizeh = images.size[0]
 		sizev = images.size[1]
