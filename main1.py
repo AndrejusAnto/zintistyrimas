@@ -3829,15 +3829,15 @@ def ataskaitapdf():
 	totalh = sum(sumsh) - sumsh[-1] - 400
 	new_i = Image.new("RGB", (width, totalh), "white")
 	draw = ImageDraw.Draw(new_i)
-	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam
-tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra
-aukščiau.
-Prioritetų žymėjimas:
-Žalia spalva - rekomenduojama vartoti daugiau,
-Raudona spalva - vartoti nerekomenduojama,
-Tamsiai geltona spalva - vartoti saikingai
-(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
-Jokios spalvos - papildomų rekomendacijų nėra.'''
+	rekotext = '''Kategorijos išdėstytos svarbos mažėjimo tvarka, tad jei prioritetai dėl tam/n
+				tikrų maisto produktų vienas kitam prieštarauja, vadovautis tuo, kuris yra/n
+				aukščiau./n
+				Prioritetų žymėjimas:/n
+				Žalia spalva - rekomenduojama vartoti daugiau,/n
+				Raudona spalva - vartoti nerekomenduojama,/n
+				Tamsiai geltona spalva - vartoti saikingai/n
+				(taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),/n
+				Jokios spalvos - papildomų rekomendacijų nėra./n'''
 	caption = kitosrekolentel.value
 	wrapper = textwrap.TextWrapper(width=75)
 	word_list = wrapper.wrap(text=caption)
@@ -3862,7 +3862,7 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 345), text=str(datetime.date.today()), fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
 	# draw.text(xy=(615, 3466), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
-	draw.text(xy=(615, 3466), text=str(caption_new), fill=(0, 0, 0), font=font5)
+	draw.text(xy=(615, 3470), text=str(caption_new), fill=(0, 0, 0), font=font5)
 
 	begin = 10
 	begin1 = 0
