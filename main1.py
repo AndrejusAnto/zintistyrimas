@@ -3837,7 +3837,7 @@ Raudona spalva - vartoti nerekomenduojama,
 Tamsiai geltona spalva - vartoti saikingai
 (taip retai, kad būtų sunku prisiminti ankstesnio vartojimo datą),
 Jokios spalvos - papildomų rekomendacijų nėra.'''
-	# tyrimo pagridnasss
+	# tyrimo pagridnas
 	text_coo_x = 100
 	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
 	draw.text(xy=(text_coo_x, 225), text="Vardas:", fill=(0, 0, 0), font=font2)
@@ -3852,7 +3852,7 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 345), text="2018-01-20", fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
-	draw.text(xy=(1000, 2000), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
+	draw.text(xy=(600, 3555), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
 
 	begin = 10
 	begin1 = 0
