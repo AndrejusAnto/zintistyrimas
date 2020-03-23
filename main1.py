@@ -3853,7 +3853,7 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 345), text=str(datetime.date.today()), fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
-	draw.text(xy=(615, 3465), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
+	draw.text(xy=(615, 3466), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
 
 	begin = 10
 	begin1 = 0
