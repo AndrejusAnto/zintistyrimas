@@ -19,6 +19,7 @@ from PIL import ImageDraw
 from PIL import ImageFont
 import glob
 from collections import OrderedDict
+import datetime
 
 from bokeh.core.properties import String, Instance
 from bokeh.models import LayoutDOM, Slider, InputWidget
@@ -3850,9 +3851,9 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 225), text=invard.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 265), text=inpavard.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
-	draw.text(xy=(250, 345), text="2018-01-20", fill=(0, 0, 0), font=font2)
+	draw.text(xy=(250, 345), text=str(datetime.date.today()), fill=(0, 0, 0), font=font2)
 	draw.text(xy=(5, 1955), text=rekotext, fill=(0, 0, 0), font=font4)
-	draw.text(xy=(619, 3460), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
+	draw.text(xy=(619, 3450), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
 
 	begin = 10
 	begin1 = 0
