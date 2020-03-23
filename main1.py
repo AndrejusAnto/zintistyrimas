@@ -3808,8 +3808,6 @@ def ataskaitapdf():
 	font3 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 32)
 	font4 = ImageFont.truetype("LiberationSansNarrow-Regular.ttf", 22)
 
-	# kitosrekolentel.value
-
 	image_list = []
 
 	for filename in glob.glob("/home/andrejusa/zintis/zintistyrimas/*.png"):
