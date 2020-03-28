@@ -4067,3 +4067,4 @@ lay8 = column(lay1, pagrapras, lay4, lay7)
 
 # add the layout to curdoc
 curdoc().add_root(lay8)
+curdoc().title = "Žintis tyrimas"
