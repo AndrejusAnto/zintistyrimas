@@ -3891,8 +3891,6 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 			new_i.paste(images, (begin1, begin, (begin1 + sizeh), (begin + sizev)), mask=alpha)
 			begin1 += sizeh
 
-	# kadangi ši dalis kodinta pyhon 3.5, todėl naujomas OrderedDict, bet nuo 3.6,1 versijos galima naudoti dict, nes duomenys
-	# išlaiko vietą
 	parametrai = ["Šlapimo parametrai", "Seilių parametrai", "Refleksai", "Kraujotakos parametrai", "Kvėpavimo parametrai"]
 	duomenys = [[["Rūgštingumas", slarugrytas.value, slarugpietus.value, slarugvakaras.value],
 					["Tankis", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
