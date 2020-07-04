@@ -3802,7 +3802,6 @@ def ataskaitapdf():
 	font3 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 32)
 	font4 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Regular.ttf", 22)
 	font5 = ImageFont.truetype(getcurp+"/aller-cufonfonts/Aller_LtIt.ttf", 18)
-	# print("Asdasdasdasd"+getcurp+"/fonts/LiberationSansNarrow-Bold.ttf")
 
 	image_list = []
 
@@ -3839,8 +3838,6 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	for ii in word_list[:-1]:
 		caption_new = caption_new + ii + '\n'
 	caption_new += word_list[-1]
-	# print(novo)
-	# tyrimo pagridnas
 	text_coo_x = 100
 	draw.text(xy=(400, 105), text="KŪNO BŪKLĖS TYRIMO ATASKAITA", fill=(0, 0, 0), font=font3)
 	draw.text(xy=(text_coo_x, 225), text="Vardas:", fill=(0, 0, 0), font=font2)
@@ -3855,7 +3852,6 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 	draw.text(xy=(250, 305), text=lytis.value, fill=(0, 0, 0), font=font2)
 	draw.text(xy=(250, 345), text=str(datetime.date.today()), fill=(0, 0, 0), font=font2)
 	draw.multiline_text(xy=(5, 1955), align='left', text=rekotext, fill=(0, 0, 0), font=font4)
-	# draw.text(xy=(615, 3466), text=kitosrekolentel.value, fill=(0, 0, 0), font=font4)
 	draw.text(xy=(615, 3470), text=str(caption_new), fill=(0, 0, 0), font=font5)
 
 	begin = 10
