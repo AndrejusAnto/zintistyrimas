@@ -3810,7 +3810,6 @@ def ataskaitapdf():
 
 	image_list = sorted(image_list)
 	image_list.insert(0, getcurp+"/logo/zintislogo.png")
-	print("image_list", image_list)
 
 	width = 1300
 	sumsh = []
@@ -3881,7 +3880,6 @@ Jokios spalvos - papildomų rekomendacijų nėra.'''
 			new_i.paste(images, (begin1, begin, (begin1 + sizeh), (begin + sizev)), mask=alpha)
 			begin1 += sizeh
 
-# asdasdasd
 	parametrai = ["Šlapimo parametrai", "Seilių parametrai", "Refleksai", "Kraujotakos parametrai", "Kvėpavimo parametrai"]
 	duomenys = [[["Rūgštingumas", slarugrytas.value, slarugpietus.value, slarugvakaras.value],
 					["Tankis", slasvrytas.value, slasvpietus.value, slasvvakaras.value],
