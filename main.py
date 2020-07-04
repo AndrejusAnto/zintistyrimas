@@ -21,6 +21,7 @@ import glob
 from collections import OrderedDict
 import datetime
 import textwrap
+import os
 
 from bokeh.core.properties import String, Instance
 from bokeh.models import LayoutDOM, Slider, InputWidget
@@ -3778,22 +3779,14 @@ for k in [parametsp, parametkg, parametda, parametalac, parametetp, parametktalp
 
 
 def reko_update(attr, old, new):
-	# print("kitosrekolentel", kitosrekolentel.value)
 	print("old", old)
 	print("new", new)
 
 
 kitosrekolentel.on_change("value", reko_update)
 
-
-# def exportpng(a):
-# 	grafikailist = [p1, p2, p3, p4, p5, p6, p7, dt1, dt2]
-# 	for i in a:
-# 		export_png(i, filename=f"{i}.png")
-
-
 def ataskaitapdf():
-	# exportpng(grafikailist)
+	getcurp = os.path.abspath(os.getcwd())
 	export_png(p1, filename="p1.png")
 	export_png(p2, filename="p2.png")
 	export_png(p3, filename="p3.png")
@@ -3804,19 +3797,20 @@ def ataskaitapdf():
 	export_png(dt1, filename="p8.png")
 	export_png(dt2, filename="p9.png")
 
-	font1 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 24)
-	font2 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 26)
-	font3 = ImageFont.truetype("LiberationSansNarrow-Bold.ttf", 32)
-	font4 = ImageFont.truetype("LiberationSansNarrow-Regular.ttf", 22)
-	font5 = ImageFont.truetype("/home/andrejusa/zintis/aller-cufonfonts/Aller_LtIt.ttf", 18)
+	font1 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 24)
+	font2 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 26)
+	font3 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 32)
+	font4 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Regular.ttf", 22)
+	font5 = ImageFont.truetype(getcurp+"/aller-cufonfonts/Aller_LtIt.ttf", 18)
+	# print("Asdasdasdasd"+getcurp+"/fonts/LiberationSansNarrow-Bold.ttf")
 
 	image_list = []
 
-	for filename in glob.glob("/home/andrejusa/zintis/zintistyrimas/*.png"):
+	for filename in glob.glob(getcurp+"/*.png"):
 		image_list.append(filename)
 
 	image_list = sorted(image_list)
-	image_list.insert(0, "/home/andrejusa/zintis/Zintistyrimasasdasd/kodas/logo/zintislogo.png")
+	image_list.insert(0, getcurp+"/logo/zintislogo.png")
 	print("image_list", image_list)
 
 	width = 1300
