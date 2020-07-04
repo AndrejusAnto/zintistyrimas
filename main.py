@@ -3798,12 +3798,7 @@ def ataskaitapdf():
 	font4 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Regular.ttf", 22)
 	font5 = ImageFont.truetype(getcurp+"/aller-cufonfonts/Aller_LtIt.ttf", 18)
 
-	image_list = []
-
-	for filename in glob.glob(getcurp+"/*.png"):
-		image_list.append(filename)
-
-	image_list = sorted(image_list)
+	image_list = sorted([filename for filename in glob.glob(getcurp+"/*.png")])
 	image_list.insert(0, getcurp+"/logo/zintislogo.png")
 
 	width = 1300
