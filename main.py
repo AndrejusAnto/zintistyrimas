@@ -3787,15 +3787,10 @@ kitosrekolentel.on_change("value", reko_update)
 
 def ataskaitapdf():
 	getcurp = os.path.abspath(os.getcwd())
-	export_png(p1, filename="p1.png")
-	export_png(p2, filename="p2.png")
-	export_png(p3, filename="p3.png")
-	export_png(p4, filename="p4.png")
-	export_png(p5, filename="p5.png")
-	export_png(p6, filename="p6.png")
-	export_png(p7, filename="p7.png")
-	export_png(dt1, filename="p8.png")
-	export_png(dt2, filename="p9.png")
+	plistas =[p1, p2, p3, p4, p5, p6, p7, dt1, dt2]
+
+	for ind, g in enumerate(plistas, 1):
+		export_png(g, filename=f"p{ind}.png")
 
 	font1 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 24)
 	font2 = ImageFont.truetype(getcurp+"/fonts/LiberationSansNarrow-Bold.ttf", 26)
